@@ -1,0 +1,11 @@
+{
+  "name": "biotienda",
+  "version": "1.0.0",
+  "author": "skLuan",
+  "scripts": {
+    "tailwind": "npx tailwindcss -i ./assets/css/twStyle.css -o ./assets/css/twOutput.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.1.8"
+  }
+}
