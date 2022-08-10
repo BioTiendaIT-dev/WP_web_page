@@ -1,8 +1,5 @@
-
 (function($){
     $(document).ready(function(){
-      $('.bt-slider').slick({
-    
-      });
+      $(".bt-slider").slick();
     });
 })(jQuery);

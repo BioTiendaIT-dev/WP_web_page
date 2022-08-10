@@ -607,20 +607,24 @@ body {
   padding-right: 1.75rem;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .relative {
   position: relative;
 }
 
-.right-0 {
-  right: 0px;
+.col-span-2 {
+  grid-column: span 2 / span 2;
 }
 
-.top-14 {
-  top: 3.5rem;
+.row-span-2 {
+  grid-row: span 2 / span 2;
+}
+
+.row-auto {
+  grid-row: auto;
+}
+
+.row-span-1 {
+  grid-row: span 1 / span 1;
 }
 
 .my-auto {
@@ -633,12 +637,17 @@ body {
   margin-right: auto;
 }
 
-.mr-11 {
-  margin-right: 2.75rem;
+.my-24 {
+  margin-top: 6rem;
+  margin-bottom: 6rem;
 }
 
 .mt-auto {
   margin-top: auto;
+}
+
+.mr-11 {
+  margin-right: 2.75rem;
 }
 
 .mb-auto {
@@ -661,6 +670,18 @@ body {
   display: inline-flex;
 }
 
+.grid {
+  display: grid;
+}
+
+.max-h-20 {
+  max-height: 5rem;
+}
+
+.max-h-14 {
+  max-height: 3.5rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -673,6 +694,14 @@ body {
   list-style-type: none;
 }
 
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-rows-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -681,12 +710,12 @@ body {
   flex-direction: column;
 }
 
-.items-baseline {
-  align-items: baseline;
-}
-
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-5 {
+  gap: 1.25rem;
 }
 
 .rounded-2xl {
@@ -705,6 +734,10 @@ body {
 .bg-green {
   --tw-bg-opacity: 1;
   background-color: rgb(170 201 64 / var(--tw-bg-opacity));
+}
+
+.p-3 {
+  padding: 0.75rem;
 }
 
 .py-1 {
@@ -727,21 +760,40 @@ body {
   padding-bottom: 0.75rem;
 }
 
-.pt-10 {
-  padding-top: 2.5rem;
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
-.pr-7 {
-  padding-right: 1.75rem;
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .pt-12 {
   padding-top: 3rem;
 }
 
+.pr-7 {
+  padding-right: 1.75rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .text-3xl {
@@ -761,17 +813,27 @@ body {
   font-style: italic;
 }
 
+.leading-6 {
+  line-height: 1.5rem;
+}
+
 .text-white-primary {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-green-secondary {
+.text-green-dark {
   --tw-text-opacity: 1;
   color: rgb(8 97 117 / var(--tw-text-opacity));
 }
 
-.text-green-dark {
+.text-green {
   --tw-text-opacity: 1;
-  color: rgb(8 97 117 / var(--tw-text-opacity));
+  color: rgb(170 201 64 / var(--tw-text-opacity));
+}
+
+@media (min-width: 1024px) {
+  .lg\:max-h-20 {
+    max-height: 5rem;
+  }
 }
