@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply font-raleway font-normal text-base bg-white-primary;
+    @apply font-raleway font-normal text-base bg-white;
     line-height: 1.75rem;
     color: #333;
   }
