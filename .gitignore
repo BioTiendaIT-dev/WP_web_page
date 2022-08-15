@@ -8,7 +8,6 @@ wp-content/upgrade
 !wp-content/mu-plugins/
 !wp-content/plugins/
 !wp-content/themes/
-
 # ignore these plugins
 wp-content/plugins/hello.php
 
@@ -23,3 +22,7 @@ slick*
 *.sql
 *.zip
 *.sqlite
+
+sh/
+db/
+!db/localdata*.sql

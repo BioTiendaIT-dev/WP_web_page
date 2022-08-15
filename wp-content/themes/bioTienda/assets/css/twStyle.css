@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;0,700;1,400;1,600;1,800&display=swap");
 
 @layer base {
   body {
@@ -13,7 +12,7 @@
 }
 @layer components {
   .m-ext {
-    @apply px-20;
+    @apply px-5 lg:px-20;
   }
 
   /* =================== Header ======================== */
