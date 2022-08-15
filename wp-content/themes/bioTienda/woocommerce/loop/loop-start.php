@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Product Loop Start
  *
@@ -15,8 +16,9 @@
  * @version     3.3.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit;
 }
+wc_set_loop_prop('columns', 3);
 ?>
-<ul class="products columns-<?php echo esc_attr( wc_get_loop_prop( 'columns' ) ); ?>">
+<ul class="grid grid-flow-row grid-cols-2 gap-5 mt-5 products lg:col-span-4 lg:grid-cols-3">
