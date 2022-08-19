@@ -21,19 +21,19 @@
             <a class="px-1 my-auto" href="#">317 2575491</a>
         </div>
     </div>
-    <header class="relative inline-flex w-full pt-12 pb-6 m-ext">
-        <img class="inline-block mt-auto pr-7" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/logoBiotienda.svg" alt="" srcset="">
-        <div class="relative flex flex-col w-full">
+    <header class="relative inline-flex w-full pt-12 m-ext">
+        <img class="inline-block pb-6 mt-auto pr-7" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/logoBiotienda.svg" alt="" srcset="">
+        <div class="flex flex-col w-full">
             <?php get_search_form() ?>
             <?php wp_nav_menu(array(
                 'theme_location' => 'top_menu',
                 'container' => 'nav',
                 'menu_class' => 'bt_nav list-none inline-flex flex-row font-semibold uppercase text-base text-green-dark',
-                'container_class' => 'inline-block mx-auto'
+                'container_class' => 'inline-block mx-auto',
             )) 
             ?>
         </div>
-        <a class="mt-auto" href="">
-            <iconify-icon class="text-3xl mr-11 text-green-dark" icon="el:shopping-cart"></iconify-icon>
+        <a class="pb-6 mt-auto" href="">
+            <iconify-icon class="flex mt-auto text-3xl mr-11 text-green-dark" icon="el:shopping-cart"></iconify-icon>
         </a>
     </header>

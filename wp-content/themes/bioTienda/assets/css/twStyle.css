@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   body {
     @apply font-raleway font-normal text-base bg-white;
@@ -17,6 +16,24 @@
 
   /* =================== Header ======================== */
   .bt_nav .menu-item {
-    @apply px-7;
+    @apply px-7 pb-6;
+  }
+  .bt_nav .sub-tienda > .sub-menu {
+    @apply bg-green-dark hidden absolute top-full text-white font-semibold pt-6 pb-5 px-0 capitalize z-10 lg:w-80;
+  }
+  
+  .bt_nav .sub-tienda .menu-item {
+    @apply py-3;
+  }
+  .bt_nav .sub-menu .menu-item a {
+    @apply flex flex-row;
+  }
+  .bt_nav .sub-menu .menu-item a::after {
+    @apply ml-auto;
+    content: "+";
+  }
+  .bt_nav .sub-alimentos > .sub-menu .menu-item {
+    @apply font-normal pl-5 pr-0;
+    
   }
 }
