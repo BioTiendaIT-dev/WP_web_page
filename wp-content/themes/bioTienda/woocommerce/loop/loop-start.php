@@ -15,10 +15,16 @@
  * @package     WooCommerce\Templates
  * @version     3.3.0
  */
-
+global $woocommerce_loop;
+$columns = 3;
 if (!defined('ABSPATH')) {
 	exit;
 }
-wc_set_loop_prop('columns', 3);
+if(is_product() && $woocommerce_loop['name'] == 'related') {
+	wc_set_loop_prop('columns', 4);
+	$columns = 4;
+} else {
+	wc_set_loop_prop('columns', 3);
+}
 ?>
-<ul class="grid grid-flow-row grid-cols-2 gap-5 mt-5 products lg:col-span-4 lg:grid-cols-3">
+<ul class="grid grid-flow-row grid-cols-2 gap-5 mt-5 products lg:col-span-4 lg:grid-cols-<?php echo $columns ?>">
