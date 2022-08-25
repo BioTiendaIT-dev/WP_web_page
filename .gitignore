@@ -22,7 +22,7 @@ slick*
 *.sql
 *.zip
 *.sqlite
-
+*.pot
 sh/
 db/
 !db/localdata*.sql
