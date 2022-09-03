@@ -33,7 +33,7 @@
             )) 
             ?>
         </div>
-        <a class="pb-6 mt-auto" href="">
+        <a class="pb-6 mt-auto" href="<?php echo wc_get_cart_url() ?>">
             <iconify-icon class="flex mt-auto text-3xl mr-11 text-green-dark" icon="el:shopping-cart"></iconify-icon>
         </a>
     </header>
