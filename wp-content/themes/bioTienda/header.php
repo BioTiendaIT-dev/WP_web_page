@@ -21,8 +21,10 @@
             <a class="px-1 my-auto" href="#">317 2575491</a>
         </div>
     </div>
-    <header class="relative inline-flex w-full pt-12 m-ext">
-        <img class="inline-block pb-6 mt-auto pr-7" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/logoBiotienda.svg" alt="" srcset="">
+    <header class="relative inline-flex w-full pt-12 border-b-[1px] m-ext">
+        <a href="<?php echo esc_url(home_url()) ?>">
+            <img class="inline-block pb-6 mt-auto pr-7" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/logoBiotienda.svg" alt="" srcset="">
+    </a>
         <div class="flex flex-col w-full">
             <?php get_search_form() ?>
             <?php wp_nav_menu(array(

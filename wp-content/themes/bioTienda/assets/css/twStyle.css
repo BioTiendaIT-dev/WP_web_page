@@ -11,14 +11,14 @@
 }
 /* ---------------------------- Uso en wordpress, al no estar diretamente en el theme no los reconoce el tailwind --- */
   .bt-row-section {
-  @apply !gap-0 !grid !grid-cols-2 max-w-[1440px] m-auto;
+  @apply !gap-0 !grid !grid-cols-1 lg:!grid-cols-2 max-w-[1440px] m-auto;
   align-items: unset !important;
   }
   .bt-row-section .bt-group {
-    @apply !p-28 !pr-32 col-span-1;
+    @apply !px-5 !py-10 lg:!p-28 lg:!pr-32 col-span-1;
   }
   .bt-row-section figure {
-    @apply col-span-1;
+    @apply col-span-1 even:order-first lg:even:order-none;
   }
   .bt-row-section figure img {
     @apply h-full;
@@ -32,6 +32,20 @@
   .bt-row-section .bt-group > p {
     @apply mb-10;
   }
+/* ---------------- contact page */
+  .bt-contact-p {
+ @apply text-center my-20;
+}
+.bt-contact-info {
+  @apply my-20 !justify-around !items-start;
+}
+.bt-contact-info h2 {
+  @apply font-bold text-green-dark text-xl;
+}
+.bt-contact-h2 {
+  @apply my-20;
+}
+
 /* -------------------------------------------------- */
 @layer components {
   .m-ext {
@@ -58,4 +72,25 @@
   .bt_nav .sub-alimentos > .sub-menu .menu-item {
     @apply font-normal pl-5 pr-0;
   }
+/* ------------------------------------------------- */
+/* ================== Formulario contacto ========== */
+  #wpcf7-f405-p13-o1 {
+    @apply bg-green;
+  }
+  #wpcf7-f405-p13-o1 form {
+    @apply m-auto py-10 grid grid-cols-12;
+  }
+  #wpcf7-f405-p13-o1 form p {
+    @apply py-3 col-start-4 col-end-10 text-green-dark;
+  }
+  #wpcf7-f405-p13-o1 form p > label {
+    @apply font-bold;
+  }
+}
+
+#wpcf7-f405-p13-o1 form p label span .wpcf7-form-control {
+  @apply p-3 w-full font-normal;
+}
+#wpcf7-f405-p13-o1 form p .wpcf7-submit {
+  @apply py-3 mx-auto px-8 font-bold text-white bg-green-dark flex;
 }
