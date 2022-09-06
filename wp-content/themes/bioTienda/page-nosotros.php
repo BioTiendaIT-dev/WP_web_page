@@ -1,16 +1,16 @@
 <?php get_header() ?>
 <section class="relative">
-    <div class="grid absolute w-full h-full">
-        <h2 class="text-6xl drop-shadow-md text-white font-bold text-center my-auto">¿Quienes somos?</h2>
+    <div class="absolute grid w-full h-full">
+        <h2 class="my-auto text-6xl font-bold text-center text-white drop-shadow-md">¿Quienes somos?</h2>
     </div>
     <picture class="">
         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/nosotrosBanner.png" alt="">
     </picture>
 </section>
-<section class=" text-center m-ext">
-    <p class="px-14 py-12 text-lg">Somos un emprendimiento Caleño, amantes de lo saludable y lo natural, somos un espacio de
+<section class="text-center  m-ext">
+    <p class="px-0 py-12 text-lg lg:px-14">Somos un emprendimiento Caleño, amantes de lo saludable y lo natural, somos un espacio de
         oferta de productos naturales, saludables, ecológicos, y de producción local.</p>
-    <h2 class="font-bold text-4xl text-green">Nuestros valores se fundamentan en:</h2>
+    <h2 class="text-4xl font-bold text-green">Nuestros valores se fundamentan en:</h2>
 </section>
 <!-- =========================================================== Iconos -->
 <section id="iconos" class="grid bg-[#F6F9EA] flex-row flex-wrap w-full grid-cols-2 py-20 mt-12 lg:inline-flex lg:justify-between m-ext">
