@@ -37,7 +37,10 @@
  @apply text-center my-20;
 }
 .bt-contact-info {
-  @apply my-20 !justify-around !items-start;
+  @apply my-20 !flex-col lg:!flex-row !justify-around !items-start;
+}
+.bt-contact-info div {
+  @apply my-3 first:mt-0 last:mb-0 lg:my-0;
 }
 .bt-contact-info h2 {
   @apply font-bold text-green-dark text-xl;
@@ -48,12 +51,15 @@
 
 /* -------------------------------------------------- */
 @layer components {
+  .active-tab {
+    @apply !border-x-2 !border-t-2 border-green !text-green;
+  }
   .m-ext {
     @apply px-5 lg:px-20;
   }
   /* =================== Header ======================== */
   .bt_nav .menu-item {
-    @apply px-7 pb-6;
+    @apply text-right lg:text-left px-7 pb-6 text-xl lg:text-base;
   }
   .bt_nav .sub-tienda > .sub-menu {
     @apply bg-green-dark hidden absolute top-full text-white font-semibold pt-6 pb-5 px-0 capitalize z-10 lg:w-80;
@@ -81,7 +87,7 @@
     @apply m-auto py-10 grid grid-cols-12;
   }
   #wpcf7-f405-p13-o1 form p {
-    @apply py-3 col-start-4 col-end-10 text-green-dark;
+    @apply py-3 col-span-full mx-5 lg:col-start-4 lg:col-end-10 text-green-dark;
   }
   #wpcf7-f405-p13-o1 form p > label {
     @apply font-bold;

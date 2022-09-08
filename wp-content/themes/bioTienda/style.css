@@ -22,3 +22,18 @@ footer {
 
 }
 
+#mobile-menu {
+  transition: right 1s, display 1s;
+  display: none;
+
+}
+
+[data-tab-content] {
+  display: none;
+}
+.active-content[data-tab-content] {
+  display: grid !important;
+}
+
+
+
