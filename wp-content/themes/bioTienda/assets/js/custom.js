@@ -15,6 +15,17 @@
     }
   );
   let showMenu = false;
+  
+  // ---------------------------------- Filter button mobile ------------ //
+  let buton = $("#filter-col-button");
+  let sideBarContent = $("#side-bar-content");
+  let hideBar = true;
+  buton.click(function(){
+    sideBarContent.toggleClass("bottom-0", hideBar);
+    $("#side-bar-content h3").toggleClass("pt-10");
+    sideBarContent.toggleClass("-bottom-[63%]", !hideBar);
+    hideBar = !hideBar;
+  });
 
   // ------------------------- Asesorias tab ----------------------- //
   const tabs = document.querySelectorAll("[data-tab-target]");

@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 gap-5 lg:grid-cols-4">
             <?php
             $args = array(
                 'orderby' => 'rand',
@@ -172,6 +172,107 @@
             the_post();
             the_content();
         } ?>
+    </section>
+    <!-- ------------- blog section -->
+    
+    <!-- --------------- Title -->
+    <div class="p-11">
+        <h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Blog</h2>
+        <div class="flex flex-row items-center justify-center mx-auto w-60">
+            <div class="h-[1px] w-full bg-green"></div>
+            <img class="px-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-green.svg" alt="">
+            <div class="h-[1px] w-full bg-green"></div>
+        </div>
+    </div>
+    <!-- --------------- End Title -->
+    <section id="blog" class="grid grid-cols-1 gap-5 lg:grid-cols-4 m-ext">
+        <?php
+        $blogPost = new WP_Query(['post_type' => 'post', 'post_per_page' => 4,]);
+        if ($blogPost->have_posts()) {
+            while ($blogPost->have_posts()) {
+                $blogPost->the_post();
+        ?>
+                <div class="my-10">
+                    <a href="<?php the_permalink() ?>">
+                        <picture class="overflow-hidden image">
+                            <?php the_post_thumbnail('medium') ?>
+                        </picture>
+                        <h3 class="pt-5 text-xl font-bold text-green-dark"> <?php the_title() ?></h3>
+                        <span class="text-base font-semibold text-green">- Leer más</span>
+                        <?php
+                        ?>
+                    </a>
+                </div>
+        <?php
+            }
+        }
+        ?>
+    </section>
+    <section class="m-ext">
+        <!-- --------------- Title -->
+        <div class="p-11">
+            <h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Preguntas Frecuentes</h2>
+            <div class="flex flex-row items-center justify-center mx-auto w-60">
+                <div class="h-[1px] w-full bg-green"></div>
+                <img class="px-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-green.svg" alt="">
+                <div class="h-[1px] w-full bg-green"></div>
+            </div>
+        </div>
+        <!-- --------------- End Title -->
+        <article>
+
+        </article>
+    </section>
+    <section class="m-ext">
+        <!-- --------------- Title -->
+        <div class="p-11">
+            <h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">¡Contactanos!</h2>
+            <div class="flex flex-row items-center justify-center mx-auto w-60">
+                <div class="h-[1px] w-full bg-green"></div>
+                <img class="px-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-green.svg" alt="">
+                <div class="h-[1px] w-full bg-green"></div>
+            </div>
+        </div>
+        <article class="flex flex-col-reverse justify-center my-10 lg:flex-row">
+            <!-- ---------- Info  -->
+            <div class="col-span-2 col-start-2 px-10">
+                <ul>
+                    <li>
+                        <h4 class="text-lg font-bold text-green-dark">Dirección</h4>
+                        <p class="">Biotienda av 3 norte # 00 - 00 / Cali - Colombia
+                            <br>
+                            Centro de exp. av 2 sur # 00 - 00 / Cali - Colombia
+                        </p>
+                    </li>
+                    <li>
+                        <h4 class="text-lg font-bold text-green-dark">Telefono / Whatsapp</h4>
+                        <p>+57 317 2575491</p>
+                    </li>
+                    <li>
+                        <h4 class="text-lg font-bold text-green-dark">Email</h4>
+                        <p>biotienda.alnatural@gmail.com</p>
+                    </li>
+                    <li>
+                        <h4 class="text-lg font-bold text-green-dark">Horarios</h4>
+                        <p>Biotienda Lun - Sab 8:00 a.m. - 4:00 p.m.</p>
+                    </li>
+                </ul>
+            </div>
+            <!--  ---------- Contacto -->
+            <div class="mx-10">
+                <?php echo do_shortcode('[contact-form-7 id="405" title="Contactanos-page"]') ?>
+            </div>
+        </article>
+    </section>
+    <!-- ---------------- Nuestras marcas -->
+    <section>
+        <!-- --------------- Title -->
+        <div class="p-11">
+            <h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Conoce las marcas de nuestro portafolio</h2>
+            <div class="flex flex-row items-center justify-center mx-auto w-60">
+                <div class="h-[1px] w-full bg-green"></div>
+            </div>
+        </div>
     </section>
 </main>
 

@@ -28,15 +28,20 @@ if ( ! empty( $breadcrumb ) ) {
 
 		echo $before;
 
-		if ( ! empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
-			echo '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>';
+		$delimiter = '<iconify-icon class="m-1 pt-[0.5px]" icon="akar-icons:chevron-right"></iconify-icon>';
+		
+		if ( !empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
+			
+			echo '<a class="text-green-dark" href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>';
+		
 		} else {
 			if (! is_product()) {
+
 				echo $delimiter;
-				echo esc_html( $crumb[0] );
+				echo '<span class="opacity-70">' . esc_html( $crumb[0] ) . '</span>';
 			}
 		}
-
+		// unset($delimiter);
 		echo $after;
 
 		if ( sizeof( $breadcrumb ) > $key + 2) {
