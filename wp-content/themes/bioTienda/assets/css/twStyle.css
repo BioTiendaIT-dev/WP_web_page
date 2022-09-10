@@ -48,11 +48,13 @@
 .bt-contact-h2 {
   @apply my-20;
 }
-
+.more-link {
+  @apply text-sm font-semibold text-green;
+}
 /* -------------------------------------------------- */
 @layer components {
   .active-tab {
-    @apply !border-x-2 !border-t-2 border-green !text-green;
+    @apply border-2 lg:!border-b-0 border-green !text-green;
   }
   .m-ext {
     @apply px-5 lg:px-20;
@@ -79,19 +81,29 @@
     @apply font-normal pl-5 pr-0;
   }
 /* ------------------------------------------------- */
+/* ================== Formulario asesorias ========== */
+  #wpcf7-f415-o1 {
+    
+  }
+  #wpcf7-f415-o1 form p {
+    @apply font-semibold text-sm text-green-dark;
+  }
+
+
+/* ------------------------------------------------- */
 /* ================== Formulario contacto ========== */
-  #wpcf7-f405-p13-o1 {
-    @apply bg-green;
-  }
-  #wpcf7-f405-p13-o1 form {
-    @apply m-auto py-10 grid grid-cols-12;
-  }
-  #wpcf7-f405-p13-o1 form p {
-    @apply py-3 col-span-full mx-5 lg:col-start-4 lg:col-end-10 text-green-dark;
-  }
-  #wpcf7-f405-p13-o1 form p > label {
-    @apply font-bold;
-  }
+#wpcf7-f405-p13-o1 {
+  @apply bg-green;
+}
+#wpcf7-f405-p13-o1 form {
+  @apply m-auto py-10 grid grid-cols-12;
+}
+#wpcf7-f405-p13-o1 form p {
+  @apply py-3 col-span-full mx-5 lg:col-start-4 lg:col-end-10 text-green-dark;
+}
+#wpcf7-f405-p13-o1 form p > label {
+  @apply font-bold;
+}
 }
 
 #wpcf7-f405-p13-o1 form p label span .wpcf7-form-control {
@@ -99,4 +111,18 @@
 }
 #wpcf7-f405-p13-o1 form p .wpcf7-submit {
   @apply py-3 mx-auto px-8 font-bold text-white bg-green-dark flex;
+}
+
+/* ------------------------------------------------- */
+/* ================== Formulario asesoria ========== */
+#wpcf7-f415-o1 form p label .wpcf7-form-control-wrap { 
+  @apply w-full border-[1px] border-green-dark inline-block mb-5;
+}
+#wpcf7-f415-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control { 
+ @apply px-5 py-3 w-full;
+}
+
+/* -------------- SUBMIT BUTON -- */
+#wpcf7-f415-o1 form p input.wpcf7-submit { 
+ @apply px-14 mx-auto flex py-3 bg-green text-white text-lg;
 }
