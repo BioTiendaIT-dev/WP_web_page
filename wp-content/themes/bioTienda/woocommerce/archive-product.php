@@ -23,7 +23,7 @@ get_header('shop'); ?>
 	<picture>
 		<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/bannerShop.png" alt="Banner">
 	</picture>
-	<div class="p-11">
+	<div class="pt-9 lg:pt-11">
 		<h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Productos para tu bienestar</h2>
 		<div class="flex flex-row items-center justify-center mx-auto w-60">
 			<div class="h-[1px] w-full bg-green"></div>

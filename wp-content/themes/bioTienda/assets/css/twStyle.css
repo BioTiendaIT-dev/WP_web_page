@@ -51,7 +51,24 @@
 .more-link {
   @apply text-sm font-semibold text-green;
 }
+/* ---------------------- BreadCrumbs --------------------- */
+.woocommerce-breadcrumb  {
+  @apply text-center font-semibold justify-center my-3 flex flex-row items-center;
+}
 /* -------------------------------------------------- */
+/* ------------------------- SideBar ----------------------- */
+#categories .cat-item {
+  @apply text-lg text-gray-500 pb-3;
+}
+#categories .children .cat-item:first-child {
+@apply pt-3;
+}
+#categories .current-cat {
+  @apply font-bold text-green;
+}
+#categories .children {
+  @apply pl-6;
+}
 @layer components {
   .active-tab {
     @apply border-2 lg:!border-b-0 border-green !text-green;
@@ -82,10 +99,8 @@
   }
 /* ------------------------------------------------- */
 /* ================== Formulario asesorias ========== */
-  #wpcf7-f415-o1 {
-    
-  }
-  #wpcf7-f415-o1 form p {
+
+  #wpcf7-f405-o1 form p, #wpcf7-f415-o1 form p {
     @apply font-semibold text-sm text-green-dark;
   }
 
@@ -115,14 +130,15 @@
 
 /* ------------------------------------------------- */
 /* ================== Formulario asesoria ========== */
-#wpcf7-f415-o1 form p label .wpcf7-form-control-wrap { 
+#wpcf7-f405-o1 form p label .wpcf7-form-control-wrap, #wpcf7-f415-o1 form p label .wpcf7-form-control-wrap { 
   @apply w-full border-[1px] border-green-dark inline-block mb-5;
 }
-#wpcf7-f415-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control { 
+
+#wpcf7-f405-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control, #wpcf7-f415-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control { 
  @apply px-5 py-3 w-full;
 }
 
 /* -------------- SUBMIT BUTON -- */
-#wpcf7-f415-o1 form p input.wpcf7-submit { 
+#wpcf7-f405-o1 form p input.wpcf7-submit, #wpcf7-f415-o1 form p input.wpcf7-submit { 
  @apply px-14 mx-auto flex py-3 bg-green text-white text-lg;
 }
