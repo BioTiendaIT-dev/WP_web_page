@@ -45,16 +45,22 @@ do_action('woocommerce_before_main_content');
 ?>
 <?php
 if (woocommerce_product_loop()) {
-	
-	/**
-	 * Hook: woocommerce_before_shop_loop.
-	 *
-	 * @hooked woocommerce_output_all_notices - 10
-	 * @hooked woocommerce_result_count - 20
-	 * @hooked woocommerce_catalog_ordering - 30
-	 */
-	do_action('woocommerce_before_shop_loop');
-	?>
+?>
+
+	<nav class="bt-options mb-5 flex flex-col items-center lg:items-start">
+		<?php
+		/**
+		 * Hook: woocommerce_before_shop_loop.
+		 *
+		 * @hooked woocommerce_output_all_notices - 10
+		 * @hooked woocommerce_result_count - 20
+		 * @hooked woocommerce_catalog_ordering - 30
+		 */
+		do_action('woocommerce_before_shop_loop');
+		
+		
+		?>
+	</nav>
 	<div class="grid grid-cols-1 gap-5 lg:grid-cols-5">
 	<?php
 	woocommerce_product_loop_start();
@@ -73,7 +79,7 @@ if (woocommerce_product_loop()) {
 	}
 
 	woocommerce_product_loop_end();
-	
+
 	/**
 	 * Hook: woocommerce_sidebar.
 	 *
@@ -95,17 +101,17 @@ if (woocommerce_product_loop()) {
 	do_action('woocommerce_no_products_found');
 }
 
-?>
-</div>
-<?php
-/**
- * Hook: woocommerce_after_main_content.
- *
- * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
- */
-do_action('woocommerce_after_main_content'); ?>
+	?>
+	</div>
+	<?php
+	/**
+	 * Hook: woocommerce_after_main_content.
+	 *
+	 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
+	 */
+	do_action('woocommerce_after_main_content'); ?>
 
-<?php
+	<?php
 
-get_footer('shop');
-?>
+	get_footer('shop');
+	?>
