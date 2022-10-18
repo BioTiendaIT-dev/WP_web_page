@@ -69,7 +69,17 @@
 #categories .children {
   @apply pl-6;
 }
+
+/* ============================== TabList =====================*/
+  #product-tab-list li.active {
+    @apply bg-gray-100;
+  }
+  #product-tab-list li.active a {
+    color: inherit !important;
+  }
+
 @layer components {
+
   .active-tab {
     @apply border-2 lg:!border-b-0 border-green !text-green;
   }
