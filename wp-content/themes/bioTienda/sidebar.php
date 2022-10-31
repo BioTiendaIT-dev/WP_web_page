@@ -1,6 +1,9 @@
 <?php
 
 ?>
+            <?php
+            if(!is_singular('product')):
+            ?>
 <section id="side_col_categories" class="col-span-1">
     <div id="side-bar-content" class="transition-all duration-700 lg:sticky fixed bg-white w-full -bottom-[63%] left-0 lg:top-20 pt-11 pb-24 border-green border-t-2 lg:py-0 lg:my-auto flex flex-col items-center">
         <h3 class="text-2xl font-bold transition-all pt-10 duration-75 mb-7 text-green-dark ">Categorias:</h3>
@@ -21,3 +24,4 @@
         </button>
     </nav>
 </section>
+<?php endif; ?>
