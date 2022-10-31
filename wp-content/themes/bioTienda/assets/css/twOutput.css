@@ -880,6 +880,16 @@ body {
   margin-right: 0.5rem;
 }
 
+.my-20 {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.my-32 {
+  margin-top: 8rem;
+  margin-bottom: 8rem;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -970,6 +980,10 @@ body {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
 }
 
 .\!block {
@@ -2045,5 +2059,10 @@ body {
   .lg\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
