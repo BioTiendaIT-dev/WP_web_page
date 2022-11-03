@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Single Product stock.
  *
@@ -15,9 +16,13 @@
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
 ?>
-<p class="stock <?php echo esc_attr( $class ); ?>"><?php echo wp_kses_post( $availability ); ?></p>
+<p class="text-center lg:text-start mb-3 lg:ml-5 stock <?php echo esc_attr($class); ?>">
+<span class="font-bold">
+	<?= wp_kses_post($product->get_stock_quantity());?>
+</span>
+<?= __('unidades restantes', 'biotienda');  ?></p>
