@@ -56,6 +56,15 @@
   @apply text-center font-semibold justify-center my-3 flex flex-row items-center;
 }
 /* -------------------------------------------------- */
+
+/* ------------------------- Carrito de compra ----------------------- */
+
+td.product-thumbnail a img {
+  @apply w-28;
+}
+.cart-collaterals::before {
+  @apply !hidden;
+}
 /* ------------------------- SideBar ----------------------- */
 #categories .cat-item {
   @apply text-lg text-gray-500 pb-3;
