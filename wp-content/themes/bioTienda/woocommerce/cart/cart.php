@@ -26,7 +26,7 @@ do_action('woocommerce_before_cart');
 
 	<table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
 		<thead>
-			<tr>
+			<tr class="">
 				<th class="product-remove">&nbsp;</th>
 				<th class="product-thumbnail">&nbsp;</th>
 				<th class="product-name"><?php esc_html_e('Producto', 'woocommerce'); ?></th>
@@ -141,19 +141,19 @@ do_action('woocommerce_before_cart');
 		</tbody>
 	</table>
 	<div class="actions absolute top-full pt-9">
-		<?php if (wc_coupons_enabled()): ?>
+		<?php if (wc_coupons_enabled()) : ?>
 			<div class="coupon flex flex-col">
 				<label for="coupon_code">
-					<?php esc_html_e('Coupon:', 'woocommerce'); ?></label>
-					<span>
+					<?php esc_html_e('Cupón:', 'woocommerce'); ?></label>
+				<span>
 
-						<input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e('Coupon code', 'woocommerce'); ?>" /> <button type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e('Apply coupon', 'woocommerce'); ?>"><?php esc_attr_e('Apply coupon', 'woocommerce'); ?></button>
-						<?php do_action('woocommerce_cart_coupon'); ?>
-					</span>
+					<input type="text" name="coupon_code" class="input-text border-green-dark py-1 pl-3 border-2 !mr-2 rounded-sm" id="coupon_code" value="" placeholder="<?php esc_attr_e('Código de cupón', 'woocommerce'); ?>" /> <button type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e('Aplicar cupón', 'woocommerce'); ?>"><?php esc_attr_e('Aplicar cupón', 'woocommerce'); ?></button>
+					<?php do_action('woocommerce_cart_coupon'); ?>
+				</span>
 			</div>
 		<?php endif ?>
 
-		<button type="submit" class="button" name="update_cart" value="<?php esc_attr_e('Update cart', 'woocommerce'); ?>"><?php esc_html_e('Update cart', 'woocommerce'); ?></button>
+		<button type="submit" class="button !mt-5" name="update_cart" value="<?php esc_attr_e('Update cart', 'woocommerce'); ?>"><?php esc_html_e('Actualizar carrito', 'woocommerce'); ?></button>
 
 		<?php do_action('woocommerce_cart_actions'); ?>
 
