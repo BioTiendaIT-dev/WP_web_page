@@ -9,7 +9,7 @@
 </section>
 <section class="text-center  m-ext">
     <p class="px-0 py-12 text-lg lg:px-14">Somos un emprendimiento Caleño, amantes de lo saludable y lo natural, somos un espacio de
-        oferta de productos naturales, saludables, ecológicos, y de producción local.</p>
+        oferta de productos naturales, alimentos reales, saludables, ecológicos, y de producción local.</p>
     <h2 class="text-4xl font-bold text-green">Nuestros valores se fundamentan en:</h2>
 </section>
 <!-- =========================================================== Iconos -->
