@@ -25,17 +25,22 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php else : ?>
 
-		<h3><?php esc_html_e( 'Billing details', 'woocommerce' ); ?></h3>
+		<h3 class="font-bold"><?php esc_html_e( 'Detalles de compra', 'woocommerce' ); ?></h3>
 
 	<?php endif; ?>
 
 	<?php do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
-
+		
 	<div class="woocommerce-billing-fields__field-wrapper">
 		<?php
 		$fields = $checkout->get_checkout_fields( 'billing' );
 
 		foreach ( $fields as $key => $field ) {
+			// echo '<pre>';
+			// print_r($field);
+			// echo '</pre>';
+			$field['input_class'] = ['border-[1px] border-grey py-1 px-3 rounded mr-auto'];
+			$field['class'] = ['!mb-3 w-2/3'];
 			woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
 		}
 		?>
