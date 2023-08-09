@@ -9,6 +9,8 @@ wp-content/upgrade
 !wp-content/mu-plugins/
 !wp-content/plugins/
 !wp-content/themes/
+#ignore these things
+wp-content/themes/bioTienda/vendor
 # ignore these plugins
 wp-content/plugins/hello.php
 # ignore specific themes
