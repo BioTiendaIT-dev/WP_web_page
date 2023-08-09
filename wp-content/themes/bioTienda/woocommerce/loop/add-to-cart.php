@@ -29,7 +29,7 @@ echo apply_filters(
 		esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
 		esc_attr( isset( $args['class'] ) ? $args['class'].' absolute right-0' : 'button' ),
 		isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
-		'<iconify-icon class="p-2 text-xl text-white mr-11 bg-green" icon="el:shopping-cart"></iconify-icon>'
+		'<iconify-icon class="p-2 text-xl text-white bg-green" icon="el:shopping-cart"></iconify-icon>'
 	),
 	$product,
 	$args
