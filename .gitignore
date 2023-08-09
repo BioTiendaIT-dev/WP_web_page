@@ -11,6 +11,7 @@ wp-content/upgrade
 !wp-content/themes/
 #ignore these things
 wp-content/themes/bioTienda/vendor
+.htaccess
 # ignore these plugins
 wp-content/plugins/hello.php
 # ignore specific themes
@@ -20,6 +21,7 @@ wp-content/themes/twenty*/
 node_modules/
 slick*
 # ignore log files and databases
+*.sh
 *.log
 *.sql
 *.zip
@@ -28,3 +30,4 @@ slick*
 sh/
 db/
 !db/localdata*.sql
+.tmb

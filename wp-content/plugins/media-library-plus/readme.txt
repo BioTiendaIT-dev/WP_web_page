@@ -186,7 +186,6 @@ Because most images and files in the media library have corresponding links embe
 == Changelog ==
 = 8.0.4 =
 * Renamed label for fontawesome to fix problem loading icons when older versions of fontawesome are in use on a site
-
 = 8.0.3 =
 * Tested with Wordpress 6.1
 
