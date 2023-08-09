@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./*.php", "./assets/js/custom.js", "./woocommerce/**/*.php"],
+  content: [ "./*.php", "./**/*.php", "./assets/js/custom.js", "./woocommerce/**/*.php"],
   theme: {
     fontFamily: {
       raleway: ["Raleway", "sans-serif"],

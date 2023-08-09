@@ -1,5 +1,6 @@
 <?php
 require dirname(__FILE__) .'/vendor/autoload.php';
+require dirname(__FILE__) .'/inc/replacement_functions/load.php';
 require dirname(__FILE__) .'/inc/tabs.php';
 
 function init_template()
