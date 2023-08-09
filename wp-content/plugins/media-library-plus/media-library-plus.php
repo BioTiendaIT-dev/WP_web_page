@@ -3,7 +3,7 @@
 Plugin Name: Media Library Folders
 Plugin URI: http://maxgalleria.com
 Description: Gives you the ability to adds folders and move files in the WordPress Media Library.
-Version: 8.0.3
+Version: 8.0.4
 Author: Max Foundry
 Author URI: http://maxfoundry.com
 
@@ -57,7 +57,7 @@ class MGMediaLibraryFolders {
   
 	public function set_global_constants() {	
 		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_KEY', 'maxgalleria_media_library_version');
-		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.0.3');
+		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.0.4');
 		define('MAXGALLERIA_MEDIA_LIBRARY_IGNORE_NOTICE', 'maxgalleria_media_library_ignore_notice');
 		define('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
     if(!defined('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR'))
@@ -316,7 +316,7 @@ class MGMediaLibraryFolders {
 				|| $_REQUEST['page'] == 'mlf-support8') {
                 
         wp_enqueue_style('mlf8', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/css/mlf.css');				
-        wp_enqueue_style('fontawesome', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/libs/fontawesome-free-6.0.0-web/css/all.min.css');        
+        wp_enqueue_style('mlfp-fontawesome', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/libs/fontawesome-free-6.0.0-web/css/all.min.css');        
                 
         if($_REQUEST['page'] === 'mlf-folders8' || 
            $_REQUEST['page'] === 'mlf-thumbnails' ||

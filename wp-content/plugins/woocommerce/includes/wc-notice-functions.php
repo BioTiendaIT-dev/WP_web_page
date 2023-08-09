@@ -255,6 +255,7 @@ function wc_kses_notice( $message ) {
 		array(
 			'a' => array(
 				'tabindex' => true,
+				'class' => true,
 			),
 		)
 	);

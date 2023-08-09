@@ -54,12 +54,15 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php if ( ! WC()->cart->needs_shipping() || wc_ship_to_billing_address_only() ) : ?>
 
-			<h3><?php esc_html_e( 'Additional information', 'woocommerce' ); ?></h3>
+			<h3 class="font-bold"><?php esc_html_e( 'Información adicional', 'woocommerce' ); ?></h3>
 
 		<?php endif; ?>
 
-		<div class="woocommerce-additional-fields__field-wrapper">
-			<?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : ?>
+		<div class="woocommerce-additional-fields__field-wrapper mb-20">
+			<?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : 
+				$field['input_class'] = ['border-[1px] border-grey rounded py-2 px-4'];
+				$field['class'] = ['w-2/3'];
+			?>
 				<?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
 			<?php endforeach; ?>
 		</div>
