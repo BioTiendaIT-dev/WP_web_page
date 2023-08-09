@@ -9,6 +9,10 @@ wp-content/upgrade
 !wp-content/mu-plugins/
 !wp-content/plugins/
 !wp-content/themes/
+
+
+.htaccess
+
 # ignore these plugins
 wp-content/plugins/hello.php
 # ignore specific themes
@@ -18,6 +22,7 @@ wp-content/themes/twenty*/
 node_modules/
 slick*
 # ignore log files and databases
+*.sh
 *.log
 *.sql
 *.zip
@@ -26,3 +31,4 @@ slick*
 sh/
 db/
 !db/localdata*.sql
+.tmb
