@@ -34,7 +34,7 @@ if (!empty($product_tabs)) : ?>
 	<div class="woocommerce-tabs col-span-full wc-tabs-wrapper">
 		<ul class="flex flex-row mt-10 overflow-auto tabs wc-tabs" id="product-tab-list" role="tablist">
 			<?php
-			// dd($product_tabs);
+			dd($product_tabs);
 			foreach ($product_tabs as $key => $product_tab) : ?>
 				<li class="<?php echo esc_attr($key); ?>_tab px-7 first:ml-0 text-center items-center flex py-3 mx-2 border-[1px] uppercase border-gray-400" id="tab-title-<?php echo esc_attr($key); ?>" role="tab" aria-controls="tab-<?php echo esc_attr($key); ?>">
 					<a href="#tab-<?php echo esc_attr($key); ?>" class="text-base font-normal text-gray-400">
