@@ -6,7 +6,6 @@
   body {
     @apply font-raleway font-normal text-base bg-white;
     line-height: 1.75rem;
-    color: #333;
   }
 }
 /* ---------------------------- Uso en wordpress, al no estar diretamente en el theme no los reconoce el tailwind --- */
