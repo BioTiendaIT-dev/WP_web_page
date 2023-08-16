@@ -3,6 +3,10 @@ require dirname(__FILE__) .'/vendor/autoload.php';
 require dirname(__FILE__) .'/inc/replacement_functions/load.php';
 require dirname(__FILE__) .'/inc/tabs.php';
 
+define('LOGOURL', get_stylesheet_directory_uri() . '/assets/img/logo.png');
+define('LOGOURL_WHITE', get_stylesheet_directory_uri() . '/assets/img/logo_White.png');
+define('ISOLOGO_WHITE_URL', get_stylesheet_directory_uri() . '/assets/img/ISOtipoWhite.png');
+
 function init_template()
 {
     add_theme_support('post-thumbnails');

@@ -12,6 +12,7 @@ wp-content/upgrade
 #ignore these things
 wp-content/themes/bioTienda/vendor
 wp-content/themes/bioTienda/assets/css/twOutput.css
+wp-content/themes/bioTienda/assets/img/
 .htaccess
 # ignore these plugins
 wp-content/plugins/hello.php
