@@ -11,7 +11,7 @@
 <body class="relative">
     <?php wp_body_open() ?>
 
-    <div class="sticky top-0 z-50 flex flex-col justify-between py-1 font-semibold text-white lg:flex-row m-ext bg-green">
+    <div class="sticky top-0 z-[51] flex flex-col justify-between py-1 font-semibold text-white lg:flex-row m-ext bg-green">
         <a class="hidden text-center lg:block" href="mailto:hola@alnatural.com">hola@alnatural.com</a>
         <p class="my-2 italic leading-4 text-center lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
         <div class="flex flex-row">
@@ -22,12 +22,11 @@
         </div>
     </div>
     <!-- ------------------------------------ Desktop ---------------->
-    <header class="hidden relative lg:inline-flex w-full pt-12 border-b-[1px] m-ext">
+    <header class="hidden fixed top-0 bg-white z-50 lg:inline-flex w-full pt-12 border-b-[1px] m-ext">
         <a href="<?php echo esc_url(home_url()) ?>">
-            <img class="inline-block w-32 pb-6 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
+            <img class="inline-block w-24 pb-6 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>
-        <div class="flex flex-col w-full">
-            <?php get_search_form() ?>
+        <div class="flex flex-col w-full my-auto">
             <?php wp_nav_menu(array(
                 'theme_location' => 'top_menu',
                 'container' => 'nav',
@@ -36,13 +35,16 @@
             ))
             ?>
         </div>
-        <a class="pb-6 mt-auto" href="<?php echo wc_get_cart_url() ?>">
+        <a class="pb-6 my-auto" href="<?php echo wc_get_cart_url() ?>">
             <iconify-icon class="flex mt-auto text-3xl mr-11 text-green-dark" icon="el:shopping-cart"></iconify-icon>
         </a>
+        <div class="absolute right-0 top-full m-ext">
+            <?php get_search_form() ?>
+        </div>
     </header>
 
     <!-- ------------------------------------ Mobile ----------------->
-    <header class="sticky shadow top-14 left-0 right-0 z-50 bg-white inline-flex lg:hidden w-full py-3 border-b-[1px] m-ext">
+    <header class="sticky shadow top-20 left-0 right-0 z-50 bg-white inline-flex lg:hidden w-full py-3 border-b-[1px] m-ext">
         <a class="my-auto" href="<?= esc_url(home_url()) ?>">
             <img class="inline-block w-14" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>

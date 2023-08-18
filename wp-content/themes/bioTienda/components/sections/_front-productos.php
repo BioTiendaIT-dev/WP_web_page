@@ -1,13 +1,8 @@
     <section id="productos" class="mt-12 m-ext">
-        <!-- --------------- Title -->
-        <div class="p-11">
-            <h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Productos para tu bienestar</h2>
-            <div class="flex flex-row items-center justify-center mx-auto w-60">
-                <div class="h-[1px] w-full bg-green"></div>
-                <img class="px-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-green.svg" alt="">
-                <div class="h-[1px] w-full bg-green"></div>
-            </div>
-        </div>
+        <?php
+        $args = ['title' => 'Productos para tu bienestar'];
+        // ----------------------------- Title
+        echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
 
         <div class="grid grid-cols-1 gap-5 lg:grid-cols-4">
             <?php

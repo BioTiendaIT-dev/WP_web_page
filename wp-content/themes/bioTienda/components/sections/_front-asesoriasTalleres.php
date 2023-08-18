@@ -14,9 +14,11 @@
         <p class="absolute w-full mx-auto font-semibold text-center text-white bottom-14">Talleres</p>
     </div>
     <div class="z-10 flex flex-col col-span-1 p-10 text-center text-white bg-green-dark">
-        <img class="mt-auto mb-3 max-h-10" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-white.svg" alt="Icon logo">
+        <picture>
+            <img class="w-1/3 mx-auto mt-5 mb-3" src="<?= ISOLOGO_WHITE_URL ?>" alt="Icon logo">
+        </picture>
         <h3 class="mb-6 text-lg font-semibold uppercase">Asesorías</h3>
-        <p class="text-base font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi esse deleniti harum blanditiis nihil.</p>
+        <p class="mb-5 text-base font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi esse deleniti harum blanditiis nihil.</p>
         <a class="inline-block px-10 py-2 m-auto mt-2 lg:mt-0 bg-green" href="">LEER MAS</a>
     </div>
     <div class="relative col-span-1 bg-[url(<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/profesionales.png)]">
