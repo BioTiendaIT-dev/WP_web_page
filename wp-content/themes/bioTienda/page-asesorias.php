@@ -18,14 +18,7 @@
     <!-- --------------------------- Tabs content -->
     <section>
         <!-- --------------- Title -->
-        <div class="p-11">
-            <h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Descuida, nosotros te asesoramos</h2>
-            <div class="flex flex-row items-center justify-center mx-auto w-60">
-                <div class="h-[1px] w-full bg-green"></div>
-                <img class="px-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-green.svg" alt="">
-                <div class="h-[1px] w-full bg-green"></div>
-            </div>
-        </div>
+        <?= get_template_part(COMPONENTS . '_title', 'large', ['title'=> 'Descuida, nosotros te asesoramos']) ?>
         <!-- tabs -->
         <div>
             <ul class="flex flex-col grid-cols-3 list-none lg:border-b-2 lg:grid border-green">
@@ -34,7 +27,7 @@
                 <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-3">9 Años de experiencia</li>
             </ul>
             <div class="my-10 tabs-content">
-                <div data-tab-content id="tab-content-1" class="grid grid-cols-1 gap-5 active-content lg:grid-cols-2">
+                <div data-tab-content id="tab-content-1" class="hidden grid-cols-1 gap-5 active-content lg:grid-cols-2">
                     <picture>
                         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/med-fun.png" alt="">
                     </picture>
@@ -45,7 +38,7 @@
                         </p>
                     </article>
                 </div>
-                <div data-tab-content id="tab-content-2" class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <div data-tab-content id="tab-content-2" class="hidden grid-cols-1 gap-5 lg:grid-cols-2">
                     <picture>
                         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/alim-fun.png" alt="">
                     </picture>
@@ -59,7 +52,7 @@
                         </p>
                     </article>
                 </div>
-                <div data-tab-content id="tab-content-3" class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <div data-tab-content id="tab-content-3" class="hidden grid-cols-1 gap-5 lg:grid-cols-2">
                     <picture>
                         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/9-exp.png" alt="">
                     </picture>

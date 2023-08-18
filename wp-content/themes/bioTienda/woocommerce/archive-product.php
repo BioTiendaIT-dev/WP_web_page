@@ -23,14 +23,11 @@ get_header('shop'); ?>
 	<picture>
 		<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/bannerShop.png" alt="Banner">
 	</picture>
-	<div class="pt-9 lg:pt-11">
-		<h2 class="pb-5 text-3xl italic font-bold text-center text-green-dark">Productos para tu bienestar</h2>
-		<div class="flex flex-row items-center justify-center mx-auto w-60">
-			<div class="h-[1px] w-full bg-green"></div>
-			<img class="px-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/icons/i-logo-green.svg" alt="">
-			<div class="h-[1px] w-full bg-green"></div>
-		</div>
-	</div>
+
+	<?php
+	$args = ['title' => 'Productos para tu bienestar'];
+	// ----------------------------- Title
+	echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
 </section>
 <?php
 /**
@@ -47,7 +44,7 @@ do_action('woocommerce_before_main_content');
 if (woocommerce_product_loop()) {
 ?>
 
-	<nav class="bt-options mb-5 flex flex-col items-center lg:items-start">
+	<nav class="flex flex-col items-center mb-5 bt-options lg:items-start">
 		<?php
 		/**
 		 * Hook: woocommerce_before_shop_loop.
@@ -57,8 +54,8 @@ if (woocommerce_product_loop()) {
 		 * @hooked woocommerce_catalog_ordering - 30
 		 */
 		do_action('woocommerce_before_shop_loop');
-		
-		
+
+
 		?>
 	</nav>
 	<div class="grid grid-cols-1 gap-5 lg:grid-cols-5">
