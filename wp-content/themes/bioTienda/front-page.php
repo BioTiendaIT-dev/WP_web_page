@@ -2,10 +2,10 @@
 const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
 ?>
 <!-- =========================================================== Slider/Banner -->
-<div class="bt-slider">
-    <div><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></div>
-    <div><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></div>
-    <div><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></div>
+<div class="mt-16 overflow-y-hidden h-[40vh] bt-slider">
+    <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
+    <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
+    <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
 </div>
 <!-- =========================================================== -->
 
@@ -13,18 +13,16 @@ const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
     <!-- =========================================================== Iconos -->
     <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'iconos') ?>
 
+    <!-- =========================================================== Productos -->
+    <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'productos') ?>
+    
     <!-- =========================================================== Minibanners -->
     <section id="minibanners" class="grid grid-cols-1 grid-rows-2 gap-5 lg:grid-cols-4 m-ext">
         <img class="w-full row-span-2 col-span-full lg:col-span-2" width="100%" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/bienestar.png" alt="">
         <img class="col-span-2 row-span-1" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/sostenible.png" alt="">
         <img class="col-span-2 row-span-1" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/social.png" alt="">
-
     </section>
     <!-- =========================================================== -->
-
-    <!-- =========================================================== Productos -->
-    <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'productos') ?>
-
 
     <!-- =========================================================== Asesorias/Talleres -->
     <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'asesoriasTalleres') ?>
