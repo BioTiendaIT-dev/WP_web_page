@@ -11,20 +11,24 @@
 <body class="relative">
     <?php wp_body_open() ?>
 
-    <div class="sticky top-0 z-[51] flex flex-col justify-between py-1 font-semibold text-white lg:flex-row m-ext bg-green">
-        <a class="hidden text-center lg:block" href="mailto:hola@alnatural.com">hola@alnatural.com</a>
+    <div class="sticky top-0 z-[51] flex flex-col justify-between items-center py-1 font-semibold text-white lg:flex-row m-ext bg-green">
+        <a class="hidden text-center lg:block" href="mailto:<?= EMAIL ?>"><?= EMAIL ?></a>
         <p class="my-2 italic leading-4 text-center lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
         <div class="flex flex-row">
-            <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:instagram-fill"></iconify-icon>
+            <a class="flex items-center" href="<?= INSTAGRAM_URL ?>" target="_blank">
+                <?= INSTAGRAM_PROFILE ?>
+                <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:instagram-fill"></iconify-icon>
+            </a>
             <iconify-icon class="px-1 my-auto text-lg text-white" icon="cib:facebook-f"></iconify-icon>
-            <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:whatsapp-fill"></iconify-icon>
-            <a class="px-1 my-auto ml-auto " href="#">317 2575491</a>
+            <a class="flex px-1 my-auto ml-auto" href="https://wa.me/<?= WHATS ?>">
+                <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:whatsapp-fill"></iconify-icon>
+                <?= WHATS_IMPRIMIBLE ?></a>
         </div>
     </div>
     <!-- ------------------------------------ Desktop ---------------->
-    <header class="hidden fixed top-0 bg-white z-50 lg:inline-flex w-full pt-12 border-b-[1px] m-ext">
+    <header class="hidden fixed top-0 bg-white z-50 lg:inline-flex w-full pt-12 pb-2 border-b-[1px] m-ext">
         <a href="<?php echo esc_url(home_url()) ?>">
-            <img class="inline-block w-24 pb-6 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
+            <img class="inline-block w-24 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>
         <div class="flex flex-col w-full my-auto">
             <?php wp_nav_menu(array(
@@ -35,7 +39,7 @@
             ))
             ?>
         </div>
-        <a class="pb-6 my-auto" href="<?php echo wc_get_cart_url() ?>">
+        <a class="my-auto" href="<?php echo wc_get_cart_url() ?>">
             <iconify-icon class="flex mt-auto text-3xl mr-11 text-green-dark" icon="el:shopping-cart"></iconify-icon>
         </a>
         <div class="absolute right-0 top-full m-ext">

@@ -1,4 +1,4 @@
-    <section id="productos" class="mt-12 m-ext">
+    <section id="productos" class="m-ext">
         <?php
         $args = ['title' => 'Productos para tu bienestar'];
         // ----------------------------- Title

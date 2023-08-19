@@ -12,4 +12,16 @@ if (!function_exists('biotienda_template_loop_product_link_open')) {
         echo '<a href="' . esc_url($link) . '" class="mx-auto woocommerce-LoopProduct-link woocommerce-loop-product__link">';
     }
 }
+
+/**
+ * Get the product thumbnail for the loop.
+ */
+function woocommerce_template_loop_product_thumbnail()
+{
+?>
+    <figure class="mb-2 rounded shadow-md">
+        <?= woocommerce_get_product_thumbnail() ?>
+    </figure>
+<?php
+}
 ?>

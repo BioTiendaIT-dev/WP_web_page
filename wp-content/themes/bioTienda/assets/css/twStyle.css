@@ -96,7 +96,7 @@ td.product-thumbnail a img {
   }
   /* =================== Header ======================== */
   .bt_nav .menu-item {
-    @apply text-right lg:text-left px-7 pb-6 text-xl lg:text-base;
+    @apply text-right lg:text-left px-7 text-xl lg:text-base;
   }
   .bt_nav .sub-tienda > .sub-menu {
     @apply bg-green-dark hidden absolute top-full text-white font-semibold pt-6 pb-5 px-0 capitalize z-10 lg:w-80;
