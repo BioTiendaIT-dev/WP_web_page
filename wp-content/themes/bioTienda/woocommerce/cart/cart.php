@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
 do_action('woocommerce_before_cart');
 ?>
 
-<form class="woocommerce-cart-form relative" action="<?php echo esc_url(wc_get_cart_url()); ?>" method="post">
+<form class="relative woocommerce-cart-form" action="<?php echo esc_url(wc_get_cart_url()); ?>" method="post">
 	<?php do_action('woocommerce_before_cart_table'); ?>
 
 	<table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
@@ -76,12 +76,12 @@ do_action('woocommerce_before_cart');
 							?>
 						</td>
 
-						<td class="product-name" data-title="<?php esc_attr_e('Product', 'woocommerce'); ?>">
+						<td class="!flex flex-col items-start product-name" data-title="<?php esc_attr_e('Product', 'woocommerce'); ?>">
 							<?php
 							if (!$product_permalink) {
 								echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key) . '&nbsp;');
 							} else {
-								echo wp_kses_post(apply_filters('woocommerce_cart_item_name', sprintf('<a href="%s">%s</a>', esc_url($product_permalink), $_product->get_name()), $cart_item, $cart_item_key));
+								echo wp_kses_post(apply_filters('woocommerce_cart_item_name', sprintf('<br><a class="" href="%s">%s</a>', esc_url($product_permalink), $_product->get_name()), $cart_item, $cart_item_key));
 							}
 
 							do_action('woocommerce_after_cart_item_name', $cart_item, $cart_item_key);
@@ -102,7 +102,7 @@ do_action('woocommerce_before_cart');
 							?>
 						</td>
 
-						<td class="product-quantity text-center" data-title="<?php esc_attr_e('Quantity', 'woocommerce'); ?>">
+						<td class="text-center product-quantity" data-title="<?php esc_attr_e('Quantity', 'woocommerce'); ?>">
 							<?php
 							if ($_product->is_sold_individually()) {
 								$product_quantity = sprintf('1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key);
@@ -124,7 +124,7 @@ do_action('woocommerce_before_cart');
 							?>
 						</td>
 
-						<td class="product-subtotal text-right" data-title="<?php esc_attr_e('Subtotal', 'woocommerce'); ?>">
+						<td class="text-right product-subtotal" data-title="<?php esc_attr_e('Subtotal', 'woocommerce'); ?>">
 							<?php
 							echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // PHPCS: XSS ok.
 							?>
@@ -140,20 +140,19 @@ do_action('woocommerce_before_cart');
 			<?php do_action('woocommerce_after_cart_contents'); ?>
 		</tbody>
 	</table>
-	<div class="actions absolute top-full pt-9">
+	<div class="lg:absolute actions top-full lg:pt-9">
 		<?php if (wc_coupons_enabled()) : ?>
-			<div class="coupon flex flex-col">
+			<div class="flex flex-col coupon">
 				<label for="coupon_code">
 					<?php esc_html_e('Cupón:', 'woocommerce'); ?></label>
-				<span>
-
-					<input type="text" name="coupon_code" class="input-text border-green-dark py-1 pl-3 border-2 !mr-2 rounded-sm" id="coupon_code" value="" placeholder="<?php esc_attr_e('Código de cupón', 'woocommerce'); ?>" /> <button type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e('Aplicar cupón', 'woocommerce'); ?>"><?php esc_attr_e('Aplicar cupón', 'woocommerce'); ?></button>
+				<span class="grid grid-cols-2 lg:block">
+					<input type="text" name="coupon_code" class="input-text border-green-dark lg:mb-0 py-1 pl-3 border-2 !mr-2 rounded-sm" id="coupon_code" value="" placeholder="<?php esc_attr_e('Código de cupón', 'woocommerce'); ?>" /> <button type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e('Aplicar cupón', 'woocommerce'); ?>"><?php esc_attr_e('Aplicar cupón', 'woocommerce'); ?></button>
 					<?php do_action('woocommerce_cart_coupon'); ?>
 				</span>
 			</div>
 		<?php endif ?>
 
-		<button type="submit" class="button !mt-5" name="update_cart" value="<?php esc_attr_e('Update cart', 'woocommerce'); ?>"><?php esc_html_e('Actualizar carrito', 'woocommerce'); ?></button>
+		<button type="submit" class="button !mt-10 lg:!mt-5" name="update_cart" value="<?php esc_attr_e('Update cart', 'woocommerce'); ?>"><?php esc_html_e('Actualizar carrito', 'woocommerce'); ?></button>
 
 		<?php do_action('woocommerce_cart_actions'); ?>
 

@@ -1,14 +1,14 @@
 <?php get_header() ?>
 <?php if (is_cart()) : ?>
-    <div class="m-ext max-w-4xl grid mx-auto py-16">
+    <main class="grid max-w-4xl py-16 mx-auto lg:mt-20 m-ext">
     <?php else : ?>
-        <div class="m-ext">
+        <main class="m-ext">
         <?php endif;
         ?>
         <?php while (have_posts()) {
             the_post();
             the_content();
         } ?>
-        </div>
+        </main>
 
         <?php get_footer() ?>

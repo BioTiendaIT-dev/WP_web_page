@@ -39,9 +39,7 @@
             ))
             ?>
         </div>
-        <a class="my-auto" href="<?php echo wc_get_cart_url() ?>">
-            <iconify-icon class="flex mt-auto text-3xl mr-11 text-green-dark" icon="el:shopping-cart"></iconify-icon>
-        </a>
+        <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'mr-auto']) ?> <!-- Icono cart -->
         <div class="absolute right-0 top-full m-ext">
             <?php get_search_form() ?>
         </div>
@@ -52,9 +50,7 @@
         <a class="my-auto" href="<?= esc_url(home_url()) ?>">
             <img class="inline-block w-14" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>
-        <a class="my-auto ml-auto mr-5" href="<?php echo wc_get_cart_url() ?>">
-            <iconify-icon class="flex ml-auto text-3xl text-green-dark" icon="el:shopping-cart"></iconify-icon>
-        </a>
+        <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'ml-auto mr-5']) ?> <!-- Icono cart -->
         <button id="mobile-burguer" class="my-auto">
             <iconify-icon class="flex ml-auto text-3xl text-green-dark" icon="heroicons-solid:menu-alt-3"></iconify-icon>
         </button>
