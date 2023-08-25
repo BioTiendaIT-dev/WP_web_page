@@ -11,18 +11,14 @@
 <body class="relative">
     <?php wp_body_open() ?>
 
-    <div class="sticky top-0 z-[51] flex flex-col justify-between items-center py-1 font-semibold text-white lg:flex-row m-ext bg-green">
-        <a class="hidden text-center lg:block" href="mailto:<?= EMAIL ?>"><?= EMAIL ?></a>
-        <p class="my-2 italic leading-4 text-center lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
+    <div class="sticky -top-12 z-[51] flex flex-col justify-between py-1 font-semibold text-white lg:flex-row m-ext bg-green">
+        <p class="mx-auto my-2 italic leading-4 text-center lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
         <div class="flex flex-row">
-            <a class="flex items-center" href="<?= INSTAGRAM_URL ?>" target="_blank">
+            <a class="flex items-start" href="<?= INSTAGRAM_URL ?>" target="_blank">
                 <?= INSTAGRAM_PROFILE ?>
                 <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:instagram-fill"></iconify-icon>
             </a>
             <iconify-icon class="px-1 my-auto text-lg text-white" icon="cib:facebook-f"></iconify-icon>
-            <a class="flex px-1 my-auto ml-auto" href="https://wa.me/<?= WHATS ?>">
-                <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:whatsapp-fill"></iconify-icon>
-                <?= WHATS_IMPRIMIBLE ?></a>
         </div>
     </div>
     <!-- ------------------------------------ Desktop ---------------->
@@ -46,11 +42,13 @@
     </header>
 
     <!-- ------------------------------------ Mobile ----------------->
-    <header class="sticky shadow top-20 left-0 right-0 z-50 bg-white inline-flex lg:hidden w-full py-3 border-b-[1px] m-ext">
+    <header class="sticky shadow top-8 left-0 right-0 z-50 bg-white inline-flex lg:hidden w-full py-3 border-b-[1px] m-ext">
         <a class="my-auto" href="<?= esc_url(home_url()) ?>">
             <img class="inline-block w-14" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>
-        <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'ml-auto mr-5']) ?> <!-- Icono cart -->
+        <a class="flex my-auto ml-auto" href="https://wa.me/<?= WHATS ?>">
+            <iconify-icon class="my-auto text-3xl text-white" icon="logos:whatsapp-icon"></iconify-icon></a>
+        <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'mx-5']) ?> <!-- Icono cart -->
         <button id="mobile-burguer" class="my-auto">
             <iconify-icon class="flex ml-auto text-3xl text-green-dark" icon="heroicons-solid:menu-alt-3"></iconify-icon>
         </button>

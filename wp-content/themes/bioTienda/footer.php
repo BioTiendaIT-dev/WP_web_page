@@ -25,40 +25,33 @@
         <li class="mb-5">
             <h3 class="text-xl font-bold">Menú</h3>
         </li>
-        <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">Nosotros</a></li>
+        <li>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_menu_one',
+                'container' => 'nav',
+                'menu_class' => 'list-none flex flex-col text-base',
+                'container_class' => 'inline-block mx-auto',
+            ))
+            ?>
+        </li>
+        <!-- <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">Nosotros</a></li>
         <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">Blog</a></li>
         <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">bioTienda</a></li>
         <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">Salud funcional</a></li>
-        <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">Contacto</a></li>
+        <li class="mt-1 lg:mt-3 hover:text-green hover:font-semibold"><a href="">Contacto</a></li> -->
     </ul>
     <ul class="mt-12 lg:ml-5 lg:mt-0">
         <li class="mb-5">
             <h3 class="text-xl font-bold">Productos</h3>
         </li>
-        <li class="font-semibold">
-            <div class="mt-1 lg:mt-3">
-                <a href="" class="hover:text-green">
-                    <h4 class="inline hover:border-green hover:border-b-2">Alimentos</h4>
-                </a>
-                <ul class="ml-5 font-normal">
-                    <li><a href="" class="inline hover:text-green hover:font-semibold hover:border-green hover:border-b-2">Agroecologicos</a></li>
-                    <li><a href="" class="inline hover:text-green hover:font-semibold hover:border-green hover:border-b-2">Funcionales</a></li>
-                    <li><a href="" class="inline hover:text-green hover:font-semibold hover:border-green hover:border-b-2">Sin gluten</a></li>
-                    <li><a href="" class="inline hover:text-green hover:font-semibold hover:border-green hover:border-b-2">Snacks saludables</a></li>
-                </ul>
-            </div>
-            <a class="block mt-1 lg:mt-3 hover:text-green" href="">
-                <h4 class="inline hover:border-green hover:border-b-2">Aseo</h4>
-            </a>
-            <a class="block mt-1 lg:mt-3 hover:text-green " href="">
-                <h4 class="inline hover:border-green hover:border-b-2">Cuidado personal</h4>
-            </a>
-            <a class="block mt-1 lg:mt-3 hover:text-green " href="">
-                <h4 class="inline hover:border-green hover:border-b-2">A granel</h4>
-            </a>
-            <a class="block mt-1 lg:mt-3 hover:text-green " href="">
-                <h4 class="inline hover:border-green hover:border-b-2">Aceites escenciales</h4>
-            </a>
+        <li>
+            <?php wp_nav_menu(array(
+                'theme_location' => 'footer_menu_two',
+                'container' => 'nav',
+                'menu_class' => 'list-none flex flex-col text-base',
+                'container_class' => 'inline-block mx-auto',
+            ))
+            ?>
         </li>
     </ul>
     <ul class="mt-12 lg:mt-0">

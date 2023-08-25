@@ -4,36 +4,41 @@
 
 @layer base {
   body {
-    @apply font-raleway font-normal text-base bg-white;
+    @apply font-raleway font-normal text-base bg-white text-gray-800;
     line-height: 1.75rem;
   }
 }
 /* ---------------------------- Uso en wordpress, al no estar diretamente en el theme no los reconoce el tailwind --- */
-  .bt-row-section {
+.bt-row-section {
   @apply !gap-0 !grid !grid-cols-1 lg:!grid-cols-2 max-w-[1440px] m-auto;
   align-items: unset !important;
-  }
-  .bt-row-section .bt-group {
-    @apply !px-5 !py-10 lg:!p-28 lg:!pr-32 col-span-1;
-  }
-  .bt-row-section figure {
-    @apply col-span-1 even:order-first lg:even:order-none;
-  }
-  .bt-row-section figure img {
-    @apply h-full;
-  }
-  .bt-row-section .bt-group h2 {
-    @apply mb-5;
-  }
-  .bt-row-section .bt-group p {
-    @apply text-lg;
-  }
-  .bt-row-section .bt-group > p {
-    @apply mb-10;
-  }
+}
+.bt-row-section .bt-group {
+  @apply !px-5 !py-10 lg:!p-28 lg:!pr-32 col-span-1;
+}
+.bt-row-section figure {
+  @apply col-span-1 even:order-first lg:even:order-none;
+}
+.bt-row-section figure img {
+  @apply h-full;
+}
+.bt-row-section .bt-group h2 {
+  @apply mb-5;
+}
+.bt-row-section .bt-group p {
+  @apply text-lg;
+}
+.bt-row-section .bt-group > p {
+  @apply mb-10;
+}
+
+/* ------------------------------------------ Loops and cards */
+figure.image_card_container img {
+   @apply mx-auto;
+}
 /* ---------------- contact page */
-  .bt-contact-p {
- @apply text-center my-20;
+.bt-contact-p {
+  @apply text-center my-20;
 }
 .bt-contact-info {
   @apply my-20 !flex-col lg:!flex-row !justify-around !items-start;
@@ -51,7 +56,7 @@
   @apply text-sm font-semibold text-green;
 }
 /* ---------------------- BreadCrumbs --------------------- */
-.woocommerce-breadcrumb  {
+.woocommerce-breadcrumb {
   @apply text-center font-semibold justify-center my-3 flex flex-row items-center;
 }
 /* -------------------------------------------------- */
@@ -69,7 +74,7 @@ td.product-thumbnail a img {
   @apply text-lg text-gray-500 pb-3;
 }
 #categories .children .cat-item:first-child {
-@apply pt-3;
+  @apply pt-3;
 }
 #categories .current-cat {
   @apply font-bold text-green;
@@ -79,15 +84,14 @@ td.product-thumbnail a img {
 }
 
 /* ============================== TabList =====================*/
-  #product-tab-list li.active {
-    @apply bg-gray-100;
-  }
-  #product-tab-list li.active a {
-    color: inherit !important;
-  }
+#product-tab-list li.active {
+  @apply bg-gray-100;
+}
+#product-tab-list li.active a {
+  color: inherit !important;
+}
 
 @layer components {
-
   .active-tab {
     @apply border-2 lg:!border-b-0 border-green !text-green;
   }
@@ -115,28 +119,28 @@ td.product-thumbnail a img {
   .bt_nav .sub-alimentos > .sub-menu .menu-item {
     @apply font-normal pl-5 pr-0;
   }
-/* ------------------------------------------------- */
-/* ================== Formulario asesorias ========== */
+  /* ------------------------------------------------- */
+  /* ================== Formulario asesorias ========== */
 
-  #wpcf7-f405-o1 form p, #wpcf7-f415-o1 form p {
+  #wpcf7-f405-o1 form p,
+  #wpcf7-f415-o1 form p {
     @apply font-semibold text-sm text-green-dark;
   }
 
-
-/* ------------------------------------------------- */
-/* ================== Formulario contacto ========== */
-#wpcf7-f405-p13-o1 {
-  @apply bg-green;
-}
-#wpcf7-f405-p13-o1 form {
-  @apply m-auto py-10 grid grid-cols-12;
-}
-#wpcf7-f405-p13-o1 form p {
-  @apply py-3 col-span-full mx-5 lg:col-start-4 lg:col-end-10 text-green-dark;
-}
-#wpcf7-f405-p13-o1 form p > label {
-  @apply font-bold;
-}
+  /* ------------------------------------------------- */
+  /* ================== Formulario contacto ========== */
+  #wpcf7-f405-p13-o1 {
+    @apply bg-green;
+  }
+  #wpcf7-f405-p13-o1 form {
+    @apply m-auto py-10 grid grid-cols-12;
+  }
+  #wpcf7-f405-p13-o1 form p {
+    @apply py-3 col-span-full mx-5 lg:col-start-4 lg:col-end-10 text-green-dark;
+  }
+  #wpcf7-f405-p13-o1 form p > label {
+    @apply font-bold;
+  }
 }
 
 #wpcf7-f405-p13-o1 form p label span .wpcf7-form-control {
@@ -148,15 +152,29 @@ td.product-thumbnail a img {
 
 /* ------------------------------------------------- */
 /* ================== Formulario asesoria ========== */
-#wpcf7-f405-o1 form p label .wpcf7-form-control-wrap, #wpcf7-f415-o1 form p label .wpcf7-form-control-wrap { 
+#wpcf7-f405-o1 form p label .wpcf7-form-control-wrap,
+#wpcf7-f415-o1 form p label .wpcf7-form-control-wrap {
   @apply w-full border-[1px] border-green-dark inline-block mb-5;
 }
 
-#wpcf7-f405-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control, #wpcf7-f415-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control { 
- @apply px-5 py-3 w-full;
+#wpcf7-f405-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control,
+#wpcf7-f415-o1 form p label .wpcf7-form-control-wrap .wpcf7-form-control {
+  @apply px-5 py-3 w-full;
 }
 
 /* -------------- SUBMIT BUTON -- */
-#wpcf7-f405-o1 form p input.wpcf7-submit, #wpcf7-f415-o1 form p input.wpcf7-submit { 
- @apply px-14 mx-auto flex py-3 bg-green text-white text-lg;
+#wpcf7-f405-o1 form p input.wpcf7-submit,
+#wpcf7-f415-o1 form p input.wpcf7-submit {
+  @apply px-14 mx-auto flex py-3 
+ bg-green text-white text-lg;
+}
+
+/* ---------------- Footer -------------------------- */
+#menu-footer-productos > .menu-item,
+#menu-menu-footer-general > .menu-item {
+  @apply my-2;
+}
+#menu-footer-productos .menu-item > ul.sub-menu,
+#menu-menu-footer-general > .menu-item > ul.sub-menu {
+  @apply ml-3 mt-1;
 }

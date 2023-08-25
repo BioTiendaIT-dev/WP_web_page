@@ -19,7 +19,7 @@ if (!function_exists('biotienda_template_loop_product_link_open')) {
 function woocommerce_template_loop_product_thumbnail()
 {
 ?>
-    <figure class="mb-2 rounded shadow-md">
+    <figure class="mb-2 rounded shadow-md image_card_container">
         <?= woocommerce_get_product_thumbnail() ?>
     </figure>
 <?php
