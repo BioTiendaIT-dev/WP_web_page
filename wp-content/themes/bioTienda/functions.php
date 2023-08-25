@@ -12,7 +12,9 @@ function init_template()
     // ---------------------- Register menus ----------------------
     register_nav_menus(
         array(
-            'top_menu' => 'Menú Principal'
+            'top_menu' => 'Menú Principal',
+            'footer_menu_one' => 'Menú Footer Uno',
+            'footer_menu_two' => 'Menú Footer Dos',
         )
     );
 

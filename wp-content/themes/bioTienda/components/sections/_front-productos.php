@@ -24,7 +24,7 @@
                 while ($productos->have_posts()) {
                     $productos->the_post();
             ?>
-                    <div class="relative my-5">
+                    <div class="relative my-5 lg:mx-auto lg:max-w-[300px]">
                         <?php
                         /**
                          * Hook: woocommerce_before_shop_loop_item.

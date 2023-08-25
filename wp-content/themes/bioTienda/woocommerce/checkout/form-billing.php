@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
 			// print_r($field);
 			// echo '</pre>';
 			$field['input_class'] = ['border-[1px] border-grey py-1 px-3 rounded mr-auto'];
-			$field['class'] = ['!mb-3 w-2/3'];
+			$field['class'] = ['!mb-3 lg:w-2/3'];
 			woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
 		}
 		?>

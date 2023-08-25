@@ -6,21 +6,37 @@
 
   // ------------------------- Hover effect ----------------------- //
   let subTiendaMenu = $("li.sub-tienda > ul.sub-menu");
+  let timeout;
+  let time = 300 // en ms
+
   $(".sub-tienda").hover(
     function () {
-      subTiendaMenu.addClass("!block");
+      clearTimeout(timeout); // Limpiar cualquier temporizador existente
+      subTiendaMenu.addClass("!block"); // Agregar clase para mostrar el menú
     },
     function () {
-      subTiendaMenu.removeClass("!block");
+      timeout = setTimeout(() => {
+        subTiendaMenu.removeClass("!block"); // Quitar la clase para ocultar el menú después de un retraso
+      }, time); // Establecer el tiempo de retraso en milisegundos (300 ms en este caso)
     }
   );
+
+  // $(".sub-tienda").hover(
+  //   function () {
+  //     subTiendaMenu.addClass("!block");
+  //   },
+  //   function () {
+  //     subTiendaMenu.removeClass("!block");
+  //   }
+  // );
+
   let showMenu = false;
-  
+
   // ---------------------------------- Filter button mobile ------------ //
   let buton = $("#filter-col-button");
   let sideBarContent = $("#side-bar-content");
   let hideBar = true;
-  buton.click(function(){
+  buton.click(function () {
     sideBarContent.toggleClass("bottom-0", hideBar);
     $("#side-bar-content h3").toggleClass("pt-10");
     sideBarContent.toggleClass("-bottom-[63%]", !hideBar);
@@ -31,20 +47,19 @@
   const tabs = document.querySelectorAll("[data-tab-target]");
   const tabContents = document.querySelectorAll("[data-tab-content]");
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click',() => {
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
       const target = document.querySelector(tab.dataset.tabTarget);
       console.log(target);
-      tabs.forEach(tab => {
+      tabs.forEach((tab) => {
         tab.classList.remove("active-tab");
-      })
+      });
       tabContents.forEach((cont) => {
         cont.classList.remove("active-content");
       });
-      tab.classList.add('active-tab');
-      target.classList.add('active-content');
+      tab.classList.add("active-tab");
+      target.classList.add("active-content");
     });
-
   });
 
   // ------------------------- Mobile menu burguer ----------------------- //
@@ -67,7 +82,7 @@ function decrement(e) {
   const btn = e.target.parentNode.parentElement.querySelector(
     'button[data-action="decrement"]'
   );
-  const target = btn.nextElementSibling.querySelector('input');
+  const target = btn.nextElementSibling.querySelector("input");
   let value = Number(target.value);
   value--;
   target.value = value;
@@ -78,7 +93,7 @@ function increment(e) {
   const btn = e.target.parentNode.parentElement.querySelector(
     'button[data-action="decrement"]'
   );
-  const target = btn.nextElementSibling.querySelector('input');
+  const target = btn.nextElementSibling.querySelector("input");
   let value = Number(target.value);
   value++;
   target.value = value;
