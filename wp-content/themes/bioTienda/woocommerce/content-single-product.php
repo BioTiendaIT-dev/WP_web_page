@@ -18,7 +18,6 @@
 defined( 'ABSPATH' ) || exit;
 
 global $product;
-
 /**
  * Hook: woocommerce_before_single_product.
  *
@@ -31,7 +30,7 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'grid grid-cols-1 lg:grid-cols-2 gap-5', $product ); ?>>
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'grid grid-cols-1 lg:grid-cols-2 gap-5 lg:mt-32', $product ); ?>>
 
 	<?php
 	/**
@@ -60,6 +59,7 @@ if ( post_password_required() ) {
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price');
 		add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 21);
 		do_action( 'woocommerce_single_product_summary' );
+		do_action('bt_product_tabs');
 		?>
 	</div>
 
