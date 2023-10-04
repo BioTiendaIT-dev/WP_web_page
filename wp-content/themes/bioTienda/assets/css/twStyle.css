@@ -88,8 +88,12 @@ figure.image_card_container img {
   @apply bg-green-dark border-none text-white px-8 py-2 mx-auto;
  }
 
-
-
+.swiper-thumbnails img {
+  @apply w-32;
+}
+.swiper-thumbnails .swiper-slide-thumb-active {
+  @apply border-2 border-green
+}
 
 /* -------------------------------------------------- */
 /* ------------------------- Carrito de compra ----------------------- */

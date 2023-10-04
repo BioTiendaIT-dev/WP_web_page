@@ -25,16 +25,18 @@ if (!function_exists('wc_get_gallery_image_html')) {
 
 global $product;
 ?>
-<div class="thumbnails">
-
-	<?php
-	$attachment_ids = $product->get_gallery_image_ids();
-	if ($attachment_ids && $product->get_image_id()) {
-		foreach ($attachment_ids as $attachment_id) {
-	?>
-	<?php
-			echo apply_filters('woocommerce_single_product_image_thumbnail_html', bt_get_gallery_image_html($attachment_id), $attachment_id); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
-		}
-	}
-	?>
+<div class="swiper-slide !w-fit">
+	<?= apply_filters('woocommerce_single_product_image_thumbnail_html', bt_get_gallery_image_html($product->get_image_id(), false), $product->get_image_id()); ?>
 </div>
+<?php
+$attachment_ids = $product->get_gallery_image_ids();
+if ($attachment_ids && $product->get_image_id()) :
+	foreach ($attachment_ids as $attachment_id) :
+?>
+		<div class="swiper-slide !w-fit">
+			<?= apply_filters('woocommerce_single_product_image_thumbnail_html', bt_get_gallery_image_html($attachment_id, false), $attachment_id); ?>
+		</div>
+<?php
+	endforeach;
+endif;
+?>
