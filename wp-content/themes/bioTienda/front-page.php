@@ -2,17 +2,14 @@
 const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
 ?>
 <!-- =========================================================== Slider/Banner -->
-<div class="mt-16 overflow-y-hidden h-[40vh] bt-slider">
+<div class="mt-20 overflow-y-hidden h-[35vh] bt-slider">
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
 </div>
 <!-- =========================================================== -->
 
-<main class="">
-    <!-- =========================================================== Iconos -->
-    <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'iconos') ?>
-
+<main class="mx-auto max-w-bt">    
     <!-- =========================================================== Productos -->
     <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'productos') ?>
     

@@ -1,13 +1,6 @@
 <?php get_header() ?>
-<section class="relative">
-    <div class="absolute grid w-full h-full">
-        <h2 class="my-auto text-6xl font-bold text-center text-white drop-shadow-md">¿Quienes somos?</h2>
-    </div>
-    <picture class="">
-        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/nosotrosBanner.png" alt="">
-    </picture>
-</section>
-<section class="text-center  m-ext">
+<?= get_template_part('components/_banner', 'section', ['title' => '¿Quienes Somos?']) ?>
+<section class="text-center m-ext">
     <p class="px-0 py-12 text-lg lg:px-14">Somos un emprendimiento Caleño, amantes de lo saludable y lo natural, somos un espacio de
         oferta de productos naturales, alimentos reales, saludables, ecológicos, y de producción local.</p>
     <h2 class="text-4xl font-bold text-green">Nuestros valores se fundamentan en:</h2>

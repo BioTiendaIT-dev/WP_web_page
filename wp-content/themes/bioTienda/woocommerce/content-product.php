@@ -24,7 +24,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
 ?>
-<li <?php wc_product_class( 'relative w-70 mx-auto', $product ); ?>>
+<li <?php wc_product_class( 'relative w-70 mx-8 mb-8', $product ); ?>>
 	<?php
 	/**
 	 * Hook: woocommerce_before_shop_loop_item.

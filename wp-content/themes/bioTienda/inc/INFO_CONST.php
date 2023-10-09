@@ -4,6 +4,7 @@ define('LOGOURL', get_stylesheet_directory_uri() . '/assets/img/logo.png');
 define('LOGOURL_WHITE', get_stylesheet_directory_uri() . '/assets/img/logo_White.png');
 define('ISOLOGO_WHITE_URL', get_stylesheet_directory_uri() . '/assets/img/ISOtipoWhite.png');
 define('ISOLOGOURL', get_stylesheet_directory_uri() . '/assets/img/ISOtipo.png');
+define('IMGS_DIR', get_stylesheet_directory_uri() . '/assets/img/');
 define('COMPONENTS', 'components/');
 
 

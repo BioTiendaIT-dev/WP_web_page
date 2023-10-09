@@ -1,10 +1,11 @@
 <?php
 $title = $args['title'];
+$args['containerClasses']? $ContainerClasses = $args['containerClasses'] : $ContainerClasses = '';
 if(!isset($title) || $title == ''){
     $title = 'no hay title';
 }
 ?>
-<div class="p-11 lg:pt-0">
+<div class="p-11 lg:pt-0 <?= $ContainerClasses ?>">
     <div class="flex flex-row items-center justify-center mx-auto w-60">
         <div class="h-[1px] w-full bg-green"></div>
         <img class="px-5 max-h-16" src="<?= ISOLOGOURL ?>" alt="">
