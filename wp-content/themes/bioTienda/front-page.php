@@ -8,7 +8,6 @@ const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
 </div>
 <!-- =========================================================== -->
-
 <main class="mx-auto max-w-bt">    
     <!-- =========================================================== Productos -->
     <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'productos') ?>
