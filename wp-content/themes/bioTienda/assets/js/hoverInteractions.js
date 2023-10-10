@@ -1,20 +1,31 @@
 window.onload = (event) => {
-  let greenDarkColor = "#086175";
   console.log("page loaded");
   let hoverIcons = document.querySelectorAll(".hoverIconBt");
-  let changeColor = (iconImage) => {
-    // Encuentra el elemento SVG dentro de la imagen
-    // var svg = iconImage.querySelector("svg");
-    // console.log(svg);
-    // Cambia el valor del atributo 'fill' en el elemento SVG
-    // var paths = svg.querySelectorAll("path");
-    // for (var i = 0; i < paths.length; i++) {
-    //   paths[i].setAttribute("fill", greenDarkColor);
-    // }
-  };
   hoverIcons.forEach((containerIcon) => {
     let iconImage = containerIcon.querySelector("img");
+    
+    // iconImage.setAttribute('src',color);
     // Espera a que la imagen se cargue
-    iconImage.addEventListener("load", changeColor(iconImage));
+    containerIcon.addEventListener("mouseenter", (e) => {
+      let urlImage = iconImage.getAttribute("src");
+      let nuevoSufijo = "_dark";
+      // Verificar si la cadena original contiene el sufijo
+      if (urlImage.endsWith(".svg") && !urlImage.includes('_dark')) {
+        // Reemplazar el sufijo .svg con el nuevo sufijo
+        let nuevaCadena = urlImage.replace(".svg", nuevoSufijo + ".svg");
+        iconImage.setAttribute("src", nuevaCadena);
+      }
+    });
+
+    containerIcon.addEventListener("mouseleave", (e) => {
+      let urlImage = iconImage.getAttribute("src");
+      // Definir el sufijo que deseas agregar
+      // Verificar si la cadena original contiene el sufijo
+      if (urlImage.includes("_dark")) {
+        let nuevaCadena = urlImage.replaceAll("_dark", "");
+        // Reemplazar el sufijo .svg con el nuevo sufijo
+        iconImage.setAttribute("src", nuevaCadena);
+      }
+    });
   });
 };

@@ -11,9 +11,9 @@
 <body class="relative">
     <?php wp_body_open() ?>
 
-    <div class="sticky -top-12 z-[51] flex flex-col justify-between py-1 font-semibold text-white lg:flex-row m-ext bg-green">
-        <p class="mx-auto my-2 italic leading-4 text-center lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
-        <div class="flex flex-row">
+    <div class="sticky -top-12 lg:top-8 z-[51] flex flex-col justify-between py-1 font-semibold text-white lg:flex-row m-ext bg-green">
+        <p class="my-2 ml-auto mr-auto italic leading-4 text-center align-middle lg:leading-normal lg:mr-48 lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
+        <div class="flex flex-row justify-center">
             <a class="flex items-start" href="<?= INSTAGRAM_URL ?>" target="_blank">
                 <?= INSTAGRAM_PROFILE ?>
                 <iconify-icon class="px-1 my-auto text-lg text-white" icon="akar-icons:instagram-fill"></iconify-icon>
@@ -22,9 +22,9 @@
         </div>
     </div>
     <!-- ------------------------------------ Desktop ---------------->
-    <header class="hidden fixed top-0 bg-white z-50 lg:inline-flex w-full pt-12 pb-2 border-b-[1px] m-ext">
+    <header class="hidden fixed top-0 bg-white z-50 lg:inline-flex w-full pt-12 lg:mt-8 pb-2 border-b-[1px] m-ext">
         <a href="<?php echo esc_url(home_url()) ?>">
-            <img class="inline-block w-24 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
+            <img class="inline-block w-32 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>
         <div class="flex flex-col w-full my-auto">
             <?php wp_nav_menu(array(
@@ -47,7 +47,7 @@
     <!-- ------------------------------------ Mobile ----------------->
     <header class="sticky shadow top-8 left-0 right-0 z-50 bg-white inline-flex lg:hidden w-full py-3 border-b-[1px] m-ext">
         <a class="my-auto" href="<?= esc_url(home_url()) ?>">
-            <img class="inline-block w-14" src="<?= LOGOURL ?>" alt="" srcset="">
+            <img class="inline-block w-16" src="<?= LOGOURL ?>" alt="" srcset="">
         </a>
         <a class="flex my-auto ml-auto" href="https://wa.me/<?= WHATS ?>">
             <iconify-icon class="my-auto text-3xl text-white" icon="logos:whatsapp-icon"></iconify-icon></a>
