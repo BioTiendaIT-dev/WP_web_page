@@ -1,5 +1,5 @@
 <?php
-$args['title'] ? $title = $args['title'] : $title = '';
+isset($args['title']) ? $title = $args['title'] : $title = '';
 global $post;
 $postID = $post->ID;
 $urlImage = match ($postID) { //El match se esta haciendo en base al id de la web

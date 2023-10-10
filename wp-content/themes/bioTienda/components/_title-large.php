@@ -1,6 +1,7 @@
 <?php
 $title = $args['title'];
-$args['containerClasses']? $ContainerClasses = $args['containerClasses'] : $ContainerClasses = '';
+$ContainerClasses = '';
+isset($args['containerClasses'])? $ContainerClasses = $args['containerClasses'] : '';
 if(!isset($title) || $title == ''){
     $title = 'no hay title';
 }
