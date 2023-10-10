@@ -36,9 +36,12 @@
             ?>
         </div>
         <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'mr-auto']) ?> <!-- Icono cart -->
-        <div class="absolute right-0 top-full m-ext">
-            <?php get_search_form() ?>
-        </div>
+        <?php
+            if(!is_page('checkout' )): ?>
+            <div class="absolute right-0 top-full m-ext">
+                <?php get_search_form() ?>
+            </div>
+            <?php endif; ?>
     </header>
 
     <!-- ------------------------------------ Mobile ----------------->
@@ -53,6 +56,7 @@
             <iconify-icon class="flex ml-auto text-3xl text-green-dark" icon="heroicons-solid:menu-alt-3"></iconify-icon>
         </button>
     </header>
+    <!-- mobile menu -->
     <div id="mobile-menu" class="sticky right-0 z-40 flex-col w-full bg-white top-32 border-b-[1px] shadow-sm">
         <?php wp_nav_menu(array(
             'theme_location' => 'top_menu',
@@ -62,3 +66,4 @@
         ))
         ?>
     </div>
+

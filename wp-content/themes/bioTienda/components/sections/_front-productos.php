@@ -1,8 +1,14 @@
     <section id="productos" class="m-ext">
         <?php
-        $args = ['title' => 'Productos para tu bienestar'];
-        // ----------------------------- Title
-        echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
+        $args = [
+            'title' => 'Productos para tu bienestar',
+            'containerClasses' => 'lg:mt-12'
+        ];
+        $slug = 'biotienda';
+        ?>
+        <!-- // ----------------------------- Title -->
+        <?= get_template_part(COMPONENTS . '_title', 'large', $args) ?>
+        <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'iconos') ?>
 
         <div class="grid grid-cols-1 gap-5 lg:grid-cols-4">
             <?php
@@ -24,7 +30,7 @@
                 while ($productos->have_posts()) {
                     $productos->the_post();
             ?>
-                    <div class="relative my-5 lg:mx-auto lg:max-w-[300px]">
+                    <div class="relative my-5 lg:mx-8 lg:max-w-[300px]">
                         <?php
                         /**
                          * Hook: woocommerce_before_shop_loop_item.
@@ -80,7 +86,7 @@
             ?>
         </div>
         <div class="flex">
-            <a href="" class="inline-block py-3 mx-auto my-16 font-semibold text-white px-14 bg-green">Ver todo</a>
+            <a href="<?= home_url($slug) ?>" class="inline-block py-3 mx-auto my-16 font-semibold text-white px-14 bg-green">Ver todo</a>
         </div>
     </section>
     <!-- =========================================================== -->

@@ -1,13 +1,7 @@
 <?php get_header() ?>
 <!-- ----------------------------- Banner --------->
-<section class="relative">
-    <div class="absolute grid w-full h-full">
-        <h2 class="my-auto text-6xl font-bold text-center text-white drop-shadow-md">Asesorias</h2>
-    </div>
-    <picture class="">
-        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/asesorias.png" alt="">
-    </picture>
-</section>
+<?= get_template_part('components/_banner', 'section', ['title' => 'Asesorias']) ?>
+
 <!-- -------------------------- End Banner --------------------->
 <div class="m-ext">
     <section class="flex flex-col my-10">
@@ -18,7 +12,7 @@
     <!-- --------------------------- Tabs content -->
     <section>
         <!-- --------------- Title -->
-        <?= get_template_part(COMPONENTS . '_title', 'large', ['title'=> 'Descuida, nosotros te asesoramos']) ?>
+        <?= get_template_part(COMPONENTS . '_title', 'large', ['title' => 'Descuida, nosotros te asesoramos']) ?>
         <!-- tabs -->
         <div>
             <ul class="flex flex-col grid-cols-3 list-none lg:border-b-2 lg:grid border-green">
@@ -109,7 +103,8 @@
                         <h4 class="text-lg font-bold text-green-dark">Dirección</h4>
                         <p class="">Biotienda av 3 norte # 00 - 00 / Cali - Colombia
                             <br>
-                            Centro de exp. av 2 sur # 00 - 00 / Cali - Colombia</p>
+                            Centro de exp. av 2 sur # 00 - 00 / Cali - Colombia
+                        </p>
                     </li>
                     <li>
                         <h4 class="text-lg font-bold text-green-dark">Telefono / Whatsapp</h4>

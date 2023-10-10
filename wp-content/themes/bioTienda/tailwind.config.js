@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [ "./*.php", "./**/*.php", "./assets/js/custom.js", "./woocommerce/**/*.php"],
+  content: [
+    "./*.php",
+    "./**/*.php",
+    "./assets/js/custom.js",
+    "./woocommerce/**/*.php",
+  ],
   theme: {
     fontFamily: {
       raleway: ["Raleway", "sans-serif"],
@@ -22,9 +27,12 @@ module.exports = {
           dark: "#086175",
         },
         brown: {
-          100: "#92430C87",
+          100: "#754C28",
           200: "#8D501A",
         },
+      },
+      maxWidth: {
+        'bt': '1440px',
       },
     },
   },

@@ -8,6 +8,11 @@
     line-height: 1.75rem;
   }
 }
+@layer components {
+  .bt_meta_info span a {
+    @apply text-brown-100 font-bold hover:text-green;
+  }
+}
 /* ---------------------------- Uso en wordpress, al no estar diretamente en el theme no los reconoce el tailwind --- */
 .bt-row-section {
   @apply !gap-0 !grid !grid-cols-1 lg:!grid-cols-2 max-w-[1440px] m-auto;
@@ -57,10 +62,40 @@ figure.image_card_container img {
 }
 /* ---------------------- BreadCrumbs --------------------- */
 .woocommerce-breadcrumb {
-  @apply text-center font-semibold justify-center my-3 flex flex-row items-center;
+  @apply lg:fixed lg:w-[89%] lg:top-28 bg-white text-center z-30 lg:border-b-[1px] font-semibold justify-center py-3 flex flex-row items-center;
 }
 /* -------------------------------------------------- */
+/* ================== Single_product ========== */
+ form#commentform .stars {
+  @apply align-middle mb-4;
+ }
+ form#commentform .stars span {
+  @apply inline-flex;
+ }
+ form#commentform .stars a {
+  @apply py-1 px-2  mx-2 text-center leading-none font-semibold align-middle bg-yellow-500  rounded-full;
+ }
+ form#commentform .stars a.active {
+  @apply bg-green-dark text-yellow-500;
+ }
+ form#commentform .form-submit {
+  @apply flex;
+ }
+ form#commentform input {
+  @apply border border-brown-100 mb-2;
+ }
+ form#commentform .form-submit input#submit {
+  @apply bg-green-dark border-none text-white px-8 py-2 mx-auto;
+ }
 
+.swiper-thumbnails img {
+  @apply w-32;
+}
+.swiper-thumbnails .swiper-slide-thumb-active {
+  @apply border-2 border-green
+}
+
+/* -------------------------------------------------- */
 /* ------------------------- Carrito de compra ----------------------- */
 
 td.product-thumbnail a img {
@@ -69,6 +104,16 @@ td.product-thumbnail a img {
 .cart-collaterals::before {
   @apply !hidden;
 }
+/* -------------------------------------------------- */
+/* ------------------------- Carrito de compra ----------------------- */
+
+.woocommerce-notices-wrapper {
+  @apply mt-20;
+}
+
+
+
+/* -------------------------------------------------- */
 /* ------------------------- SideBar ----------------------- */
 #categories .cat-item {
   @apply text-lg text-gray-500 pb-3;
@@ -96,7 +141,7 @@ td.product-thumbnail a img {
     @apply border-2 lg:!border-b-0 border-green !text-green;
   }
   .m-ext {
-    @apply px-5 lg:px-20;
+    @apply px-4 lg:px-20;
   }
   /* =================== Header ======================== */
   .bt_nav .menu-item {
@@ -178,3 +223,4 @@ td.product-thumbnail a img {
 #menu-menu-footer-general > .menu-item > ul.sub-menu {
   @apply ml-3 mt-1;
 }
+

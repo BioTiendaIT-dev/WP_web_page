@@ -18,17 +18,13 @@
 
 defined('ABSPATH') || exit;
 
-get_header('shop'); ?>
-<section class="relative w-full">
-	<picture>
-		<img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/bannerShop.png" alt="Banner">
-	</picture>
+get_header('shop');
 
-	<?php
-	$args = ['title' => 'Productos para tu bienestar'];
-	// ----------------------------- Title
-	echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
-</section>
+echo get_template_part('components/_banner', 'section');
+
+$args = ['title' => 'Productos para tu bienestar'];
+// ----------------------------- Title
+echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
 <?php
 /**
  * Hook: woocommerce_before_main_content.
