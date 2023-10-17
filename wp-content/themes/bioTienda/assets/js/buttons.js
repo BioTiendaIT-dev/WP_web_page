@@ -1,10 +1,12 @@
 window.addEventListener("load", (ev) => {
+  const $ = jQuery;
   console.log("loaded from butoons");
 
   let showMenu = false;
   // ------------------------- Mobile menu burguer ----------------------- //
   document.querySelector("#mobile-burguer").addEventListener("click", (e) => {
-    let menu = document.querySelector("#mobile-menu");
+    // let menu = document.querySelector("#mobile-menu");
+    let menu = $("#mobile-menu");
 
     if (!showMenu) {
       menu.slideDown();
@@ -20,6 +22,12 @@ window.addEventListener("load", (ev) => {
   // ---------------------------------- Filter button mobile ------------ //
   try {
     let buton = document.querySelector("#filter-col-button");
+    console.log(buton);
+    console.log("-----------------------------------");
+    if (buton === null) {
+      buton = document.querySelector("#search_mobile.search-btn");
+      console.log(buton);
+    }
     let sideBarContent = document.querySelector("#side-bar-content");
     let hideBar = true;
     buton.addEventListener("click", (e) => {
@@ -28,6 +36,11 @@ window.addEventListener("load", (ev) => {
       sideBarContent.classList.toggle("-bottom-[63%]", !hideBar);
       hideBar = !hideBar;
     });
+  } catch (error) {
+    console.error(error);
+  }
+  // ---------------------------------------- SearchbuttonMobile
+  try {
   } catch (error) {
     console.error(error);
   }

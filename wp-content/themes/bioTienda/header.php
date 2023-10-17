@@ -72,3 +72,4 @@
         ))
         ?>
     </div>
+    <?= get_template_part(COMPONENTS. 'buttons/btn', 'searchMobile') ?>
