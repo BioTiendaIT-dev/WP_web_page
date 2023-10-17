@@ -4,45 +4,6 @@
     $(".bt-slider").slick();
   });
 
-  // ------------------------- Hover effect ----------------------- //
-  let subTiendaMenu = $("li.sub-tienda > ul.sub-menu");
-  let timeout;
-  let time = 300 // en ms
-
-  $(".sub-tienda").hover(
-    function () {
-      clearTimeout(timeout); // Limpiar cualquier temporizador existente
-      subTiendaMenu.addClass("!block"); // Agregar clase para mostrar el menú
-    },
-    function () {
-      timeout = setTimeout(() => {
-        subTiendaMenu.removeClass("!block"); // Quitar la clase para ocultar el menú después de un retraso
-      }, time); // Establecer el tiempo de retraso en milisegundos (300 ms en este caso)
-    }
-  );
-
-  // $(".sub-tienda").hover(
-  //   function () {
-  //     subTiendaMenu.addClass("!block");
-  //   },
-  //   function () {
-  //     subTiendaMenu.removeClass("!block");
-  //   }
-  // );
-
-  let showMenu = false;
-
-  // ---------------------------------- Filter button mobile ------------ //
-  let buton = $("#filter-col-button");
-  let sideBarContent = $("#side-bar-content");
-  let hideBar = true;
-  buton.click(function () {
-    sideBarContent.toggleClass("bottom-0", hideBar);
-    $("#side-bar-content h3").toggleClass("pt-10");
-    sideBarContent.toggleClass("-bottom-[63%]", !hideBar);
-    hideBar = !hideBar;
-  });
-
   // ------------------------- Asesorias tab ----------------------- //
   const tabs = document.querySelectorAll("[data-tab-target]");
   const tabContents = document.querySelectorAll("[data-tab-content]");
@@ -60,21 +21,6 @@
       tab.classList.add("active-tab");
       target.classList.add("active-content");
     });
-  });
-
-  // ------------------------- Mobile menu burguer ----------------------- //
-  $("#mobile-burguer").click(function () {
-    let menu = $("#mobile-menu");
-
-    if (!showMenu) {
-      menu.slideDown();
-      menu.addClass("!flex");
-    } else {
-      menu.slideUp("slow", function () {
-        menu.removeClass("!flex");
-      });
-    }
-    showMenu = !showMenu;
   });
 })(jQuery);
 

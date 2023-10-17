@@ -3,7 +3,7 @@ module.exports = {
   content: [
     "./*.php",
     "./**/*.php",
-    "./assets/js/custom.js",
+    "./assets/js/**/*.js",
     "./woocommerce/**/*.php",
   ],
   theme: {
