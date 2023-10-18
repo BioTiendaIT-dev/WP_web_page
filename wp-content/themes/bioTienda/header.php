@@ -38,7 +38,7 @@
                 ?>
             </div>
             <div class="flex flex-row ml-auto">
-                <?= get_template_part(COMPONENTS . 'icons/i', 'search', ['classes' => 'mr-8']) ?> <!-- Icono cart -->
+                <?= get_template_part(COMPONENTS . 'icons/i', 'search', ['classes' => 'mr-8', 'id' => 'desktop_search']) ?> <!-- Icono cart -->
                 <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'mr-4']) ?> <!-- Icono cart -->
             </div>
             <?php
