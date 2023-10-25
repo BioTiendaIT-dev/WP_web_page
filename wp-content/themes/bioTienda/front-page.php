@@ -8,10 +8,10 @@ const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
 </div>
 <!-- =========================================================== -->
-<main class="mx-auto max-w-bt">    
+<main class="mx-auto max-w-bt">
     <!-- =========================================================== Productos -->
     <?= get_template_part(TEMPLATE_FRONT_SECTIONS, 'productos') ?>
-    
+
     <!-- =========================================================== Minibanners -->
     <section id="minibanners" class="grid grid-cols-1 grid-rows-2 gap-5 lg:grid-cols-4 m-ext">
         <img class="w-full row-span-2 col-span-full lg:col-span-2" width="100%" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/bienestar.png" alt="">
@@ -44,4 +44,7 @@ const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
     </section>
 </main>
 
-<?php get_footer() ?>
+<?php
+do_action('woocommerce_sidebar');
+
+get_footer() ?>

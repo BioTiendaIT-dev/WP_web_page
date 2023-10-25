@@ -1,13 +1,12 @@
-window.addEventListener("load", (ev) => {
-  const $ = jQuery;
+window.addEventListener("DOMContentLoaded", (ev) => {
   console.log("loaded from butoons");
+  const $ = jQuery;
 
   let showMenu = false;
   // ------------------------- Mobile menu burguer ----------------------- //
+  let menu = $("#mobile-menu");
   document.querySelector("#mobile-burguer").addEventListener("click", (e) => {
     // let menu = document.querySelector("#mobile-menu");
-    let menu = $("#mobile-menu");
-
     if (!showMenu) {
       menu.slideDown();
       menu.addClass("!flex");
@@ -21,33 +20,39 @@ window.addEventListener("load", (ev) => {
 
   // ---------------------------------- Filter button mobile ------------ //
   try {
-    let buton = document.querySelector("#filter-col-button");
+    let buton = document.querySelector("#search_mobile.search-btn");
     let sideBarContent = document.querySelector("#side-bar-content");
     let hideBar = true;
+    const input = sideBarContent.querySelector("input#search");
     buton.addEventListener("click", (e) => {
       sideBarContent.classList.toggle("bottom-0", hideBar);
       document.querySelector("#side-bar-content h3").classList.toggle("pt-10");
-      sideBarContent.classList.toggle("-bottom-[63%]", !hideBar);
+      sideBarContent.classList.toggle("-bottom-[80%]", !hideBar);
       hideBar = !hideBar;
     });
   } catch (error) {
     console.error(error);
   }
   // ---------------------------------------- SearchbuttonMobile
-  try {
-  } catch (error) {
-    console.error(error);
-  }
+  const show = (input) => {
+    input.focus();
+  };
   const toggleSearchButton = (searchbar, classesToToggle) => {
     let searchBarClasses = searchbar.classList;
     const input = searchbar.querySelector("input#search");
     const animTime = 350;
     const changeState = new Promise((resolve) => {
+      console.log(classesToToggle);
+      if (classesToToggle == "") {
+        resolve("showing");
+      }
       if (searchBarClasses.contains("hidden")) {
         searchBarClasses.toggle(["hidden"]);
         resolve("showing");
       } else {
-        searchBarClasses.remove(...classesToToggle);
+        try {
+          searchBarClasses.remove(...classesToToggle);
+        } catch (error) {}
         setTimeout(() => {
           resolve("hidding");
           // console.log("desde la promesa");
@@ -58,8 +63,10 @@ window.addEventListener("load", (ev) => {
       switch (result) {
         case "showing":
           setTimeout(() => {
-            searchBarClasses.add(...classesToToggle);
-            input.focus();
+            show(input);
+            try {
+              searchBarClasses.add(...classesToToggle);
+            } catch (error) {}
           }, 10);
           break;
         case "hidding":
@@ -73,23 +80,29 @@ window.addEventListener("load", (ev) => {
   // --------------------------------- Searchbuton desktop and mobile
   const doSearchButton = () => {
     const btn = document.querySelector("#desktop_search.search-btn");
-    const btnMobile = document.querySelector("#search_mobile.search-btn");
-    const searchBarMobile = document.querySelector("#searchbar-mobile");
-    const searchbar = document.querySelector("#searchbar-conteiner");
+    let searchbar = document.querySelector("#searchbar-conteiner");
+    // const btnMobile = document.querySelector("#search_mobile.search-btn");
+    // const searchBarMobile = document.querySelector("#searchbar-mobile");
     let classes;
-
     btn.addEventListener("click", (e) => {
-      classes = ["!translate-y-24", "!opacity-100"];
+      if (document.querySelector("#side_col_categories") !== null) {
+        searchbar = document.querySelector(
+          "#seach_page_search_bar.searchbar_container"
+        );
+        classes = "";
+      } else {
+        classes = ["!translate-y-24", "!opacity-100"];
+      }
       toggleSearchButton(searchbar, classes);
     });
-    btnMobile.addEventListener("click", (e) => {
-      // console.log(searchBarMobile);
-      // classes = ["translate-y-0", "!opacity-100"];
-      classes = ["!opacity-100", "!-translate-y-8"];
-      toggleSearchButton(searchBarMobile, classes);
+    // btnMobile.addEventListener("click", (e) => {
+    //   // console.log(searchBarMobile);
+    //   // classes = ["translate-y-0", "!opacity-100"];
+    //   classes = ["!opacity-100", "!-translate-y-8"];
+    //   toggleSearchButton(searchBarMobile, classes);
 
-      // toggleSearchButton(searchBarMobile);
-    });
+    //   // toggleSearchButton(searchBarMobile);
+    // });
   };
 
   doSearchButton();
