@@ -84,8 +84,9 @@ window.addEventListener("DOMContentLoaded", (ev) => {
     // const btnMobile = document.querySelector("#search_mobile.search-btn");
     // const searchBarMobile = document.querySelector("#searchbar-mobile");
     let classes;
+    let sidebarCategories = document.querySelector("#side_col_categories");
     btn.addEventListener("click", (e) => {
-      if (document.querySelector("#side_col_categories") !== null) {
+      if (sidebarCategories !== null && !sidebarCategories.classList.contains('lg:hidden')) {
         searchbar = document.querySelector(
           "#seach_page_search_bar.searchbar_container"
         );

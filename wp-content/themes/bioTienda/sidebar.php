@@ -1,6 +1,8 @@
 <?php
 isset($args['classes']) ? $classes = $args['classes'] : $classes = '';
 $classes . 'col-span-1';
+
+is_front_page()? $classes = $classes.' lg:hidden' : '';
 ?>
 <?php
 if (!is_singular('product')) :
