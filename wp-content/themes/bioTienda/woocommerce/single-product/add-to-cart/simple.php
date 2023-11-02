@@ -36,7 +36,7 @@ if ($product->is_in_stock()) : ?>
 		<?php
 		do_action('woocommerce_before_add_to_cart_quantity');
 		?>
-		<div class="flex flex-row h-full mb-4 border-2 border-gray-200 lg:mb-0">
+		<div class="flex flex-row h-full mb-4 border-2 border-gray-200  lg:mb-0">
 			<button type="button" data-action="decrement" class="w-20 h-full py-2 text-gray-300 border-r-2 border-gray-200 cursor-pointer hover:text-gray-700 hover:bg-gray-100">
 				<span class="m-auto text-4xl font-normal">−</span>
 			</button>
@@ -59,7 +59,7 @@ if ($product->is_in_stock()) : ?>
 		do_action('woocommerce_after_add_to_cart_quantity');
 		?>
 
-		<button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="px-12 py-4 text-lg font-bold text-white uppercase lg:ml-5 single_add_to_cart_button button bg-green alt">Comprar</button>
+		<button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="px-12 py-4 text-lg font-bold text-white uppercase lg:ml-4 single_add_to_cart_button button bg-green alt">Comprar</button>
 
 		<?php do_action('woocommerce_after_add_to_cart_button'); ?>
 	</form>

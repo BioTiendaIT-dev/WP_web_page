@@ -37,7 +37,7 @@ if (!empty($product_tabs)) : ?>
 			foreach ($product_tabs as $key => $product_tab) :
 				if ($key !== 'description') :
 			?>
-					<li class="<?php echo esc_attr($key); ?>_tab px-7 first:ml-0 text-center items-center flex py-3 mx-2 border-[1px] uppercase border-gray-400" id="tab-title-<?php echo esc_attr($key); ?>" role="tab" aria-controls="tab-<?php echo esc_attr($key); ?>">
+					<li class="<?php echo esc_attr($key); ?>_tab px-7 rounded-t first:ml-0 text-center items-center flex py-3 mx-2 border-[1px] uppercase border-gray-400" id="tab-title-<?php echo esc_attr($key); ?>" role="tab" aria-controls="tab-<?php echo esc_attr($key); ?>">
 						<a href="#tab-<?php echo esc_attr($key); ?>" class="text-base font-normal text-gray-400">
 							<?php echo wp_kses_post(apply_filters('woocommerce_product_' . $key . '_tab_title', $product_tab['title'], $key)); ?>
 						</a>
@@ -48,7 +48,7 @@ if (!empty($product_tabs)) : ?>
 		</ul>
 		<?php foreach ($product_tabs as $key => $product_tab) :
 			if ($key !== 'description') : ?>
-				<div class="mt-5 woocommerce-Tabs-panel woocommerce-Tabs-panel--<?php echo esc_attr($key); ?> panel entry-content wc-tab" id="tab-<?php echo esc_attr($key); ?>" role="tabpanel" aria-labelledby="tab-title-<?php echo esc_attr($key); ?>">
+				<div class="mt-5 pl-4 pb-4 border-l border-b rounded-bl woocommerce-Tabs-panel woocommerce-Tabs-panel--<?php echo esc_attr($key); ?> panel entry-content wc-tab" id="tab-<?php echo esc_attr($key); ?>" role="tabpanel" aria-labelledby="tab-title-<?php echo esc_attr($key); ?>">
 					<?php
 					if (isset($product_tab['callback'])) {
 						call_user_func($product_tab['callback'], $key, $product_tab);

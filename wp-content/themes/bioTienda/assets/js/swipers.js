@@ -5,6 +5,7 @@ const thumbSwiper = new Swiper(".swiper-thumbnails", {
 // init Swiper:
 const swiper = new Swiper(".swiper", {
   loop: true,
+  autoHeight: true,
   // If we need pagination
   pagination: {
     el: ".swiper-pagination",
