@@ -22,19 +22,13 @@ if (!defined('ABSPATH')) {
 
 global $product;
 ?>
-<div class="flex flex-row py-3 text-center bt_meta_info product_meta lg:text-start">
+<div class="flex-row inline-block w-full py-3 mt-2 text-center lg:inline-flex bt_meta_info product_meta lg:text-start">
 
 	<?php do_action('woocommerce_product_meta_start'); ?>
 
-	<?php if (wc_product_sku_enabled() && ($product->get_sku() || $product->is_type('variable'))) : ?>
+	<?php echo wc_get_product_category_list($product->get_id(), ', ', '<span class="mr-2 posted_in">' . _n('', '', count($product->get_category_ids()), 'woocommerce') . ' ', '</span>'); ?>
 
-		<span class="sku_wrapper"><?php esc_html_e('SKU:', 'woocommerce'); ?> <span class="sku"><?php echo ($sku = $product->get_sku()) ? $sku : esc_html__('N/A', 'woocommerce'); ?></span></span>
-
-	<?php endif; ?>
-
-	<?php echo wc_get_product_category_list($product->get_id(), ', ', '<span class="mr-10 posted_in">' . _n('Categoría:', 'Categorías:', count($product->get_category_ids()), 'woocommerce') . ' ', '</span>'); ?>
-
-	<?php echo wc_get_product_tag_list($product->get_id(), ', ', '<span class="tagged_as">' . _n('Tag:', 'Tags:', count($product->get_tag_ids()), 'woocommerce') . ' ', '</span>'); ?>
+	<?php echo wc_get_product_tag_list($product->get_id(), ', ', '<span class="tagged_as">' . _n('>', '>', count($product->get_tag_ids()), 'woocommerce') . ' ', '</span>'); ?>
 
 	<?php do_action('woocommerce_product_meta_end'); ?>
 </div>

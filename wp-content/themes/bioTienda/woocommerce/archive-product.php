@@ -40,7 +40,7 @@ do_action('woocommerce_before_main_content');
 if (woocommerce_product_loop()) {
 ?>
 
-	<nav class="flex flex-col items-center mb-5 bt-options lg:items-start">
+	<nav class="flex flex-col items-center justify-center mb-4 bt-options">
 		<?php
 		/**
 		 * Hook: woocommerce_before_shop_loop.
@@ -52,6 +52,10 @@ if (woocommerce_product_loop()) {
 		do_action('woocommerce_before_shop_loop');
 		?>
 	</nav>
+	<?php
+	echo woocommerce_pagination();
+		// do_action('woocommerce_pagination');
+	?>
 	<div class="grid grid-cols-1 gap-5 lg:grid-cols-5">
 	<?php
 	woocommerce_product_loop_start();

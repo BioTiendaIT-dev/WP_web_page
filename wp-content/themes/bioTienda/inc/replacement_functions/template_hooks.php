@@ -17,4 +17,17 @@ add_action('woocommerce_shop_loop_item_title', 'bioTienda_template_loop_product_
 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
 add_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 4);
 
+// ------------------------- sidebar orden por defecto
+remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
+// add_action('woocommerce_sidebar', 'woocommerce_catalog_ordering', 30);
+remove_action('woocommerce_before_shop_loop', 'woocommerce_output_all_notices', 10);
+add_action('woocommerce_before_shop_loop', 'bt_woocommerce_output_all_notices', 10);
+// ---------------------- Separación del boton de compra en single product
+remove_action('woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20);
+add_action('woocommerce_after_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20);
+// -------- prices in single product
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_price');
+add_action('woocommerce_single_product_summary', 'woocommerce_template_single_price', 21);
+
+
 ?>

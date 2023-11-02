@@ -12,6 +12,7 @@ if (!is_singular('product')) :
             <div id="seach_page_search_bar" class="hidden pb-8 transition-all duration-75 border-b-2 lg:block searchbar_container border-green">
                 <?= get_search_form() ?>
             </div>
+            <?= woocommerce_catalog_ordering() ?>
             <h3 class="pt-10 mt-4 text-2xl font-bold transition-all duration-75 mb-7 lg:mt-0 text-green-dark ">Categorias:</h3>
             <ul id="categories" class="mb-2">
                 <?php

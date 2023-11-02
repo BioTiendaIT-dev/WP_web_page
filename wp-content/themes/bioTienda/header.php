@@ -10,7 +10,7 @@
 
 <body class="relative">
     <?php wp_body_open() ?>
-    <div class="sticky -top-12 lg:top-8 z-[51] inline-flex w-full m-ext bg-green">
+    <div class="sticky -top-12 lg:-top-0 z-[60] inline-flex w-full m-ext bg-green">
         <div class="flex flex-col justify-between w-full py-1 font-semibold text-white max-w-bt lg:flex-row">
             <p class="mx-auto my-2 italic leading-4 text-center align-middle lg:leading-normal lg:my-0">Envios nacionales gratis por compras superiores a $150.000</p>
             <div class="flex flex-row justify-center">
@@ -23,7 +23,7 @@
         </div>
     </div>
     <!-- ------------------------------------ Desktop ---------------->
-    <div class="w-full hidden pt-12 fixed z-50 lg:mt-8 lg:inline-flex m-ext top-0 bg-white border-b-[1px]">
+    <div class="w-full hidden pt-10 fixed z-[52] lg:left-0 lg:inline-flex m-ext top-0 bg-white border-b-[1px]">
         <header class="relative w-full pb-2 mx-auto lg:inline-flex max-w-bt">
             <a href="<?php echo esc_url(home_url()) ?>">
                 <img class="inline-block w-32 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
@@ -57,7 +57,8 @@
         </a>
         <a class="flex my-auto ml-auto" href="https://wa.me/<?= WHATS ?>">
             <iconify-icon class="my-auto text-3xl text-white" icon="logos:whatsapp-icon"></iconify-icon></a>
-        <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'mx-5']) ?> <!-- Icono cart -->
+        <?= get_template_part(COMPONENTS . 'icons/i', 'search', ['classes' => 'ml-4', 'id' => 'mobile_single_search']) ?> <!-- Icono cart -->
+        <?= get_template_part(COMPONENTS . 'icons/i', 'cart', ['classes' => 'mx-4']) ?> <!-- Icono cart -->
         <button id="mobile-burguer" class="my-auto">
             <iconify-icon class="flex ml-auto text-3xl text-green-dark" icon="heroicons-solid:menu-alt-3"></iconify-icon>
         </button>

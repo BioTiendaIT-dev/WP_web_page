@@ -1,11 +1,11 @@
 const thumbSwiper = new Swiper(".swiper-thumbnails", {
-  loop:true,
+  slidesPerView: 5,
   spaceBetween: 16, 
 });
 // init Swiper:
 const swiper = new Swiper(".swiper", {
   loop: true,
-  zoom: true,
+  autoHeight: true,
   // If we need pagination
   pagination: {
     el: ".swiper-pagination",

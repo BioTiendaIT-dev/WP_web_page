@@ -10,8 +10,33 @@
 }
 @layer components {
   .bt_meta_info span a {
-    @apply text-brown-100 font-bold hover:text-green;
+    @apply text-brown-100 font-bold hover:text-green ml-1;
   }
+  /* /-----------------------------------paginacion general de producto */
+  nav.bt-pagination {
+    @apply my-4
+  }
+  nav.bt-pagination li {
+    @apply text-center leading-none h-fit text-lg;
+  }
+  nav.bt-pagination li a, nav.bt-pagination li span {
+    @apply align-middle;
+  }
+  nav.bt-pagination li a {
+    @apply hover:text-green-dark hover:font-bold;
+  }
+  nav.bt-pagination li > .current {
+    @apply text-white px-3 pt-1 pb-2 rounded-full bg-green-dark font-bold;
+  }
+  /*  --------------------------------- form para ordenar */
+  form.woocommerce-ordering{
+    @apply w-full;
+  }
+  form.woocommerce-ordering select {
+    @apply w-full p-2 pl-4 rounded-b-md text-center;
+  }
+
+  /*  --------------------------------- form para ordenar */
 }
 /* ---------------------------- Uso en wordpress, al no estar diretamente en el theme no los reconoce el tailwind --- */
 .bt-row-section {
@@ -39,7 +64,7 @@
 
 /* ------------------------------------------ Loops and cards */
 figure.image_card_container img {
-   @apply mx-auto;
+  @apply mx-auto;
 }
 /* ---------------- contact page */
 .bt-contact-p {
@@ -62,37 +87,37 @@ figure.image_card_container img {
 }
 /* ---------------------- BreadCrumbs --------------------- */
 .woocommerce-breadcrumb {
-  @apply lg:fixed lg:w-[89%] lg:top-28 bg-white text-center z-30 lg:border-b-[1px] font-semibold justify-center py-3 flex flex-row items-center;
+  @apply lg:fixed lg:w-[89%] bg-white text-center lg:top-36 z-[51] rounded-b-md border-x border-b lg:border-[1px] font-semibold justify-center py-2 flex flex-row items-center;
 }
 /* -------------------------------------------------- */
 /* ================== Single_product ========== */
- form#commentform .stars {
+form#commentform .stars {
   @apply align-middle mb-4;
- }
- form#commentform .stars span {
+}
+form#commentform .stars span {
   @apply inline-flex;
- }
- form#commentform .stars a {
+}
+form#commentform .stars a {
   @apply py-1 px-2  mx-2 text-center leading-none font-semibold align-middle bg-yellow-500  rounded-full;
- }
- form#commentform .stars a.active {
+}
+form#commentform .stars a.active {
   @apply bg-green-dark text-yellow-500;
- }
- form#commentform .form-submit {
+}
+form#commentform .form-submit {
   @apply flex;
- }
- form#commentform input {
-  @apply border border-brown-100 mb-2;
- }
- form#commentform .form-submit input#submit {
+}
+form#commentform input {
+  @apply border rounded border-brown-100 mb-2;
+}
+form#commentform .form-submit input#submit {
   @apply bg-green-dark border-none text-white px-8 py-2 mx-auto;
- }
+}
 
 .swiper-thumbnails img {
   @apply w-32;
 }
 .swiper-thumbnails .swiper-slide-thumb-active {
-  @apply border-2 border-green
+  @apply border-2 border-green;
 }
 
 /* -------------------------------------------------- */
@@ -108,11 +133,13 @@ td.product-thumbnail a img {
 /* ------------------------- Carrito de compra ----------------------- */
 
 .woocommerce-notices-wrapper {
-  @apply mt-20;
+  
 }
 
-
-
+/* --------------------------- Product tabs table ------------------------------------ */
+th.woocommerce-product-attributes-item__label{
+  @apply text-left;
+}
 /* -------------------------------------------------- */
 /* ------------------------- SideBar ----------------------- */
 #categories .cat-item {
@@ -223,4 +250,3 @@ td.product-thumbnail a img {
 #menu-menu-footer-general > .menu-item > ul.sub-menu {
   @apply ml-3 mt-1;
 }
-

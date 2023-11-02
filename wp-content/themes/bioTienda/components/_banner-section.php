@@ -19,7 +19,7 @@ $marginTop = match($postID){
     <div class="absolute grid w-full h-full">
         <h2 class="my-auto text-6xl font-bold text-center text-white drop-shadow-md"><?= $title ?></h2>
     </div>
-    <figure class="h-[25vh] overflow-hidden mb-8">
+    <figure class="h-[35vh] overflow-hidden mb-8">
         <picture>
             <img src="<?= $urlImage ?>" alt="Banner">
         </picture>

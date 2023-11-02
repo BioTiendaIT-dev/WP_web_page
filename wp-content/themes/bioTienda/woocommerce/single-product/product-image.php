@@ -74,7 +74,7 @@ $wrapper_classes   = apply_filters(
 			<div class="swiper-button-next"></div>
 		</div>
 		<p class="mb-4 text-center">Doble tap o click para hacer Zoom</p>
-		<div class="swiper-thumbnails">
+		<div class="overflow-hidden swiper-thumbnails">
 			<div class="swiper-wrapper">
 				<?php
 				//echo apply_filters('woocommerce_single_product_image_thumbnail_html', $html, $post_thumbnail_id); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped

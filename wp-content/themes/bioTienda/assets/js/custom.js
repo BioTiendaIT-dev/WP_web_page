@@ -2,6 +2,14 @@
   // ------------------------- Slider ----------------------- //
   $(document).ready(function () {
     $(".bt-slider").slick();
+
+    //------- Pagina de producto
+    $('.single_variation').on('show_variation', function(event, variation) {
+      const pricesVariable = document.getElementById("variable_price");
+      const classes = pricesVariable.classList;
+      pricesVariable.classList.add("opacity-40",'!text-lg');
+      pricesVariable.classList.remove("text-2xl");
+    })
   });
 
   // ------------------------- Asesorias tab ----------------------- //
