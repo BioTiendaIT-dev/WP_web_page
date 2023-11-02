@@ -9,6 +9,7 @@
     "tailwindcss": "^3.1.8"
   },
   "dependencies": {
-    "@iconify/tools": "^2.0.18"
+    "@iconify/tools": "^2.0.18",
+    "drift-zoom": "^1.5.1"
   }
 }

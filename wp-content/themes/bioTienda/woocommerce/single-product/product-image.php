@@ -83,4 +83,8 @@ $wrapper_classes   = apply_filters(
 			</div>
 		</div>
 	</figure>
+	<div>
+		<img id="driftExample" src="https://assets.imgix.net/dog.png?w=400" data-zoom="https://assets.imgix.net/dog.png?w=1200">
+		<p id="driftP">This is a simple description of the dog picture.</p>
+	</div>
 </div>
