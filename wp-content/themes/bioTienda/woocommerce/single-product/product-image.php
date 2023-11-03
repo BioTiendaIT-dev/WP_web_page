@@ -73,7 +73,7 @@ $wrapper_classes   = apply_filters(
 			<div class="swiper-button-prev"></div>
 			<div class="swiper-button-next"></div>
 		</div>
-		<p class="mb-4 text-center">Doble tap o click para hacer Zoom</p>
+		<p class="mb-4 text-center lg:hidden">Mantén tu dedo en la imagen para activar la lupa, luego desliza tu dedo para explorar con mayor detalle</p>
 		<div class="overflow-hidden swiper-thumbnails">
 			<div class="swiper-wrapper">
 				<?php
