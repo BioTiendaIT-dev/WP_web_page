@@ -19,7 +19,7 @@
         </picture>
         <h3 class="mb-6 text-lg font-semibold uppercase">Asesorías</h3>
         <p class="mb-5 text-base font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi esse deleniti harum blanditiis nihil.</p>
-        <a class="inline-block px-10 py-2 m-auto mt-2 lg:mt-0 bg-green" href="">LEER MAS</a>
+        <a class="inline-block px-10 py-2 m-auto mt-2 transition-all lg:mt-0 bg-green hover:bg-green-dark hover:text-green hover:border border-green" href="/asesorias">LEER MAS</a>
     </div>
     <div class="relative col-span-1 bg-[url(<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/profesionales.png)]">
         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/profesionales.png" alt="">

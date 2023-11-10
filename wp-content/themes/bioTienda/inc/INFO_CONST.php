@@ -19,7 +19,7 @@ define('INSTAGRAM_URL', 'https://instagram.com/biotienda_al_natural');
 
 
 // ----- Servicio al cliente
-define('DIRECCION', 'Carrera 24 No 8 37 Galeria Alameda - Local 8 37 entrada 7 zona de guadua Cali - Colombia');
+define('DIRECCION', 'Carrera 24 # 8-37 Galeria Alameda - Local 8 37 entrada 7 zona de guadua Cali - Colombia');
 define('HORARIO_DIAS', 'Lun - Dom');
 define('HORARIO_HORAS', '8:00 am - 4:00 pm');
 

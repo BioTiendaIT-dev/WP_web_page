@@ -2,7 +2,7 @@
 const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
 ?>
 <!-- =========================================================== Slider/Banner -->
-<div class="mt-20 overflow-y-hidden h-[35vh] bt-slider">
+<div class="mt-20 overflow-y-hidden h-[35vh] bt-slider max-w-bt mx-auto">
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
     <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>

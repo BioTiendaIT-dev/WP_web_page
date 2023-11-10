@@ -5,20 +5,19 @@
         </li>
         <li class="mt-8">
             <h4 class="text-base font-bold">Dirección</h4>
-            <p>Biotienda av 3 norte # 00 - 00 / Cali - Colombia</p>
+            <p class="max-w-[260px]"><?= DIRECCION ?></p>
         </li>
         <li class="mt-5">
             <h4 class="text-base font-bold">Télefono / Whatsapp</h4>
-            <a href="https://wa.me/573172575491?text=Hola!">+57 317 2575491</a>
+            <a href="https://wa.me/<?= WHATS ?>?text=Hola!"><?= WHATS_IMPRIMIBLE ?></a>
         </li>
         <li class="mt-8">
             <h4 class="text-base font-bold">Email</h4>
-            <a href="mailto:biotienda.alnatural@gmail.com?subject=Hola!&body=Estoy interezado en">biotienda.alnatural@gmail.com</a>
+            <a href="mailto:=<?= EMAIL ?>?subject=Hola!&body=Estoy interezado en"><?= EMAIL ?></a>
         </li>
         <li class="mt-8">
             <h4 class="text-base font-bold">Horarios de atención</h4>
-            <p>Biotienda Lun - Sab 8:00 a.m. - 4:00 p.m.</p>
-            <p>Centro de exp. Lun - Sab 8:00 a.m. - 4:00 p.m.</p>
+            <p><?= HORARIO_DIAS ?> <?= HORARIO_HORAS ?></p>
         </li>
     </ul>
     <ul class="mt-12 lg:ml-5 lg:mt-0">

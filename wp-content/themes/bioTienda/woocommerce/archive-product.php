@@ -21,8 +21,11 @@ defined('ABSPATH') || exit;
 get_header('shop');
 
 echo get_template_part('components/_banner', 'section');
-
-$args = ['title' => 'Productos para tu bienestar'];
+if(is_tax('product_cat')){
+	$args = ['title' => single_cat_title('',false)];
+} else {
+	$args = ['title' => 'Productos para tu bienestar'];
+}
 // ----------------------------- Title
 echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
 <?php
