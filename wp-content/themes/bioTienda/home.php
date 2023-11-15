@@ -3,6 +3,7 @@
 // $args = ['post_type' => 'post'];
 global $more;
 ?>
+<?= get_template_part('components/_banner', 'section', ['title' => 'Blog']) ?>
 <div class="grid grid-cols-4 gap-5 m-ext">
     <section class="py-20 col-span-full lg:col-span-3">
         <?php
@@ -24,11 +25,11 @@ global $more;
                             ?>
                         </h2>
                         <article class="pr-0 lg:pr-20">
-                            
+
                             <?php
                             $more = 0;
                             the_content('- Leer más') ?>
-                            </article>
+                        </article>
                     </a>
                 </div>
         <?php

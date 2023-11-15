@@ -74,10 +74,10 @@ figure.image_card_container img {
   @apply text-center my-20;
 }
 .bt-contact-info {
-  @apply my-20 !flex-col lg:!flex-row !justify-around !items-start;
+  @apply mt-20 mb-4 !flex-col lg:!flex-row !justify-center !items-start;
 }
 .bt-contact-info div {
-  @apply my-3 first:mt-0 last:mb-0 lg:my-0;
+  @apply my-3 first:mt-0 last:mb-0 lg:my-0 mx-4;
 }
 .bt-contact-info h2 {
   @apply font-bold text-green-dark text-xl;
@@ -90,7 +90,7 @@ figure.image_card_container img {
 }
 /* ---------------------- BreadCrumbs --------------------- */
 .woocommerce-breadcrumb {
-  @apply lg:fixed lg:w-[89%] bg-white text-center lg:top-36 z-[51] rounded-b-md border-x border-b lg:border-[1px] font-semibold justify-center py-2 flex flex-row items-center;
+  @apply lg:fixed lg:w-[89%] right-[6%] bg-white text-center lg:top-36 z-[51] rounded-b-md border-x border-b lg:border-[1px] font-semibold justify-center py-2 flex flex-row items-center;
 }
 /* -------------------------------------------------- */
 /* ================== Single_product ========== */

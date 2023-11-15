@@ -42,6 +42,6 @@ function bt_get_gallery_image_html($attachment_id, $main_image = false)
         )
     );
 
-    return '<picture data-thumb="' . esc_url($thumbnail_src[0]) . '" data-thumb-alt="' . esc_attr($alt_text) . '" class="woocommerce-product-gallery__image drift-img">' . $image . '</picture>';
+    return '<picture data-thumb="' . esc_url($thumbnail_src[0]) . '" data-thumb-alt="' . esc_attr($alt_text) . '" class="woocommerce-product-gallery__image">' . $image . '</picture>';
 }
 ?>

@@ -9,7 +9,7 @@ $urlImage = match ($postID) { //El match se esta haciendo en base al id de la we
     'contacto' => '',
     default => IMGS_DIR . 'bannerShop.png'
 };
-$marginTop = match($postID){
+$marginTop = match ($postID) {
     48 => 'mt-16',
     default => 'mt-32'
 }
@@ -19,7 +19,7 @@ $marginTop = match($postID){
     <div class="absolute grid w-full h-full">
         <h2 class="my-auto text-6xl font-bold text-center text-white drop-shadow-md"><?= $title ?></h2>
     </div>
-    <figure class="h-[35vh] overflow-hidden mb-8">
+    <figure class="h-[35vh] w-full overflow-hidden max-w-bt mx-auto mb-8">
         <picture>
             <img src="<?= $urlImage ?>" alt="Banner">
         </picture>

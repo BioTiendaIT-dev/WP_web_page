@@ -11,18 +11,22 @@ function disableSwiper() {
   if (screenWidth <= mobileWidth) swiper.disable();
 }
 function enableSwiper() {
-// console.log('activando swiper');
-if (screenWidth <= mobileWidth) swiper.enable();
+  // console.log('activando swiper');
+  if (screenWidth <= mobileWidth) swiper.enable();
 }
 const driftImgs = document.querySelectorAll(".drift-img");
 driftImgs.forEach((img) => {
-const dr = new Drift(img, {
+  img.addEventListener("touchStart", (e) => {
+    e.preventDefault();
+  });
+  const dr = new Drift(img, {
     inlinePane: true,
     inlineOffsetX: 0,
-    inlineOffsetY: -100,
+    inlineOffsetY: -120,
     onShow: disableSwiper,
     onHide: enableSwiper,
-    touchDelay: 450,
+    hoverDelay: 1,
+    touchDelay: 500,
   });
   console.log(dr);
 });
