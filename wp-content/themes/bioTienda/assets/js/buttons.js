@@ -106,5 +106,29 @@ window.addEventListener("DOMContentLoaded", (ev) => {
     // });
   };
 
+  // boton de preguntas frecuentes
+  function btnCardFaqs(){
+    try {
+      const cardContainer = document.getElementById("faq_card_container");
+      const cards = cardContainer.querySelectorAll(".card_container");
+      console.log(cardContainer);
+      cards.forEach(card => {
+        const btn = card.querySelector(".card_btn");
+        const answer = card.querySelector(".faq_answer");
+        const iconBtn = btn.querySelector("iconify-icon");
+
+        btn.addEventListener('click', (e)=> {
+          answer.classList.toggle("hidden");
+          answer.classList.contains("hidden")
+            ? iconBtn.setAttribute("icon", "typcn:plus")
+            : iconBtn.setAttribute("icon", "typcn:minus");
+        });
+      });
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  btnCardFaqs();
   doSearchButton();
 });

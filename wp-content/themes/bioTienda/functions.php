@@ -1,8 +1,9 @@
 <?php
 require dirname(__FILE__) . '/vendor/autoload.php';
+require dirname(__FILE__) . '/inc/INFO_CONST.php';
 require dirname(__FILE__) . '/inc/replacement_functions/load.php';
 require dirname(__FILE__) . '/inc/tabs.php';
-require dirname(__FILE__) . '/inc/INFO_CONST.php';
+require dirname(__FILE__) . '/inc/post_types.php';
 
 function init_template()
 {
