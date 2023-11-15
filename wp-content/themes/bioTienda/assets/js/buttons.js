@@ -111,7 +111,6 @@ window.addEventListener("DOMContentLoaded", (ev) => {
     try {
       const cardContainer = document.getElementById("faq_card_container");
       const cards = cardContainer.querySelectorAll(".card_container");
-      console.log(cardContainer);
       cards.forEach(card => {
         const btn = card.querySelector(".card_btn");
         const answer = card.querySelector(".faq_answer");

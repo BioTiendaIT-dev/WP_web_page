@@ -10,11 +10,6 @@ License URI:  https://www.gnu.org/licenses/gpl-3.0.html
 Tags:         e-commerce
 */
 
-.bt-slider .slick-prev {
-  z-index: 100;
-  left: 0 !important;
-}
-
 footer {
   background-image: url('./assets/img/bg-footer.png');
   background-position: center;
