@@ -38,10 +38,9 @@ function init_template()
     wp_enqueue_script('bt_buttons', get_stylesheet_directory_uri() . '/assets/js/buttons.js', '', '1.0', 'all');
     wp_enqueue_script('hoverInteractions', get_stylesheet_directory_uri() . '/assets/js/hoverInteractions.js', '', '1.8.1', 'all');
     wp_enqueue_script('custom', get_stylesheet_directory_uri() . '/assets/js/custom.js', [], '1.8.1', 'all');
-    if(is_singular('product')){
-        wp_enqueue_script('bt_zoom_galleries_js', get_stylesheet_directory_uri() . '/assets/js/zoomFeature.js', 'bt_swiper', '1.8.1', 'all');
-        wp_enqueue_script('galleries', get_stylesheet_directory_uri() . '/assets/js/galleries.js', 'bt_swiper', '1.8.1', 'all');
-    }
+    wp_enqueue_script('bt_zoom_galleries_js', get_stylesheet_directory_uri() . '/assets/js/zoomFeature.js', 'bt_swiper', '1.8.1', 'all');
+    wp_enqueue_script('galleries', get_stylesheet_directory_uri() . '/assets/js/galleries.js', 'bt_swiper', '1.8.1', 'all');
+    
 }
 add_action('after_setup_theme', 'init_template');
 function bioT_add_sidebar()
