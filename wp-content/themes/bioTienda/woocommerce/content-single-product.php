@@ -30,7 +30,7 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'grid grid-cols-1 lg:grid-cols-2 gap-5 lg:mt-40', $product ); ?>>
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'grid grid-cols-1 lg:grid-cols-2 gap-5 lg:mt-36', $product ); ?>>
 
 	<?php
 	/**
