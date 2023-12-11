@@ -3,14 +3,15 @@
   let subTiendaMenu = $("li.sub-tienda > ul.sub-menu");
   let timeout;
   let time = 300; // en ms
+  let classes = ["lg:!block"];
   $(".sub-tienda").hover(
     function () {
       clearTimeout(timeout); // Limpiar cualquier temporizador existente
-      subTiendaMenu.addClass("!block"); // Agregar clase para mostrar el menú
+      subTiendaMenu.addClass(...classes); // Agregar clase para mostrar el menú
     },
     function () {
       timeout = setTimeout(() => {
-        subTiendaMenu.removeClass("!block"); // Quitar la clase para ocultar el menú después de un retraso
+        subTiendaMenu.removeClass(...classes); // Quitar la clase para ocultar el menú después de un retraso
       }, time); // Establecer el tiempo de retraso en milisegundos (300 ms en este caso)
     }
   );
