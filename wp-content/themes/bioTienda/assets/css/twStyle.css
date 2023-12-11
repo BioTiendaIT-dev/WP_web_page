@@ -14,12 +14,13 @@
   }
   /* /-----------------------------------paginacion general de producto */
   nav.bt-pagination {
-    @apply my-4
+    @apply my-4;
   }
   nav.bt-pagination li {
     @apply text-center leading-none h-fit text-lg;
   }
-  nav.bt-pagination li a, nav.bt-pagination li span {
+  nav.bt-pagination li a,
+  nav.bt-pagination li span {
     @apply align-middle;
   }
   nav.bt-pagination li a {
@@ -29,7 +30,7 @@
     @apply text-white px-3 pt-1 pb-2 rounded-full bg-green-dark font-bold;
   }
   /*  --------------------------------- form para ordenar */
-  form.woocommerce-ordering{
+  form.woocommerce-ordering {
     @apply w-full;
   }
   form.woocommerce-ordering select {
@@ -136,11 +137,10 @@ td.product-thumbnail a img {
 /* ------------------------- Carrito de compra ----------------------- */
 
 .woocommerce-notices-wrapper {
-  
 }
 
 /* --------------------------- Product tabs table ------------------------------------ */
-th.woocommerce-product-attributes-item__label{
+th.woocommerce-product-attributes-item__label {
   @apply text-left;
 }
 /* -------------------------------------------------- */
@@ -176,6 +176,12 @@ th.woocommerce-product-attributes-item__label{
   /* =================== Header ======================== */
   .bt_nav .menu-item {
     @apply text-right lg:text-left px-7 text-xl lg:text-base;
+  }
+  .bt_nav .sub-tienda > a {
+    @apply transition-all active:underline active:text-green;
+  }
+  .bt_nav .sub-tienda > .sub-menu {
+    @apply hidden lg:block;
   }
   .bt_nav .sub-tienda > .sub-menu {
     @apply bg-green-dark hidden absolute top-full text-white font-semibold pt-6 pb-5 px-0 capitalize z-10 lg:w-80;
