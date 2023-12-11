@@ -2,10 +2,20 @@
 const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
 ?>
 <!-- =========================================================== Slider/Banner -->
-<div class="mt-20 overflow-y-hidden h-[35vh] bt-slider">
-    <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
-    <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
-    <figure><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
+<div class="mt-20 relative overflow-y-hidden h-[35vh] max-w-bt mx-auto bt-slider">
+    <div class="swiper-wrapper">
+        <figure class="swiper-slide"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
+        <figure class="swiper-slide"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
+        <figure class="swiper-slide"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/slider/slider-1.png" alt="" /></figure>
+    </div>
+    <div class="absolute z-10 flex flex-row justify-center -bottom-1 front-swiper-pagination"></div>
+    <!-- If we need navigation buttons -->
+    <div class="absolute top-0 z-10 flex h-full pl-4 front-swiper-button-prev">
+        <iconify-icon class="my-auto text-3xl text-green-dark" icon="ep:arrow-left-bold"></iconify-icon>
+    </div>
+    <div class="absolute top-0 right-0 z-10 flex h-full pr-4 front-swiper-button-next">
+        <iconify-icon class="my-auto text-3xl text-green-dark" icon="ep:arrow-right-bold"></iconify-icon>
+    </div>
 </div>
 <!-- =========================================================== -->
 <main class="mx-auto max-w-bt">

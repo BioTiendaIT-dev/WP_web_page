@@ -1,8 +1,6 @@
 (function ($) {
   // ------------------------- Slider ----------------------- //
   $(document).ready(function () {
-    $(".bt-slider").slick();
-
     //------- Pagina de producto
     $('.single_variation').on('show_variation', function(event, variation) {
       const pricesVariable = document.getElementById("variable_price");

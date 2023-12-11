@@ -14,12 +14,13 @@
   }
   /* /-----------------------------------paginacion general de producto */
   nav.bt-pagination {
-    @apply my-4
+    @apply my-4;
   }
   nav.bt-pagination li {
     @apply text-center leading-none h-fit text-lg;
   }
-  nav.bt-pagination li a, nav.bt-pagination li span {
+  nav.bt-pagination li a,
+  nav.bt-pagination li span {
     @apply align-middle;
   }
   nav.bt-pagination li a {
@@ -29,16 +30,19 @@
     @apply text-white px-3 pt-1 pb-2 rounded-full bg-green-dark font-bold;
   }
   /*  --------------------------------- form para ordenar */
-  form.woocommerce-ordering{
+  form.woocommerce-ordering {
     @apply w-full;
   }
   form.woocommerce-ordering select {
     @apply w-full p-2 pl-4 rounded-b-md text-center;
   }
-
   /*  --------------------------------- form para ordenar */
+  /*  --------------------------------- Zoom arreglos */
 }
 /* ---------------------------- Uso en wordpress, al no estar diretamente en el theme no los reconoce el tailwind --- */
+.drift-zoom-pane {
+  @apply z-10 !w-40 !h-40 rounded-full !opacity-100 bg-[rgba(0,0,0,0)];
+}
 .bt-row-section {
   @apply !gap-0 !grid !grid-cols-1 lg:!grid-cols-2 max-w-[1440px] m-auto;
   align-items: unset !important;
@@ -71,10 +75,10 @@ figure.image_card_container img {
   @apply text-center my-20;
 }
 .bt-contact-info {
-  @apply my-20 !flex-col lg:!flex-row !justify-around !items-start;
+  @apply mt-20 mb-4 !flex-col lg:!flex-row !justify-center !items-start;
 }
 .bt-contact-info div {
-  @apply my-3 first:mt-0 last:mb-0 lg:my-0;
+  @apply my-3 first:mt-0 last:mb-0 lg:my-0 mx-4;
 }
 .bt-contact-info h2 {
   @apply font-bold text-green-dark text-xl;
@@ -87,7 +91,7 @@ figure.image_card_container img {
 }
 /* ---------------------- BreadCrumbs --------------------- */
 .woocommerce-breadcrumb {
-  @apply lg:fixed lg:w-[89%] bg-white text-center lg:top-36 z-[51] rounded-b-md border-x border-b lg:border-[1px] font-semibold justify-center py-2 flex flex-row items-center;
+  @apply lg:fixed lg:w-[89%] right-[6%] bg-white text-center lg:top-36 z-[51] rounded-b-md border-x border-b lg:border-[1px] font-semibold justify-center py-2 flex flex-row items-center;
 }
 /* -------------------------------------------------- */
 /* ================== Single_product ========== */
@@ -133,11 +137,10 @@ td.product-thumbnail a img {
 /* ------------------------- Carrito de compra ----------------------- */
 
 .woocommerce-notices-wrapper {
-  
 }
 
 /* --------------------------- Product tabs table ------------------------------------ */
-th.woocommerce-product-attributes-item__label{
+th.woocommerce-product-attributes-item__label {
   @apply text-left;
 }
 /* -------------------------------------------------- */
@@ -173,6 +176,12 @@ th.woocommerce-product-attributes-item__label{
   /* =================== Header ======================== */
   .bt_nav .menu-item {
     @apply text-right lg:text-left px-7 text-xl lg:text-base;
+  }
+  .bt_nav .sub-tienda > a {
+    @apply transition-all active:underline active:text-green;
+  }
+  .bt_nav .sub-tienda > .sub-menu {
+    @apply hidden lg:block;
   }
   .bt_nav .sub-tienda > .sub-menu {
     @apply bg-green-dark hidden absolute top-full text-white font-semibold pt-6 pb-5 px-0 capitalize z-10 lg:w-80;

@@ -33,7 +33,8 @@ function bt_get_gallery_image_html($attachment_id, $main_image = false)
                 'data-large_image'        => esc_url($full_src[0]),
                 'data-large_image_width'  => esc_attr($full_src[1]),
                 'data-large_image_height' => esc_attr($full_src[2]),
-                'class'                   => esc_attr($main_image ? 'wp-post-image' : ''),
+                'class'                   => esc_attr($main_image ? 'wp-post-image drift-img' : ''),
+                'data-zoom'               => esc_url($full_src[0])
             ),
             $attachment_id,
             $image_size,

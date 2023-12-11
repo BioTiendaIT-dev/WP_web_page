@@ -7,7 +7,6 @@
     <section class="flex flex-col my-10">
         <p class="px-10 py-10 text-center lg:px-52">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit sunt sapiente ipsum alias quod pariatur fuga illum omnis exercitationem aspernatur et laudantium temporibus autem sit, neque cupiditate officiis? Reprehenderit, mollitia.</p>
         <!-- <video src="">Your browser does not support the video tag.</video> -->
-        <iframe class="max-w-full m-auto" width="560" height="315" src="https://www.youtube.com/embed/i3KynX8WUc8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </section>
     <!-- --------------------------- Tabs content -->
     <section>

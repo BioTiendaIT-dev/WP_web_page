@@ -19,3 +19,15 @@ const swiper = new Swiper(".swiper", {
     swiper: thumbSwiper,
   }
 });
+
+const frontSwiper = new Swiper(".bt-slider", {
+  pagination: {
+    el: ".front-swiper-pagination",
+  },
+  // Navigation arrows
+  navigation: {
+    nextEl: ".front-swiper-button-next",
+    prevEl: ".front-swiper-button-prev",
+  },
+});
+console.log(frontSwiper);
