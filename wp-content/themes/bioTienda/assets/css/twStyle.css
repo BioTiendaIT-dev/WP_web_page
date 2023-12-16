@@ -93,6 +93,10 @@ figure.image_card_container img {
 .woocommerce-breadcrumb {
   @apply lg:fixed lg:w-[89%] right-[6%] bg-white text-center lg:top-36 z-[51] rounded-b-md border-x border-b lg:border-[1px] font-semibold justify-center py-2 flex flex-row items-center;
 }
+/* ------------------------- woocommerce-notices-wrapper ----------------------- */
+.woocommerce-notices-wrapper {
+  @apply absolute top-0 z-20 w-[88%] flex justify-center transition-all;
+}
 /* -------------------------------------------------- */
 /* ================== Single_product ========== */
 form#commentform .stars {
@@ -132,11 +136,6 @@ td.product-thumbnail a img {
 }
 .cart-collaterals::before {
   @apply !hidden;
-}
-/* -------------------------------------------------- */
-/* ------------------------- Carrito de compra ----------------------- */
-
-.woocommerce-notices-wrapper {
 }
 
 /* --------------------------- Product tabs table ------------------------------------ */

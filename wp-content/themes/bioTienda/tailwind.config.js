@@ -34,6 +34,9 @@ module.exports = {
       maxWidth: {
         'bt': '1440px',
       },
+      screens: {
+        '2xl': '1441px'
+      }
     },
   },
   plugins: [],

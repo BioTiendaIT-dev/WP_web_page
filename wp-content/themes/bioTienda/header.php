@@ -22,9 +22,15 @@
             </div>
         </div>
     </div>
+
     <!-- ------------------------------------ Desktop ---------------->
     <div class="w-full hidden pt-10 fixed z-[52] lg:left-0 lg:inline-flex m-ext top-0 bg-white border-b-[1px]">
         <header class="relative w-full pb-2 mx-auto lg:inline-flex max-w-bt">
+            <div class="absolute right-0 pr-2 mt-4 top-full">
+                <a target="_blank" href="https://wa.me/<?= WHATS ?>">
+                    <iconify-icon class="text-5xl drop-shadow-md" icon="logos:whatsapp-icon"></iconify-icon>
+                </a>
+            </div>
             <a href="<?php echo esc_url(home_url()) ?>">
                 <img class="inline-block w-32 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
             </a>

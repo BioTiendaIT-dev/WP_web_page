@@ -17,7 +17,7 @@
             <ul class="flex flex-col grid-cols-3 list-none lg:border-b-2 lg:grid border-green">
                 <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark active-tab px-9" data-tab-target="#tab-content-1">Medicina funcional</li>
                 <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-2">Alimentación funcional</li>
-                <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-3">9 Años de experiencia</li>
+                <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-3">+10 Años de experiencia</li>
             </ul>
             <div class="my-10 tabs-content">
                 <div data-tab-content id="tab-content-1" class="hidden grid-cols-1 gap-5 active-content lg:grid-cols-2">
@@ -50,7 +50,7 @@
                         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/9-exp.png" alt="">
                     </picture>
                     <article>
-                        <h3 class="pb-5 text-xl font-bold text-green-dark">9 años de experiencia</h3>
+                        <h3 class="pb-5 text-xl font-bold text-green-dark">+10 años de experiencia</h3>
                         <p>Hemos logrado a través de estos 9 años formar un equipo de trabajo con nuestros, (más que proveedores), aliados emprendedores para presentarles en esta categoría una selección de alimentos que tengan las características basadas en nuestros principios:
                             Elaborados con ingredientes naturales, de producción limpia, que sean colombianos, elaborados con prácticas amigables con el medio ambiente y que promuevan la producción local, que sean naturales y saludables.
                         </p>
@@ -58,12 +58,10 @@
                 </div>
             </div>
         </div>
-
-
     </section>
-    <!-- ------------------------------ Red profesionales ----------------->
 </div>
-<section class="bg-green">
+<!-- ------------------------------ Red profesionales ----------------->
+<!-- <section class="bg-green">
     <div class="py-10 text-center text-white m-ext">
         <div class="pb-10">
             <h2 class="pb-5 text-3xl italic font-bold">Conoce nuestra red de profesionales</h2>
@@ -88,7 +86,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- ------------------------------- Form for asesorias ---------------------->
 <section class="m-ext">
     <div class="">
