@@ -23,9 +23,15 @@
                         'terms' => ['alimentos'],
                     ),
                 ),
+                'meta_query'     => array(
+                    array(
+                        'key'     => '_thumbnail_id',
+                        'compare' => 'EXISTS', // Solo productos con imagen adjunta
+                    ),
+                ),
             );
+            
             $productos = new WP_Query($args);
-
             if ($productos->have_posts()) {
                 while ($productos->have_posts()) {
                     $productos->the_post();
