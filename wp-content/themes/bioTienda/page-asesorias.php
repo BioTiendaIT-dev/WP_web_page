@@ -14,10 +14,10 @@
         <?= get_template_part(COMPONENTS . '_title', 'large', ['title' => 'Descuida, nosotros te asesoramos']) ?>
         <!-- tabs -->
         <div>
-            <ul class="flex flex-col grid-cols-3 list-none lg:border-b-2 lg:grid border-green">
+            <ul class="flex flex-col grid-cols-2 list-none lg:border-b-2 lg:grid border-green">
                 <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark active-tab px-9" data-tab-target="#tab-content-1">Medicina funcional</li>
                 <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-2">Alimentación funcional</li>
-                <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-3">+10 Años de experiencia</li>
+                <!-- <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-3">+10 Años de experiencia</li> -->
             </ul>
             <div class="my-10 tabs-content">
                 <div data-tab-content id="tab-content-1" class="hidden grid-cols-1 gap-5 active-content lg:grid-cols-2">
@@ -45,7 +45,7 @@
                         </p>
                     </article>
                 </div>
-                <div data-tab-content id="tab-content-3" class="hidden grid-cols-1 gap-5 lg:grid-cols-2">
+                <!-- <div data-tab-content id="tab-content-3" class="hidden grid-cols-1 gap-5 lg:grid-cols-2">
                     <picture>
                         <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/9-exp.png" alt="">
                     </picture>
@@ -55,7 +55,7 @@
                             Elaborados con ingredientes naturales, de producción limpia, que sean colombianos, elaborados con prácticas amigables con el medio ambiente y que promuevan la producción local, que sean naturales y saludables.
                         </p>
                     </article>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
