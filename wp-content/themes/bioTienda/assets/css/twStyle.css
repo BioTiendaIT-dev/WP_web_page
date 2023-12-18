@@ -258,3 +258,16 @@ th.woocommerce-product-attributes-item__label {
 #menu-menu-footer-general > .menu-item > ul.sub-menu {
   @apply ml-3 mt-1;
 }
+
+/* ------------------------------ Temporada page */
+#page_temp .wp-block-button {
+  @apply pl-16;
+}
+#page_temp .wp-block-group {
+  @apply my-4;
+}
+/* #page_temp .wp-block-group ul {}
+#page_temp .wp-block-group ul {} */
+#page_temp .wp-block-group ul, #page_temp .wp-block-group p {
+@apply list-disc list-inside p-4;
+}
