@@ -1,13 +1,24 @@
 (function ($) {
-  // ------------------------- Slider ----------------------- //
   $(document).ready(function () {
+  // ------------------------- Slider ----------------------- //
     //------- Pagina de producto
     $('.single_variation').on('show_variation', function(event, variation) {
       const pricesVariable = document.getElementById("variable_price");
       const classes = pricesVariable.classList;
       pricesVariable.classList.add("opacity-40",'!text-lg');
       pricesVariable.classList.remove("text-2xl");
-    })
+    });
+
+    //Agregamos el gorrito de navidad o icono necesario al menu de temporada y titulos de la pagina
+    var temporadaMenu = document.querySelectorAll('.temporada-class');
+    const tempIcon = '<iconify-icon class="pl-1 text-4xl" icon="emojione:christmas-tree"></iconify-icon>';
+    temporadaMenu.forEach((li) => {
+      const aTag = li.querySelector('a');
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = tempIcon;
+    aTag != undefined? aTag.appendChild(tempDiv.firstChild) : li.appendChild(tempDiv.firstChild); // Agregar el primer hijo del div temporal (que es el icono)
+});
+
   });
 
   // ------------------------- Asesorias tab ----------------------- //
