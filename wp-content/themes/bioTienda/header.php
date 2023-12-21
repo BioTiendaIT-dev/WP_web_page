@@ -38,7 +38,7 @@
                 <?php wp_nav_menu(array(
                     'theme_location' => 'top_menu',
                     'container' => 'nav',
-                    'menu_class' => 'bt_nav list-none inline-flex flex-row font-semibold uppercase text-base text-green-dark',
+                    'menu_class' => 'bt_nav list-none inline-flex flex-row font-semibold uppercase text-base align-text-bottom text-green-dark',
                     'container_class' => 'inline-block mx-auto',
                 ))
                 ?>

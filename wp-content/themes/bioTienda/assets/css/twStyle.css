@@ -174,7 +174,7 @@ th.woocommerce-product-attributes-item__label {
   }
   /* =================== Header ======================== */
   .bt_nav .menu-item {
-    @apply text-right lg:text-left px-7 text-xl lg:text-base;
+    @apply text-right lg:text-left px-7 text-xl lg:text-base mt-auto;
   }
   .bt_nav .sub-tienda > a {
     @apply transition-all active:underline active:text-green;
@@ -261,10 +261,10 @@ th.woocommerce-product-attributes-item__label {
 
 /* ------------------------------ Temporada page */
 #page_temp .wp-block-button {
-  @apply pl-16;
+  @apply mx-auto lg:mx-0 lg:pl-16;
 }
 #page_temp .wp-block-group {
-  @apply my-4;
+  @apply m-4;
 }
 /* #page_temp .wp-block-group ul {}
 #page_temp .wp-block-group ul {} */
