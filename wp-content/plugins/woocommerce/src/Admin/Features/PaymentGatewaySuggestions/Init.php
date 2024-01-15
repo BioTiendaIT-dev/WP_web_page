@@ -7,7 +7,6 @@ namespace Automattic\WooCommerce\Admin\Features\PaymentGatewaySuggestions;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\RemoteInboxNotifications\SpecRunner;
 use Automattic\WooCommerce\Admin\Features\PaymentGatewaySuggestions\DefaultPaymentGateways;
 use Automattic\WooCommerce\Admin\Features\PaymentGatewaySuggestions\PaymentGatewaysController;
 
@@ -25,16 +24,21 @@ class Init {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'change_locale', array( __CLASS__, 'delete_specs_transient' ) );
 		PaymentGatewaysController::init();
+		add_action( 'update_option_woocommerce_default_country', array( $this, 'delete_specs_transient' ) );
 	}
 
 	/**
 	 * Go through the specs and run them.
+	 *
+	 * @param array|null $specs payment suggestion spec array.
+	 * @return array
 	 */
-	public static function get_suggestions() {
+	public static function get_suggestions( array $specs = null ) {
 		$suggestions = array();
-		$specs       = self::get_specs();
+		if ( null === $specs ) {
+			$specs = self::get_specs();
+		}
 
 		foreach ( $specs as $spec ) {
 			$suggestion    = EvaluateSuggestion::evaluate( $spec );

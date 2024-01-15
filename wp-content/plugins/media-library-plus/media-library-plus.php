@@ -3,7 +3,7 @@
 Plugin Name: Media Library Folders
 Plugin URI: http://maxgalleria.com
 Description: Gives you the ability to adds folders and move files in the WordPress Media Library.
-Version: 8.0.4
+Version: 8.1.8
 Author: Max Foundry
 Author URI: http://maxfoundry.com
 
@@ -11,7 +11,7 @@ Copyright 2015-2022 Max Foundry, LLC (http://maxfoundry.com)
 */
 
 if(defined('MAXGALLERIA_MEDIA_LIBRARY_VERSION_KEY')) {
-   wp_die(__('You must deactivate Media Library Folders before activating Media Library Folders Pro', 'maxgalleria-media-library'));
+   wp_die(esc_html__('You must deactivate Media Library Folders before activating Media Library Folders Pro', 'maxgalleria-media-library'));
 }
 
 include_once(__DIR__ . '/includes/attachments.php');
@@ -29,6 +29,16 @@ class MGMediaLibraryFolders {
   public $disable_scaling;
   public $current_user_can_upload;
   public $current_user_manage_options;
+  public $sync_skip_webp;
+  public $bda;
+  public $protected_content_dir;
+  public $bda_user_role;
+  public $bda_folder_id;
+  public $bdp_autoprotect;
+  public $capability;
+  public $display_fe_protected_images;
+  public $prevent_right_click;
+  
 
   public function __construct() {
     
@@ -43,6 +53,14 @@ class MGMediaLibraryFolders {
     $this->uploads_folder_name = get_option(MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_NAME, "uploads");      
     $this->uploads_folder_name_length = strlen($this->uploads_folder_name);
     $this->uploads_folder_ID = get_option(MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_ID, 0);
+    $this->sync_skip_webp = get_option(MLFP_SKIP_WEBP_FILES, 'off');    
+    
+    $this->bda = get_option(MLFP_BDA, 'off');    
+    $this->protected_content_dir = $this->upload_dir['basedir'] . '/' . MLFP_PROTECTED_DIRECTORY;
+    $this->bda_user_role = get_option(MLFP_BDA_USER_ROLE, 'admins');
+    $this->bdp_autoprotect = get_option(MLFP_BDA_AUTO_PROTECT, 'off');
+    $this->display_fe_protected_images = get_option(MLFP_BDA_DISPLAY_FE_IMAGES, 'off');
+    $this->prevent_right_click = get_option(MLFP_BDA_PREVENT_RIGHT_CLICK, 'off');    
         
     //convert theme mods into an array
     $theme_mods = get_theme_mods();
@@ -57,7 +75,7 @@ class MGMediaLibraryFolders {
   
 	public function set_global_constants() {	
 		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_KEY', 'maxgalleria_media_library_version');
-		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.0.4');
+		define('MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM', '8.1.8');
 		define('MAXGALLERIA_MEDIA_LIBRARY_IGNORE_NOTICE', 'maxgalleria_media_library_ignore_notice');
 		define('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
     if(!defined('MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR'))
@@ -113,6 +131,48 @@ class MGMediaLibraryFolders {
 		  define("MAXGALLERIA_MLF_SORT_TYPE", "mlf_sort_order_type");		
 		if(!defined('MAXGALLERIA_POSTMETA_INDEX'))    
       define('MAXGALLERIA_POSTMETA_INDEX', 'mgmlp-index');
+		if(!defined('MLFP_SKIP_WEBP_FILES'))    
+      define("MLFP_SKIP_WEBP_FILES", "mlfp-skip-webp-files");
+    
+		if(!defined('MLFP_BDA'))    
+      define("MLFP_BDA", "mlfp-bda");
+		if(!defined('MLFP_PROTECTED_DIR'))    
+      define("MLFP_PROTECTED_DIR", "mlfp-protected-content-dir");
+		if(!defined('MLFP_BDA_DIR_LISTING'))    
+      define("MLFP_BDA_DIR_LISTING", "mlfp-bda-dir-listing");
+		if(!defined('MLFP_BDA_HOTLINKING'))    
+      define("MLFP_BDA_HOTLINKING", "mlfp-bda-hotlinking");
+		if(!defined('MLFP_PROTECTED_DIRECTORY'))    
+      define("MLFP_PROTECTED_DIRECTORY", "protected-content");
+		if(!defined('MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE'))    
+      define("MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE", "mgmlp_block_access"); 
+		if(!defined('MLFP_BDA_USER_ROLE'))    
+      define("MLFP_BDA_USER_ROLE","mlfp-bda-user-role");
+		if(!defined('MLFP_BDA_MEDIA'))    
+      define("MLFP_BDA_MEDIA", "mlfp-bda-media");
+		if(!defined('MLFP_BDA_DOWNLOAD_PAGE'))    
+      define("MLFP_BDA_DOWNLOAD_PAGE", "mlfp-download-page");
+		if(!defined('MLFP_BDA_AUTO_PROTECT'))    
+      define("MLFP_BDA_AUTO_PROTECT", "mlfp-bda-auto-protect");    
+    
+		if(!defined('MLFP_BDA_DISPLAY_FE_IMAGES'))    
+      define("MLFP_BDA_DISPLAY_FE_IMAGES", "mlfp-bda-display-fe-images");
+		if(!defined('MLFP_BDA_PREVENT_RIGHT_CLICK'))    
+      define("MLFP_BDA_PREVENT_RIGHT_CLICK", "mlfp-bda-prevent-right-click");
+		if(!defined('MLFP_BDA_AUTO_PROTECT_DISABLED'))    
+      define("MLFP_BDA_AUTO_PROTECT_DISABLED", "mlfp-bda-auto-protect-disabled");
+		if(!defined('MLFP_NO_ACCESS_PAGE_ID'))    
+      define("MLFP_NO_ACCESS_PAGE_ID", "mlfp-no-access-page-id");
+		if(!defined('MLFP_NO_ACCESS_PAGE_TITLE'))    
+      define("MLFP_NO_ACCESS_PAGE_TITLE", "mlfp-no-access-page-id-title");
+		if(!defined('BLOCKED_IPS_TABLE'))    
+      define("BLOCKED_IPS_TABLE","mgmlp_blocked_ips");
+    
+    if(!defined('MGMLP_FILTER_SET_UPDATE_TABLE_LINKS'))
+      define('MGMLP_FILTER_SET_UPDATE_TABLE_LINKS', 'mlfp_filter_update_tables_links');
+    if(!defined('MGMLP_FILTER_SET_UPDATE_TABLE_FIELDS'))
+      define('MGMLP_FILTER_SET_UPDATE_TABLE_FIELDS', 'mlfp_filter_update_tables_fields');
+    
 
 		// Bring in all the actions and filters
 		require_once 'includes/maxgalleria-media-library-hooks.php';    
@@ -168,7 +228,10 @@ class MGMediaLibraryFolders {
     add_action( 'new_folder_check', array($this,'admin_check_for_new_folders'));
     
     add_action('wp_ajax_nopriv_mlf_check_for_new_folders', array($this, 'mlf_check_for_new_folders'));
-    add_action('wp_ajax_mlf_check_for_new_folders', array($this, 'mlf_check_for_new_folders'));		    
+    add_action('wp_ajax_mlf_check_for_new_folders', array($this, 'mlf_check_for_new_folders'));
+
+    add_action('wp_ajax_nopriv_mlfp_display_bda_info', array($this, 'mlfp_display_bda_info'));
+    add_action('wp_ajax_mlfp_display_bda_info', array($this, 'mlfp_display_bda_info'));    
     
     //add_action( 'add_attachment', array($this,'add_attachment_to_folder'));
     
@@ -240,9 +303,248 @@ class MGMediaLibraryFolders {
     add_action('wp_ajax_mlfp_process_mc_data', array($this, 'mlfp_process_mc_data'));				
     
     add_action('wp_ajax_nopriv_mlf_change_sort_type', array($this, 'mlf_change_sort_type'));
-    add_action('wp_ajax_mlf_change_sort_type', array($this, 'mlf_change_sort_type'));				
-				  
+    add_action('wp_ajax_mlf_change_sort_type', array($this, 'mlf_change_sort_type'));
+    
+    add_action('wp_ajax_nopriv_mlfp_process_bdp', array($this, 'mlfp_process_bdp'));
+    add_action('wp_ajax_mlfp_process_bdp', array($this, 'mlfp_process_bdp'));
+    
+    add_action('wp_ajax_nopriv_mlfp_save_noaccess_page', array($this, 'mlfp_save_noaccess_page'));
+    add_action('wp_ajax_mlfp_save_noaccess_page', array($this, 'mlfp_save_noaccess_page'));
+    
+    add_action('wp_ajax_nopriv_mlfp_bdp_report', array($this, 'mlfp_bdp_report'));
+    add_action('wp_ajax_mlfp_bdp_report', array($this, 'mlfp_bdp_report'));
+    
+    add_action('wp_ajax_nopriv_mlfp_block_new_ip', array($this, 'mlfp_block_new_ip'));
+    add_action('wp_ajax_mlfp_block_new_ip', array($this, 'mlfp_block_new_ip'));    
+    
+    add_action('wp_ajax_nopriv_mlfp_unblock_ips', array($this, 'mlfp_unblock_ips'));
+    add_action('wp_ajax_mlfp_unblock_ips', array($this, 'mlfp_unblock_ips'));    
+    
+    add_action('wp_ajax_nopriv_mlfp_get_block_ips', array($this, 'mlfp_get_block_ips'));
+    add_action('wp_ajax_mlfp_get_block_ips', array($this, 'mlfp_get_block_ips'));    
+    
+    add_action('wp_ajax_nopriv_mlfp_load_image', array($this, 'mlfp_load_image'));
+    add_action('wp_ajax_mlfp_load_image', array($this, 'mlfp_load_image'));
+    
+    add_action('wp_ajax_nopriv_mlfp_load_fe_image', array($this, 'mlfp_load_fe_image'));
+    add_action('wp_ajax_mlfp_load_fe_image', array($this, 'mlfp_load_fe_image'));
+    
+    add_action('wp_ajax_nopriv_mlfp_toggle_file_access', array($this, 'mlfp_toggle_file_access'));
+    add_action('wp_ajax_mlfp_toggle_file_access', array($this, 'mlfp_toggle_file_access'));    
+    
+    add_action('wp_ajax_nopriv_mlfp_update_bda_record', array($this, 'mlfp_update_bda_record'));
+    add_action('wp_ajax_mlfp_update_bda_record', array($this, 'mlfp_update_bda_record'));    
+    
+    add_action('wp_ajax_nopriv_mflp_enable_auto_protect', array($this, 'mflp_enable_auto_protect'));
+    add_action('wp_ajax_mflp_enable_auto_protect', array($this, 'mflp_enable_auto_protect'));				
+    
+    add_action('wp_enqueue_media', array($this, 'mlfp_enqueue_media'), 99, 1);  
+    add_filter('wp_prepare_attachment_for_js', array($this, 'bda_prepare_attachment_for_js'), 10, 3);
+    add_action('admin_enqueue_scripts', array($this, 'bda_add_class_to_media_library_grid_elements'));
+    
+    //add_action( 'admin_menu', array($this, 'hide_mlf_menu_items'));
+        
+    $this->bda = get_option(MLFP_BDA, 'off');    
+    if($this->bda == 'on') {
+      add_action('wp_enqueue_scripts', array($this, 'bda_enqueue_scripts'));
+      add_action('wp_footer', array($this, 'mlfp_display_protected_file'));
+      add_action('admin_enqueue_scripts', array($this, 'bda_load_protected_file'));      
+    }
+           				  
   } 
+  
+//  public function hide_mlf_menu_items() {
+//    // Remove the submenu item
+//    remove_submenu_page('mlf-folders8', 'search-library');
+//  }
+    
+  public function bda_enqueue_scripts() {
+    wp_enqueue_script('jquery');
+  }
+  
+  // loades javascript file for displaying a protected image on the image edit page
+  public function bda_load_protected_file() {  
+    global $pagenow;
+    
+    if($pagenow == 'post.php') {
+      
+      wp_enqueue_script('jquery');
+      
+      wp_register_script('mlfp-lpf', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/mlfp-lpf.js', array('jquery'), '', true );
+
+      wp_localize_script('mlfp-lpf', 'lpf_ajax', 
+        array('ajaxurl' => admin_url( 'admin-ajax.php'),
+              'nonce'=> wp_create_nonce(MAXGALLERIA_MEDIA_LIBRARY_NONCE))
+        ); 
+
+      wp_enqueue_script('mlfp-lpf');
+                  
+    }
+  }
+    
+  public function mlfp_display_protected_file() {    
+    ?>
+    <script type="text/javascript">
+      
+    jQuery(document).ready(function(){
+      
+      var display_protected_images = '<?php echo esc_js($this->display_fe_protected_images) ?>';
+      var prevent_right_click = '<?php echo esc_js($this->prevent_right_click) ?>';
+      
+      if(prevent_right_click == 'on') {
+        jQuery("img").mousedown(function(e){
+          e.preventDefault();
+        });
+
+        // this will disable right-click on all images
+        jQuery("body").on("contextmenu", function(e){
+          return false;
+        });
+      }
+            
+      if(display_protected_images == 'on') {
+        //console.log("display_protected_images on");
+        var image_index = 1;
+        jQuery("img").each(function () {
+          var element = jQuery(this);
+          var src = jQuery(this).attr('src');
+          var clone = jQuery(this).clone();
+          console.log(image_index,src);
+
+          jQuery.ajax({
+            url:src,
+            type:'GET',
+            async: false,
+            error:function(response){
+              console.log('error src', src);            
+              var image_id = 'image' + image_index;
+              jQuery(clone).attr('id', image_id);
+              jQuery(clone).attr('src', '');
+              jQuery(clone).removeAttr('srcset'); 
+              // replace with new element in order to loadd the image
+              jQuery(element).replaceWith(clone);
+
+              jQuery.ajax({
+                type: "POST",
+                async: false,
+                data: { action: "mlfp_load_image", src: src, nonce: '<?php echo wp_create_nonce(MAXGALLERIA_MEDIA_LIBRARY_NONCE) ?>' },
+                url: '<?php echo admin_url('admin-ajax.php') ?>',
+                success: function (data) {
+                  if(data.length > 0)
+                    jQuery('#'+image_id).attr("src", data);
+                },
+                error: function (err){
+                  alert(err.responseText);
+                }
+              });
+            }
+          });
+          image_index++;
+        });  
+      }      
+    });      
+    </script>
+    <?php    
+  }
+  
+  /* manually loads an image file */
+  public function mlfp_load_image () {
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    
+		if ((isset($_POST['src'])) && (strlen(trim($_POST['src'])) > 0))
+      $download_file = trim(sanitize_url($_POST['src']));
+    else
+      $download_file = "";
+            
+    if(!empty($download_file)) {      
+      $file_path = $this->get_absolute_path($download_file);
+      if(file_exists($file_path)) {
+        $type = pathinfo($file_path, PATHINFO_EXTENSION);
+        $data = file_get_contents($file_path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);     
+        echo $base64;          
+      }
+    }
+    
+    die();
+  }
+  
+  /* manually load image on the front end of the site */
+  public function mlfp_load_fe_image () {
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    
+		if ((isset($_POST['src'])) && (strlen(trim($_POST['src'])) > 0))
+      $download_file = trim(sanitize_url($_POST['src']));
+    else
+      $download_file = "";
+    
+		if ((isset($_POST['image_id'])) && (strlen(trim($_POST['image_id'])) > 0))
+      $image_id = intval(trim(sanitize_url($_POST['image_id'])));
+    else
+      $image_id = "";  
+                        
+    if(!empty($download_file)) {
+      $file_path = $this->get_absolute_path($download_file);
+      if(file_exists($file_path)) {
+        $type = pathinfo($file_path, PATHINFO_EXTENSION);
+        $data = file_get_contents($file_path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);     
+        echo $base64;          
+      }
+    } else {
+      echo null;
+    }
+    
+    die();
+  }
+    
+  public function mlfp_remove_protected_folders() {
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    } 
+    
+    $this->remove_protected_folders();
+        
+    die();
+  }
+  
+  public function remove_protected_folders() {
+    
+    $folders = array();
+            
+    $protected_content_path = $this->get_absolute_path($this->protected_content_dir);    
+        
+    $iterator = new RecursiveDirectoryIterator($protected_content_path);
+
+    $iterator->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
+
+    $directories = new ParentIterator($iterator);
+
+    // check for empty folders
+    foreach (new RecursiveIteratorIterator($directories, RecursiveIteratorIterator::SELF_FIRST) as $dir) {      
+      $folder_path = $dir->getPathname();
+      $sub_iterator = new FilesystemIterator($folder_path);
+      if(!$sub_iterator->valid()) {
+        $folders[] = $folder_path;
+      }
+    }
+    
+    // delete the empty folders
+    foreach($folders as $folder) {
+      if(file_exists($folder)) {
+        rmdir($folder);
+      }
+    }          
+  }
+    
+  
   
  	public function set_activation_hooks() {
 		register_activation_hook(__FILE__, array($this, 'do_activation'));
@@ -261,6 +563,8 @@ class MGMediaLibraryFolders {
     update_option(MAXGALLERIA_MEDIA_LIBRARY_VERSION_KEY, MAXGALLERIA_MEDIA_LIBRARY_VERSION_NUM);
     //update_option('uploads_use_yearmonth_folders', 1);    
     $this->add_folder_table();
+    $this->add_block_access_table();
+    $this->add_blocked_ips_table();    
 		//update_option('mgmlp_database_checked', 'off', true);
 		
     if ( 'impossible_default_value_1234' === get_option( MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_NAME, 'impossible_default_value_1234' ) ) {
@@ -275,10 +579,15 @@ class MGMediaLibraryFolders {
       $review_date = date('Y-m-d', strtotime("+1 days"));        
       update_user_meta( $current_user_id, MAXGALLERIA_MLP_FEATURE_NOTICE, $review_date );      
     }
+    
+    if($this->bda == 'on') {
+      add_filter('mod_rewrite_rules', array( $this, 'mlfp_update_htaccess'));
+      flush_rewrite_rules();
+    }      
 				
     if ( ! wp_next_scheduled( 'new_folder_check' ) )
       wp_schedule_event( time(), 'daily', 'new_folder_check' );
-    
+            
 	}
   
   public function deactivate() {
@@ -343,6 +652,12 @@ class MGMediaLibraryFolders {
           wp_register_script('jstree', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/jstree/jstree.min.js', array('jquery'));
           wp_enqueue_script('jstree');
         }
+        
+        if($_REQUEST['page'] == 'mlf-settings8' && isset($_REQUEST['tab']) && $_REQUEST['tab'] == 'access') {
+          wp_enqueue_script('jquery');
+          wp_enqueue_style('select2', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/select2/css/select2.min.css', false, null );      
+          wp_enqueue_script('select2', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/select2/js/select2.min.js');    		        
+        }          
                         
       } else if ($_REQUEST['page'] === 'mlp-upgrade-to-pro') {
         wp_enqueue_style('media-library-upgrade-to-pro', esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/css/upgrade-to-pro.css'));
@@ -354,7 +669,7 @@ class MGMediaLibraryFolders {
   
   public function enqueue_admin_print_scripts() {
     
-    global $pagenow;
+    global $pagenow, $current_screen;
 
     if(isset($_REQUEST['page'])) {
       
@@ -386,6 +701,8 @@ class MGMediaLibraryFolders {
                        'move_mode' => esc_html__('Drag and drop is set for moving files', 'maxgalleria-media-library' ),
                        'copy_mode' => esc_html__('Drag and drop is set for copying files', 'maxgalleria-media-library' ),
                        'folder_check' => esc_html__('Checking for new folders...', 'maxgalleria-media-library' ),
+                       'bda_user_role' => $this->bda_user_role,  
+                       'link_copied' => esc_html__('download link has been copied to the clipboard', 'maxgalleria-media-library'),
                        'nonce'=> wp_create_nonce(MAXGALLERIA_MEDIA_LIBRARY_NONCE))
                      ); 
 
@@ -394,17 +711,89 @@ class MGMediaLibraryFolders {
           //error_log("loader-folders loaded");
       }
     }
-  }
     
+    if (isset( $current_screen ) && 'upload' === $current_screen->base) {
+      $uploads_js_ver  = date("ymd-Gis", filemtime(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR . '/js/uploads-media.js'));            
+      wp_register_script( 'uploads-media', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/uploads-media.js', array( 'jquery', 'media-models', ), $uploads_js_ver, true );
+      wp_enqueue_script('uploads-media');
+    }
+  }
+  
+  public function mlfp_enqueue_media() {
+    
+    wp_enqueue_style('bda-media', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/css/bda-media.css');
+             
+    $media_js_ver  = date("ymd-Gis", filemtime(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR . '/js/mlfp-media.js'));            
+    wp_register_script( 'mlfp-media', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/mlfp-media.js', array( 'jquery', 'media-models', ), $media_js_ver, true );
+
+    wp_localize_script( 'mlfp-media', 'mlfpmedia', $this->media_localize());
+
+    wp_enqueue_script('mlfp-media');
+    
+    if($this->bda == 'on') {
+      wp_enqueue_script('jquery');
+      wp_enqueue_script('bda-media', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/bda-media.js', array('jquery')); 
+    }
+    
+  }
+  
+  public function media_localize() {
+    
+    $upload_id = get_option(MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_ID );        
+    $theme = get_option('template');
+    $user = wp_get_current_user();    
+        
+    return array( 
+      'ajaxurl' => admin_url( 'admin-ajax.php' ),
+      'nonce'=> wp_create_nonce(MAXGALLERIA_MEDIA_LIBRARY_NONCE),
+      'upload_message' => esc_html__('Select the folder where you wish to view or upload files.', 'maxgalleria-media-library'),
+      'uploads_folder_id' => $upload_id,
+      'bda' => $this->bda,
+      'bda_user_role' => $this->bda_user_role,  
+      'display_btn_text' => esc_html__('Display Blocked Files', 'maxgalleria-media-library'),
+      'theme' => get_option('template'),
+		  'gutenberg' => $this->gutenberg_active(),
+      'location' => esc_html__('Location: ', 'maxgalleria-media-library')
+    );   
+    
+  }  
+  
+  public function gutenberg_active() {
+      // Gutenberg plugin is installed and activated.
+      $gutenberg = ! ( false === has_filter( 'replace_editor', 'gutenberg_init' ) );
+
+      // Block editor since 5.0.
+      $block_editor = version_compare( $GLOBALS['wp_version'], '5.0-beta', '>' );
+
+      if ( ! $gutenberg && ! $block_editor ) {
+        return false;
+      }
+
+      if ( $this->classic_editor_plugin_active() ) {
+        $editor_option = get_option( 'classic-editor-replace' );
+        $block_editor_active = array( 'no-replace', 'block' );
+
+        return in_array( $editor_option, $block_editor_active, true );
+      }
+
+      return true;
+  }
+
+  public function classic_editor_plugin_active() {
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+      include_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+  }  
+   
   public function setup_mg_media_plus() {
-		add_menu_page(__('Media Library Folders','maxgalleria-media-library'), __('Media Library Folders','maxgalleria-media-library'), 'upload_files', 'mlf-folders8', array($this, 'mlf_folders'), 'dashicons-admin-media', 11 );				
-    add_submenu_page('mlf-folders8', __('Folders & Files','maxgalleria-media-library'), __('Folders & Files','maxgalleria-media-library'), 'upload_files', 'mlf-folders8' );    
-    add_submenu_page('mlf-folders8', __('Thumbnails','maxgalleria-media-library'), __('Thumbnails','maxgalleria-media-library'), 'manage_options', 'mlf-thumbnails', array($this, 'mlfp_thumbnails'));
-    add_submenu_page('mlf-folders8', __('Image SEO','maxgalleria-media-library'), __('Image SEO','maxgalleria-media-library'), 'upload_files', 'mlf-image-seo', array($this, 'mlfp_image_seo'));
-    add_submenu_page('mlf-folders8', __('Settings','maxgalleria-media-library'), __('Settings','maxgalleria-media-library'), 'manage_options', 'mlf-settings8', array($this, 'mlfp_settings8'));
-    add_submenu_page('mlf-folders8', __('Support','maxgalleria-media-library'), __('Support','maxgalleria-media-library'), 'manage_options', 'mlf-support8', array($this, 'mlfp_support'));
+		add_menu_page(esc_html__('Media Library Folders','maxgalleria-media-library'), esc_html__('Media Library Folders','maxgalleria-media-library'), 'upload_files', 'mlf-folders8', array($this, 'mlf_folders'), 'dashicons-admin-media', 11 );				
+    add_submenu_page('mlf-folders8', esc_html__('Folders & Files','maxgalleria-media-library'), esc_html__('Folders & Files','maxgalleria-media-library'), 'upload_files', 'mlf-folders8' );    
+    add_submenu_page('mlf-folders8', esc_html__('Thumbnails','maxgalleria-media-library'), esc_html__('Thumbnails','maxgalleria-media-library'), 'manage_options', 'mlf-thumbnails', array($this, 'mlfp_thumbnails'));
+    add_submenu_page('mlf-folders8', esc_html__('Image SEO','maxgalleria-media-library'), esc_html__('Image SEO','maxgalleria-media-library'), 'upload_files', 'mlf-image-seo', array($this, 'mlfp_image_seo'));
+    add_submenu_page('mlf-folders8', esc_html__('Settings','maxgalleria-media-library'), esc_html__('Settings','maxgalleria-media-library'), 'manage_options', 'mlf-settings8', array($this, 'mlfp_settings8'));
+    add_submenu_page('mlf-folders8', esc_html__('Support','maxgalleria-media-library'), esc_html__('Support','maxgalleria-media-library'), 'manage_options', 'mlf-support8', array($this, 'mlfp_support'));
     add_submenu_page('mlf-folders8', esc_html__('Upgrade to Pro','maxgalleria-media-library'), esc_html__('Upgrade to Pro','maxgalleria-media-library'), 'upload_files', 'mlp-upgrade-to-pro', array($this, 'mlp_upgrade_to_pro'));		    
-    add_submenu_page(null, esc_html__('Search Library','maxgalleria-media-library'), esc_html__('Search Library','maxgalleria-media-library'), 'upload_files', 'search-library', array($this, 'search_library'));
+    add_submenu_page('not-visible', esc_html__('Search Library','maxgalleria-media-library'), esc_html__('Search Library','maxgalleria-media-library'), 'upload_files', 'search-library', array($this, 'search_library'));
   }  
   
   public function mlf_folders() {
@@ -442,6 +831,11 @@ class MGMediaLibraryFolders {
   public function support_sys_info() {
 	  require_once 'includes/mlf-support-sys-info.php';
   }
+  
+  public function block_access_settings() {
+	  require_once 'includes/mlfp-bda-options.php';	 		
+	}  
+  
       
   public function display_mlfp_header() {
     
@@ -450,20 +844,20 @@ class MGMediaLibraryFolders {
 		$html .= '<div class="mgmlp-header">' . PHP_EOL;
                       
     $html .= '  <div id="mlfp-logo-container">' . PHP_EOL;
-    $html .= '    <img id="mlpf-logo" src="' . MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/images/mlp_logo.png" alt="media library folders pro logo" width="100" height="100">' . PHP_EOL;
+    $html .= '    <img id="mlpf-logo" src="' . esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/images/mlp_logo.png') . '" alt="media library folders pro logo" width="100" height="100">' . PHP_EOL;
     $html .= '  </div>' . PHP_EOL;
           
     $html .= '  <div id="mlfp-link-container">' . PHP_EOL;
     $html .= '    <div id="mlfp-links">' . PHP_EOL;
-    $html .= '      <div>' . __('Brought to you by ', 'maxgalleria-media-library') .' <a target="_blank" href="http://maxfoundry.com">MaxFoundry</a></div>' . PHP_EOL;
-    $html .= '      <div>' . __('Makers of', 'maxgalleria-media-library') . ' <a target="_blank"  href="http://maxbuttons.com/">MaxButtons</a>, <a target="_blank" href="http://maxbuttons.com/product-category/button-packs/">WordPress Buttons</a> ' . __('and', 'maxgalleria-media-library') . ' <a target="_blank" href="http://maxgalleria.com/">MaxGalleria</a></div>' . PHP_EOL;
+    $html .= '      <div>' . esc_html__('Brought to you by ', 'maxgalleria-media-library') .' <a target="_blank" href="http://maxfoundry.com">MaxFoundry</a></div>' . PHP_EOL;
+    $html .= '      <div>' . esc_html__('Makers of', 'maxgalleria-media-library') . ' <a target="_blank"  href="http://maxbuttons.com/">MaxButtons</a>, <a target="_blank" href="http://maxbuttons.com/product-category/button-packs/">WordPress Buttons</a> ' . esc_html__('and', 'maxgalleria-media-library') . ' <a target="_blank" href="http://maxgalleria.com/">MaxGalleria</a></div>' . PHP_EOL;
     $html .= '    </div>' . PHP_EOL;
           
     $html .= '    <div id="mlfp-support">' . PHP_EOL;
     $html .= '      <div><strong>Quick Support</strong></div>' . PHP_EOL;
-    $html .= '      <div>' . __('Click here to', 'maxgalleria-media-library') . '&nbsp;<a href="' . MLF_TS_URL . '" target="_blank">' . __('Fix Common Problems', 'maxgalleria-media-library') . '</a></div>' . PHP_EOL;
-    $html .= '      <div>' . __('Need more help? Check out our ', 'maxgalleria-media-library') . ' <a href="https://wordpress.org/support/plugin/media-library-plus" target="_blank">' . __('Support Forums', 'maxgalleria-media-library') . '</a></div>' . PHP_EOL;
-    $html .= '      <div>' . __('Or Email Us at', 'maxgalleria-media-library' ) . ' <a href="mailto:support@maxfoundry.com">support@maxfoundry.com</a></div>' . PHP_EOL;
+    $html .= '      <div>' . esc_html__('Click here to', 'maxgalleria-media-library') . '&nbsp;<a href="' . MLF_TS_URL . '" target="_blank">' . esc_html__('Fix Common Problems', 'maxgalleria-media-library') . '</a></div>' . PHP_EOL;
+    $html .= '      <div>' . esc_html__('Need more help? Check out our ', 'maxgalleria-media-library') . ' <a href="https://wordpress.org/support/plugin/media-library-plus" target="_blank">' . esc_html__('Support Forums', 'maxgalleria-media-library') . '</a></div>' . PHP_EOL;
+    $html .= '      <div>' . esc_html__('Or Email Us at', 'maxgalleria-media-library' ) . ' <a href="mailto:support@maxfoundry.com">support@maxfoundry.com</a></div>' . PHP_EOL;
     $html .= '    </div>' . PHP_EOL;
     
     $html .= '  </div>' . PHP_EOL;
@@ -486,6 +880,7 @@ class MGMediaLibraryFolders {
 						  
   public function delete_folder_attachment ($postid) {    
     global $wpdb;
+    $postid = intval($postid);
     $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;
     $where = array( 'post_id' => $postid );
     $wpdb->delete( $table, $where );    
@@ -506,6 +901,11 @@ public function add_attachment_to_folder2( $metadata, $attachment_id ) {
   $folder_id = $this->get_default_folder($attachment_id);
   if($folder_id !== false && $folder_id != null) {
     $this->add_new_folder_parent($attachment_id, $folder_id);
+    
+    //error_log("bdp_autoprotect " . $this->bdp_autoprotect);    
+    if($this->bda == 'on' && $this->bdp_autoprotect == 'on') {
+      $message = $this->move_to_protected_folder($attachment_id, $folder_id, 0);
+    }    
 
   }
   return $metadata;
@@ -568,18 +968,51 @@ public function get_parent_by_name($sub_folder) {
     dbDelta($sql);
     
   }
+  
+  public function add_block_access_table() {
+    global $wpdb;
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+    $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+    $sql = "CREATE TABLE IF NOT EXISTS `" . $table . "` ( 
+  `attachment_id` bigint(20) NOT NULL,
+  `hash_id` varchar(256) NULL,
+  `time` datetime NULL,
+  `block` tinyint(4) NULL,
+  `count` mediumint(9) NULL,
+  `download_limit` mediumint(9) NULL,
+  `expiration_date` date NULL,
+  PRIMARY KEY (`attachment_id`)
+  ) DEFAULT CHARSET=utf8;";
+    
+    dbDelta($sql);
+    
+  }
+  
+  public function add_blocked_ips_table() {
+    global $wpdb;
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+    $table = $wpdb->prefix . BLOCKED_IPS_TABLE;
+    $sql = "CREATE TABLE IF NOT EXISTS `" . $table . "` ( 
+    `ip_id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `address` varchar(16) NOT NULL,
+    PRIMARY KEY (`ip_id`)
+    ) DEFAULT CHARSET=utf8;";
+    
+    dbDelta($sql);
+    
+  }  
     
   public function upload_attachment () {   
     global $is_IIS;
                   
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce!','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce!','maxgalleria-media-library'));
     }
     
-    $uploads_path = wp_upload_dir();
-    
     if ((isset($_POST['folder_id'])) && (strlen(trim($_POST['folder_id'])) > 0))
-      $folder_id = trim(sanitize_text_field($_POST['folder_id']));
+      $folder_id = intval(trim(sanitize_text_field($_POST['folder_id'])));
     else
       $folder_id = 0;
     
@@ -633,8 +1066,13 @@ public function get_parent_by_name($sub_folder) {
             $perms = $stat['mode'] & 0000664;
             @ chmod( $filename, $perms );
 
-            $this->add_new_attachment($filename, $folder_id, $title_text, $alt_text, $seo_title_text);
-
+            $attach_id = $this->add_new_attachment($filename, $folder_id, $title_text, $alt_text, $seo_title_text);
+            
+            //error_log("bdp_autoprotect " . $this->bdp_autoprotect);
+            if($this->bda == 'on' && $this->bdp_autoprotect == 'on') {
+              $message = $this->move_to_protected_folder($attach_id, $folder_id, 0);
+            }
+            
             $this->display_folder_contents ($folder_id);
 
           }
@@ -780,6 +1218,50 @@ public function get_parent_by_name($sub_folder) {
     
   }
   
+  public function update_links($rename_image_location, $rename_destination) {
+    
+    global $wpdb;
+    
+    $table_list = apply_filters( MGMLP_FILTER_SET_UPDATE_TABLE_LINKS, '');
+    $field_list = apply_filters( MGMLP_FILTER_SET_UPDATE_TABLE_FIELDS, '');
+    
+    $table_list = str_replace(' ', '', $table_list);
+    $field_list = str_replace(' ', '', $field_list);
+        
+    if(!empty($table_list)) {
+      $table_list = "$wpdb->posts," . $table_list;
+      $tables = explode(',', $table_list);     
+    } else {
+      $tables = array("$wpdb->posts"); 
+    }
+    
+    if(!empty($field_list)) {
+      $field_list = "post_content," . $field_list;
+      $fields = explode(',', $field_list);     
+    } else {
+      $fields = array("post_content"); 
+    }
+    
+    if(is_array($table_list) || is_array($field_list)) {
+      if(count($table_list) != count($field_list)) {
+        error_log(__('An unequal number of items were sent to update_links function.','maxgalleria-media-library'));
+        return;
+      }  
+    }
+    
+    $pairs = array_combine($tables, $fields);
+    
+    foreach($pairs as $key => $value) {    
+      $replace_sql = "UPDATE $key SET `$value` = REPLACE (`$value`, '$rename_image_location', '$rename_destination');";          
+      $result = $wpdb->query($replace_sql);
+      //error_log("replace_sql $replace_sql");
+
+      $replace_sql = str_replace ( '/', '\\/', $replace_sql);
+      $result = $wpdb->query($replace_sql);
+    }
+    
+  }
+  
   public function remove_extension($file_name) {
     $position = strrpos($file_name, '.');
     if($position === false)
@@ -843,6 +1325,13 @@ ORDER by ID";
               $this->add_new_folder_parent($row->ID, $uploads_parent_id);
               continue;
             }  
+            
+            //check for protected folders
+            if(!empty($image_location)) {
+              if(strpos($image_location, MLFP_PROTECTED_DIRECTORY)) {
+                $image_location = str_replace(MLFP_PROTECTED_DIRECTORY . '/', '', $image_location );              
+              }
+            }            
 																          
             $sub_folders = $this->get_folders($image_location);
             $attachment_file = array_pop($sub_folders);  
@@ -964,7 +1453,8 @@ and pm.meta_key = '_wp_attached_file'";
   
   private function add_new_folder_parent($record_id, $parent_folder) {
     
-    global $wpdb;    
+    global $wpdb;
+    $record_id = intval($record_id);
     $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;
     
     // check for existing record  
@@ -1059,6 +1549,7 @@ and pm.meta_key = '_wp_attached_file'";
           
   private function lookup_uploads_folder_name($current_folder_id) {
     global $wpdb;
+    $current_folder_id = intval($current_folder_id);
     $sql = "SELECT post_title FROM {$wpdb->prefix}posts where ID = $current_folder_id";
     $folder_name = $wpdb->get_var($sql);
     return $folder_name;
@@ -1126,7 +1617,7 @@ and pm.meta_key = '_wp_attached_file'";
 		$output .= '      dataType: "html",' . PHP_EOL;
 		$output .= '      success: function (data) ' . PHP_EOL;
 		$output .= '        {' . PHP_EOL;
-		$output .= '          jQuery("#mgmlp-file-container").html(data);' . PHP_EOL;		
+		$output .= '          jQuery("#mgmlp-file-container").html(data);' . PHP_EOL;    
 		$output .= '          jQuery("li a.media-attachment").draggable({' . PHP_EOL;
 		$output .= '          	cursor: "move",' . PHP_EOL;
     $output .= '            cursorAt: { left: 25, top: 25 },' . PHP_EOL;
@@ -1141,6 +1632,7 @@ and pm.meta_key = '_wp_attached_file'";
 		$output .= '          }' . PHP_EOL;
 		
 		$output .= '          });' . PHP_EOL;
+    $output .= '          display_protected_files();' . PHP_EOL;
 		
 		$output .= '          jQuery(".media-link").droppable( {' . PHP_EOL;
 		$output .= '          	  accept: "li a.media-attachment",' . PHP_EOL;
@@ -1213,11 +1705,11 @@ and pm.meta_key = '_wp_attached_file'";
     }
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
     
     if ((isset($_POST['current_folder_id'])) && (strlen(trim($_POST['current_folder_id'])) > 0))
-      $current_folder_id = trim(sanitize_text_field($_POST['current_folder_id']));
+      $current_folder_id = intval(trim(sanitize_text_field($_POST['current_folder_id'])));
 		else
 			$current_folder_id = 0;
 		
@@ -1268,11 +1760,11 @@ and pm.meta_key = '_wp_attached_file'";
     }
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
 		
     if ((isset($_POST['current_folder_id'])) && (strlen(trim($_POST['current_folder_id'])) > 0))
-      $current_folder_id = trim(sanitize_text_field($_POST['current_folder_id']));
+      $current_folder_id = intval(trim(sanitize_text_field($_POST['current_folder_id'])));
 		else
 			$current_folder_id = 0;
 		
@@ -1297,11 +1789,11 @@ and pm.meta_key = '_wp_attached_file'";
 	public function display_folder_nav_ajax () {
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
 		
     if ((isset($_POST['current_folder_id'])) && (strlen(trim($_POST['current_folder_id'])) > 0))
-      $current_folder_id = trim(sanitize_text_field($_POST['current_folder_id']));
+      $current_folder_id = intval(trim(sanitize_text_field($_POST['current_folder_id'])));
 		else
 			$current_folder_id = 0;
 				
@@ -1316,11 +1808,11 @@ and pm.meta_key = '_wp_attached_file'";
 	public function mlp_get_folder_data() {
 				
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
 				
     if ((isset($_POST['current_folder_id'])) && (strlen(trim($_POST['current_folder_id'])) > 0)) 
-      $current_folder_id = trim(sanitize_text_field($_POST['current_folder_id']));
+      $current_folder_id = intval(trim(sanitize_text_field($_POST['current_folder_id'])));
 		else
 		  $current_folder_id = get_option(MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_ID );        								
 				
@@ -1336,6 +1828,7 @@ and pm.meta_key = '_wp_attached_file'";
 	public function get_folder_data($current_folder_id) {
 		
     global $wpdb;
+    $current_folder_id = intval($current_folder_id);
 				
 		$folder_parents = $this->get_parents($current_folder_id);
 		$folder_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;
@@ -1352,11 +1845,15 @@ order by folder_id";
 			$rows = $wpdb->get_results($sql);            
 			if($rows) {
 				foreach($rows as $row) {
+          
+          // do not show protected content folder
+          if($row->post_title == MLFP_PROTECTED_DIRECTORY)
+            continue;                  
+          
+						//$max_id = -1;
 
-						$max_id = -1;
-
-						if($row->ID > $max_id)
-							$max_id = $row->ID;
+						//if($row->ID > $max_id)
+						//	$max_id = $row->ID;
 						$folder = array();
 						$folder['id'] = esc_attr($row->ID);
 						if($row->folder_id === '0') {
@@ -1429,6 +1926,9 @@ order by folder_id";
         
     if($folder_check_seconds < $currnet_date_time_seconds) {
       $this->admin_check_for_new_folders(true);
+      if($this->bda == 'on') {
+        $this->remove_protected_folders();
+      }        
 			update_option('mlf-folder-check', $currnet_date_time, true);
     }		
     
@@ -1707,20 +2207,28 @@ function process_mc_data(phase, folder_id, action_name, parent_folder, serial_co
 	public function display_files($image_link, $current_folder_id, $folder_table, $display_type, $order_by, $mif_visible = false) {
     
     global $wpdb;
+    $current_folder_id = intvaL($current_folder_id); 
     $images_found = false;
     $images_pre_page = get_option(MAXGALLERIA_MLP_ITEMS_PRE_PAGE, '500');
     if(empty($images_pre_page))
       $images_pre_page = '500';
+    $author_class = '';
     
     $allowed_html = array(
       'input' => array(
         'type' => array(),
         'class' => array(),
         'id' => array(),
+        'protected' => array(),
         'value' => array()
       )    
-    );                  
-
+    );
+    
+    $blocked_image_url = '';  
+    $block_access_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;    
+    $current_user = get_current_user_id();
+    $is_admin = current_user_can('administrator');
+    
 		if($image_link === "1")
 			$image_link = true;
 		else
@@ -1729,8 +2237,22 @@ function process_mc_data(phase, folder_id, action_name, parent_folder, serial_co
             ?>
             <ul class="mg-media-list">
             <?php  
+            
+    if($this->bda == 'on') {
+
+            $sql = "select ID, post_title, post_author, $folder_table.folder_id, pm.meta_value as attached_file, IFNULL($block_access_table.block,0) as block
+from {$wpdb->prefix}posts 
+LEFT JOIN $folder_table ON({$wpdb->prefix}posts.ID = $folder_table.post_id)
+LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
+LEFT JOIN $block_access_table ON($wpdb->posts.ID = $block_access_table.attachment_id)
+where post_type = 'attachment' 
+and folder_id = '$current_folder_id'
+AND pm.meta_key = '_wp_attached_file' 
+order by $order_by limit 0, $images_pre_page";
+      
+    } else {           
             						
-            $sql = "select ID, post_title, $folder_table.folder_id, pm.meta_value as attached_file 
+            $sql = "select ID, post_title, post_author, $folder_table.folder_id, pm.meta_value as attached_file, 0 as block
 from {$wpdb->prefix}posts 
 LEFT JOIN $folder_table ON({$wpdb->prefix}posts.ID = $folder_table.post_id)
 LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
@@ -1738,6 +2260,7 @@ where post_type = 'attachment'
 and folder_id = '$current_folder_id'
 AND pm.meta_key = '_wp_attached_file' 
 order by $order_by limit 0, $images_pre_page";
+    }
 
             //error_log($sql);
 
@@ -1746,18 +2269,36 @@ order by $order_by limit 0, $images_pre_page";
               $images_found = true;
               foreach($rows as $row) {
 								
-								// use wp_get_attachment_image to get the PDF preview
-								$thumbnail_html = "";
-								$thumbnail_html = wp_get_attachment_image( $row->ID);
-								if(!$thumbnail_html){
-									$thumbnail = wp_get_attachment_thumb_url($row->ID);                
-									if($thumbnail === false) {
-										$thumbnail = esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file.jpg");
-									}  
-									$thumbnail_html = "<img alt='' src='$thumbnail' />";
-								}
+                if($row->block == 1) {
+                  if(($this->bda_user_role == 'admins' && $is_admin) || $this->bda_user_role == 'authors' && $current_user == $row->post_author) {
+                    if($current_user == $row->post_author)
+                      $author_class = 'author';
+                    else
+                      $author_class = '';
+                    if(wp_attachment_is_image($row->ID)) {
+                      $blocked_image_url = wp_get_attachment_thumb_url($row->ID);
+                    } else {  
+                      $ext = pathinfo($row->attached_file, PATHINFO_EXTENSION);
+                      $blocked_image_url = $this->get_file_thumbnail($ext);
+                      $image_file_type = false;                    
+                    }
+                  } else {
+                    $blocked_image_url = '';
+                  }                  
+                } else {
+                  // use wp_get_attachment_image to get the PDF preview
+                  $thumbnail_html = "";
+                  $thumbnail_html = wp_get_attachment_image( $row->ID);
+                  if(!$thumbnail_html){
+                    $thumbnail = wp_get_attachment_thumb_url($row->ID);                
+                    if($thumbnail === false) {
+                      $thumbnail = esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file.jpg");
+                    }  
+                    $thumbnail_html = "<img alt='' src='$thumbnail' />";
+                  }
+                }
                                 
-                $checkbox = sprintf("<input type='checkbox' class='mgmlp-media' id='%s' value='%s' />", $row->ID, $row->ID );
+                $checkbox = sprintf("<input type='checkbox' class='mgmlp-media' id='%s' value='%s' protected='%s' />", $row->ID, $row->ID, $row->block );
 								if($image_link && $mif_visible)
                   $class = "media-attachment no-pointer"; 
 								else if($image_link)
@@ -1774,10 +2315,17 @@ order by $order_by limit 0, $images_pre_page";
                 $image_location = $this->build_location_url($row->attached_file);
 								                
                 $filename = pathinfo($image_location, PATHINFO_BASENAME);
+                
+                $protcted_class = ($row->block == 1) ? 'mlfp-protected' : '';
+                //error_log($blocked_image_url);
 								                
                 ?>
                 <li id='<?php echo esc_attr($row->ID) ?>'>
-                  <a id='<?php echo esc_attr($row->ID) ?>' target='_blank' class='<?php echo esc_attr($class) ?>' href='<?php echo esc_url_raw(site_url() . $media_edit_link) ?>'><?php echo wp_kses_post($thumbnail_html) ?></a>
+                  <?php if($row->block == 1) { ?>
+                    <a id='<?php echo esc_attr($row->ID) ?>' target='_blank' class='<?php echo esc_attr($class) ?> <?php echo esc_attr($protcted_class) ?> <?php echo esc_attr($author_class) ?>' href='<?php echo esc_url_raw(site_url() . $media_edit_link) ?>' title='<?php echo esc_attr($filename) ?>'><img width='80' height='80' type='bda' src='<?php echo esc_url_raw($blocked_image_url) ?>' class='attachment-thumbnail size-thumbnail' alt='' loading='lazy' /></a>
+                  <?php } else { ?>  
+                    <a id='<?php echo esc_attr($row->ID) ?>' target='_blank' class='<?php echo esc_attr($class) ?>' href='<?php echo esc_url_raw(site_url() . $media_edit_link) ?>'><?php echo wp_kses_post($thumbnail_html) ?></a>
+                  <?php } ?>  
                   <div class='attachment-name'><label><span class='image_select'><?php echo wp_kses($checkbox, $allowed_html) ?></span><span class="mediafile"><?php echo esc_html($filename) ?></span></label></div>
                 </li>
                 <?php
@@ -1817,7 +2365,8 @@ order by $order_by limit 0, $images_pre_page";
   
   private function get_folder_path($folder_id) {
     
-    global $wpdb;    
+    global $wpdb;
+    $folder_id = intval($folder_id);
    $sql = "select meta_value as attached_file
 from {$wpdb->prefix}postmeta 
 where post_id = $folder_id
@@ -1838,6 +2387,7 @@ AND meta_key = '_wp_attached_file'";
   private function get_subfolder_path($folder_id) {
       
     global $wpdb;    
+    $folder_id = intval($folder_id);
 		
     $sql = "select meta_value as attached_file
 from {$wpdb->prefix}postmeta 
@@ -1857,7 +2407,8 @@ AND meta_key = '_wp_attached_file'";
   }
   
   private function get_folder_name($folder_id) {
-    global $wpdb;    
+    global $wpdb;
+    $folder_id = intval($folder_id);
     $sql = "select post_title from $wpdb->prefix" . "posts where ID = $folder_id";    
     $row = $wpdb->get_row($sql);
     return $row->post_title;
@@ -1866,7 +2417,7 @@ AND meta_key = '_wp_attached_file'";
   private function get_parents($current_folder_id) {
 
     global $wpdb;    
-    $folder_id = $current_folder_id;    
+    $folder_id = intval($current_folder_id);
     $parents = array();
     $folder_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;
 		$not_found = false;
@@ -1900,6 +2451,7 @@ where ID = $folder_id";
   private function get_parent($folder_id) {
     
     global $wpdb;    
+    $folder_id = intval($folder_id);
     $folder_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;
     
     $sql = "select folder_id from $folder_table where post_id = $folder_id";    
@@ -1916,11 +2468,11 @@ where ID = $folder_id";
     global $wpdb;
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
 
     if ((isset($_POST['parent_folder'])) && (strlen(trim($_POST['parent_folder'])) > 0))
-      $parent_folder_id = trim(sanitize_text_field($_POST['parent_folder']));
+      $parent_folder_id = intval(trim(sanitize_text_field($_POST['parent_folder'])));
     
     
     if ((isset($_POST['new_folder_name'])) && (strlen(trim($_POST['new_folder_name'])) > 0))
@@ -1959,19 +2511,19 @@ AND meta_key = '_wp_attached_file'";
 				$new_folder_id = $this->add_media_folder($new_folder_name, $parent_folder_id, $new_folder_url);
 				if($new_folder_id) {
 					
-          $message = __('The folder was created.','maxgalleria-media-library');
+          $message = esc_html__('The folder was created.','maxgalleria-media-library');
 					$folders = $this->get_folder_data($parent_folder_id);
 					$data = array ('message' => esc_html($message), 'folders' => $folders, 'refresh' => true, 'new_folder' => esc_attr($new_folder_id));
 					echo json_encode($data);
 					
         } else {					
-          $message = __('There was a problem creating the folder.','maxgalleria-media-library');
+          $message = esc_html__('There was a problem creating the folder.','maxgalleria-media-library');
 					$data = array ('message' => esc_html($message),  'refresh' => false );
 					echo json_encode($data);
 				}	
       }
     } else {
-			$message = __('The folder already exists.','maxgalleria-media-library');
+			$message = esc_html__('The folder already exists.','maxgalleria-media-library');
 			$data = array ('message' => esc_html($message),  'refresh' => false );
 			echo json_encode($data);
 		}	
@@ -2011,7 +2563,7 @@ AND meta_key = '_wp_attached_file'";
 			} else {
 				//$this->write_log("url_stub $url_stub");
 				//$this->write_log("baseurl $baseurl");
-        $new_msg = __('The URL to the folder or image is not correct: ','maxgalleria-media-library') . esc_url_raw($url);
+        $new_msg = esc_html__('The URL to the folder or image is not correct: ','maxgalleria-media-library') . esc_url_raw($url);
 				//$this->write_log($new_msg);
 				echo esc_html($new_msg);
 			}
@@ -2103,7 +2655,7 @@ AND meta_key = '_wp_attached_file'";
       
       // prevent uploads folder from being deleted
       if(intval($delete_id) == intval($this->uploads_folder_ID)) {
-				$message = __('The uploads folder cannot be deleted.','maxgalleria-media-library');
+				$message = esc_html__('The uploads folder cannot be deleted.','maxgalleria-media-library');
 				$data = array ('message' => esc_html($message), 'refresh' => false );
         echo json_encode($data);
         die();
@@ -2133,7 +2685,7 @@ AND pm.meta_key = '_wp_attached_file'";
 					$row_count = $wpdb->get_var($sql);
 
 					if($row_count > 0) {
-						$message = __('The folder, ','maxgalleria-media-library'). $row->post_title . __(', is not empty. Please delete or move files from the folder','maxgalleria-media-library') . PHP_EOL;      
+						$message = esc_html__('The folder, ','maxgalleria-media-library'). $row->post_title . esc_html__(', is not empty. Please delete or move files from the folder','maxgalleria-media-library') . PHP_EOL;      
 						
 						$data = array ('message' => esc_html($message), 'refresh' => false );
 						echo json_encode($data);
@@ -2149,10 +2701,10 @@ AND pm.meta_key = '_wp_attached_file'";
               $this->remove_hidden_files($folder_path);
               if($this->is_dir_empty($folder_path)) {
                 if(!rmdir($folder_path)) {
-                  $message = __('The folder could not be deleted.','maxgalleria-media-library');
+                  $message = esc_html__('The folder could not be deleted.','maxgalleria-media-library');
                 }  
               } else {
-                $message = __('The folder is not empty and could not be deleted.','maxgalleria-media-library');
+                $message = esc_html__('The folder is not empty and could not be deleted.','maxgalleria-media-library');
                 $folder_deleted = false;                                  
               }         
             }          
@@ -2161,7 +2713,7 @@ AND pm.meta_key = '_wp_attached_file'";
           if($folder_deleted) {
             wp_delete_post($delete_id, true);
             $wpdb->delete( $table, $del_post );
-            $message = __('The folder was deleted.','maxgalleria-media-library');
+            $message = esc_html__('The folder was deleted.','maxgalleria-media-library');
           }
 					$folders = $this->get_folder_data($parent_folder);
 					$data = array ('message' => esc_html($message), 'folders' => $folders, 'refresh' => $folder_deleted );
@@ -2181,7 +2733,7 @@ AND pm.meta_key = '_wp_attached_file'";
           
 					if( wp_delete_attachment( $delete_id, true ) !== false ) {
 						$wpdb->delete( $table, $del_post );						
-						$message = __('The file(s) were deleted','maxgalleria-media-library') . PHP_EOL;						
+						$message = esc_html__('The file(s) were deleted','maxgalleria-media-library') . PHP_EOL;						
             
             //error_log("unlink image_path $image_path");            
             if(file_exists($image_path))
@@ -2199,7 +2751,7 @@ AND pm.meta_key = '_wp_attached_file'";
             }
                         
 					} else {
-            $message = __('The file(s) were not deleted','maxgalleria-media-library') . PHP_EOL;
+            $message = esc_html__('The file(s) were not deleted','maxgalleria-media-library') . PHP_EOL;
 					} 
 				} 
 			}
@@ -2271,13 +2823,13 @@ AND pm.meta_key = '_wp_attached_file'";
     $serial_gallery_image_ids = explode(',', $serial_gallery_image_ids);
         
     if ((isset($_POST['gallery_id'])) && (strlen(trim($_POST['gallery_id'])) > 0))
-      $gallery_id = trim(sanitize_text_field($_POST['gallery_id']));
+      $gallery_id = intval(trim(sanitize_text_field($_POST['gallery_id'])));
     else
       $gallery_id = 0;
     
     foreach( $serial_gallery_image_ids as $attachment_id) {
       
-      if(wp_attachment_is_image($attachment_id)) {     
+      if(is_numeric($attachment_id) && wp_attachment_is_image($attachment_id)) {     
               
         // check for image already in the gallery
         $sql = "SELECT ID FROM $wpdb->prefix" . "posts where post_parent = $gallery_id and post_type = 'attachment' and ID = $attachment_id";
@@ -2344,7 +2896,7 @@ AND pm.meta_key = '_wp_attached_file'";
     global $wpdb;
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
     
     if ((isset($_POST['search_value'])) && (strlen(trim($_POST['search_value'])) > 0))
@@ -2393,141 +2945,202 @@ AND pm.meta_key = '_wp_attached_file'";
   public function search_library() {
     
     global $wpdb;
-    ?>
+    $block_access_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;    
+    $current_user = get_current_user_id();
+    $author_class = '';
     
-    <div id="wp-media-grid" class="wrap">
-    <!--empty h2 for where WP notices will appear-->
-    <h2></h2>
-    <div class="media-plus-toolbar wp-filter">
-    <div id="mgmlp-search-title-area">
-		  <h2 class="mgmlp-title"><?php esc_html_e('Media Library Folders Search Results','maxgalleria-media-library') ?></h2>
-      <div>
-        <p id="mgmlp-return-link"><a href="<?php echo esc_url(site_url() . '/wp-admin/admin.php?page=mlf-folders8') ?>">Back to Media Library Folders</a></p>
-        <p><input type="search" placeholder="Search" id="mgmlp-media-search-input" class="search"> <a id="mlfp-media-search-2" class="gray-blue-link" ><?php esc_html_e('Search','maxgalleria-media-library') ?></a></p>            
-      </div>
-    
-    </div>
-		<div style="clear:both;"></div>
-    <div id="search-instructions"><?php esc_html_e('Click on an image to go to its folder or a on folder to view its contents.','maxgalleria-media-library') ?></div>
-    <?php
-    if ((isset($_GET['s'])) && (strlen(trim($_GET['s'])) > 0)) {
+    if ((isset($_GET['s'])) && (strlen(trim($_GET['s'])) > 0))
       $search_string = trim(sanitize_text_field($_GET['s']));
-      ?>
-      <h4><?php echo esc_html( __('Search results for: ','maxgalleria-media-library') . $search_string) ?></h4>
+    else
+      $search_string = '';
+        
+    echo '<div id="wp-media-grid" class="wrap">' . PHP_EOL;
+    //empty h2 for where WP notices will appear
+    echo '  <h2></h2>' . PHP_EOL;
+//    echo '  <div class="media-plus-toolbar wp-filter"><div class="media-toolbar-secondary">' . PHP_EOL;
+    echo '  <div class="media-plus-toolbar wp-filter">' . PHP_EOL;
+    echo '<div id="mgmlp-title-area">' . PHP_EOL;
+		echo '  <h2 class="mgmlp-title">'. __('Media Library Folders Search Results','maxgalleria-media-library') . '</h2>' . PHP_EOL;
+    echo '  <div>' . PHP_EOL;
+    echo '    <p><a href="' . site_url() . '/wp-admin/admin.php?page=mlf-folders8">Back to Media Library Folders</a></p>' . PHP_EOL;
+    echo '    <p><input type="search" placeholder="Search" id="mgmlp-media-search-input" class="search" value="'.$search_string.'"> <a id="mlfp-media-search-2" class="gray-blue-link" >' .  __('Search','maxgalleria-media-library') . '</a></p>' . PHP_EOL;            
+    echo '  </div>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
+		echo '<div style="clear:both;"></div>' . PHP_EOL;
+    echo "<div id='search-instructions'>". __('Click on an image to go to its folder or a on folder to view its contents.','maxgalleria-media-library')."</div>";		
+    if ((isset($_GET['s'])) && (strlen(trim($_GET['s'])) > 0)) {
+      echo "<h4>" . __('Search results for: ','maxgalleria-media-library') . $search_string ."</h4>" . PHP_EOL;			
       
-      <ul class="mg-media-list">
-      <?php      
+      echo '<ul class="mg-media-list search-results">' . PHP_EOL;
+            
       $folder_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;
-      $sql = $wpdb->prepare("select ID, post_title, $folder_table.folder_id, pm.meta_value as attached_file 
-        from $wpdb->prefix" . "posts
-        LEFT JOIN $folder_table ON($wpdb->prefix" . "posts.ID = $folder_table.post_id)
-        LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID)
-        where post_type = '" . MAXGALLERIA_MEDIA_LIBRARY_POST_TYPE ."' and pm.meta_key = '_wp_attached_file'  and post_title like '%%%s%%'", $search_string);
+            
+    if($this->bda == 'on') {
+        
+      $sql = $wpdb->prepare("(select {$wpdb->prefix}posts.ID, post_author, post_title, {$wpdb->prefix}mgmlp_folders.folder_id, pm.meta_value as attached_file, 'a' as item_type, 0 as block
+from {$wpdb->prefix}posts
+LEFT JOIN {$wpdb->prefix}mgmlp_folders ON($wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id)
+LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID)
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+LEFT JOIN $block_access_table ON($block_access_table.attachment_id = {$wpdb->prefix}posts.ID)
+where post_type = 'mgmlp_media_folder' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%')
+union all
+(select $wpdb->posts.ID, post_author, post_title, {$wpdb->prefix}mgmlp_folders.folder_id, pm.meta_value as attached_file, 'b' as item_type, IFNULL($block_access_table.block,0) as block
+from $wpdb->posts 
+LEFT JOIN {$wpdb->prefix}mgmlp_folders ON( $wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id) 
+LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+LEFT JOIN $block_access_table ON($block_access_table.attachment_id = {$wpdb->prefix}posts.ID)
+where post_type = 'attachment' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%') order by attached_file", $search_string, $search_string);
 
+    } else {
+      
+      $sql = $wpdb->prepare("(select {$wpdb->prefix}posts.ID, post_author, post_title, {$wpdb->prefix}mgmlp_folders.folder_id, pm.meta_value as attached_file, 'a' as item_type, 0 as block
+from {$wpdb->prefix}posts
+LEFT JOIN {$wpdb->prefix}mgmlp_folders ON($wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id)
+LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID)
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+where post_type = 'mgmlp_media_folder' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%')
+union all
+(select $wpdb->posts.ID, post_author, post_title, {$wpdb->prefix}mgmlp_folders.folder_id, pm.meta_value as attached_file, 'b' as item_type, 0 as block
+from $wpdb->posts 
+LEFT JOIN {$wpdb->prefix}mgmlp_folders ON( $wpdb->posts.ID = {$wpdb->prefix}mgmlp_folders.post_id) 
+LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
+LEFT JOIN $wpdb->users AS us ON ({$wpdb->prefix}posts.post_author = us.ID) 
+where post_type = 'attachment' and pm.meta_key = '_wp_attached_file' and SUBSTRING_INDEX(pm.meta_value, '/', -1) like '%%%s%%') order by attached_file", $search_string, $search_string);
+      
+    }
+                      
+      //error_log("grid " . $sql);  
+        
       $rows = $wpdb->get_results($sql);
 
-      //$class = "media-folder"; 
       if($rows) {
         foreach($rows as $row) {
+          
+          if($row->item_type == 'a')
+            $class = "media-folder"; 
+          else
+            $class = "media-attachment";
+          
           $thumbnail = wp_get_attachment_thumb_url($row->ID);
+          if($this->bda == 'on' && $row->block == 1) {
+            $thumbnail = $this->get_absolute_path($thumbnail);
+            if($this->bda_user_role == 'authors' && $current_user == $row->post_author)
+              $author_class = 'author';
+            else 
+              $author_class = '';
+          } 
           if($thumbnail !== false)
             $ext = pathinfo($thumbnail, PATHINFO_EXTENSION);
           else {
 						
+            //$image_location = $this->upload_dir['baseurl'] . '/' . $row->attached_file;
 						$baseurl = $this->upload_dir['baseurl'];
 						$baseurl = rtrim($baseurl, '/') . '/';
 						$image_location = $baseurl . ltrim($row->attached_file, '/');
 												
             $ext_pos = strrpos($image_location, '.');
             $ext = substr($image_location, $ext_pos+1);
-            $thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file.jpg";
+            if($row->item_type == 'b')
+              $thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file.jpg";
+            else
+              $thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/folder.jpg";
           }
-          ?>
-          <li>
-            <a class='media-folder' href='<?php echo esc_url_raw(site_url() . "/wp-admin/admin.php?page=mlf-folders8&media-folder=" . $row->ID) ?>'><img alt='<?php echo esc_html($row->post_title)?>' src='<?php echo esc_url($thumbnail) ?>' /></a>
-            <div class='attachment-name'><?php echo esc_html($row->post_title) ?></div>
-          </li>           
-          <?php
+          
+          echo "<li>" . PHP_EOL;
+          if($row->item_type == 'a') {
+            echo "   <a class='$class' href='" . site_url() . "/wp-admin/admin.php?page=mlf-folders8&media-folder=" . $row->ID . "'><img alt='' src='$thumbnail' /></a>" . PHP_EOL;
+          } else {
+            if($row->block == 1) {
+              echo "   <a class='$class mlfp-protected $author_class' data-id='$row->ID' href='" . site_url() . "/wp-admin/admin.php?page=mlf-folders8&media-folder=" . $row->folder_id . "'><img class='attachment-thumbnail' alt='' src='$thumbnail' /></a>" . PHP_EOL;
+            } else {
+              echo "   <a class='$class' data-id='$row->ID' href='" . site_url() . "/wp-admin/admin.php?page=mlf-folders8&media-folder=" . $row->folder_id . "'><img class='attachment-thumbnail' alt='' src='$thumbnail' /></a>" . PHP_EOL;
+            }  
+          }  
+          echo "   <div class='attachment-name'>$row->post_title</div>" . PHP_EOL;
+          echo "</li>" . PHP_EOL;              
+          
         }
       }
 
-		$sql = $wpdb->prepare("select ID, post_title, pm.meta_value as attached_file, folder_id from {$wpdb->prefix}posts 
-        LEFT JOIN {$wpdb->prefix}mgmlp_folders ON( {$wpdb->prefix}posts.ID = {$wpdb->prefix}mgmlp_folders.post_id) 
-        LEFT JOIN {$wpdb->prefix}postmeta AS pm ON (pm.post_id = {$wpdb->prefix}posts.ID) 
-        where post_type= 'attachment' and pm.meta_key = '_wp_attached_file' and post_title like '%%%s%%'", $search_string);
-
-      $rows = $wpdb->get_results($sql);
-
-      //$class = "media-attachment"; 
-      if($rows) {
-        foreach($rows as $row) {
-					
-					$baseurl = $this->upload_dir['baseurl'];
-					$baseurl = rtrim($baseurl, '/') . '/';
-					$image_location = $baseurl . ltrim($row->attached_file, '/');
-					
-          $thumbnail = wp_get_attachment_thumb_url($row->ID);
-          if($thumbnail !== false)
-            $ext = pathinfo($thumbnail, PATHINFO_EXTENSION);
-          else {												
-            $ext_pos = strrpos($image_location, '.');
-            $ext = substr($image_location, $ext_pos+1);
-            $thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file.jpg";
-          }
-          
-          $filename =  pathinfo($image_location, PATHINFO_BASENAME);
-          ?>
-          <li>
-            <a class='media-attachment' href='<?php echo esc_url_raw(site_url() . "/wp-admin/admin.php?page=mlf-folders8&media-folder=" . $row->folder_id) ?>'><img alt='<?php echo esc_html($filename) ?>' src='<?php echo esc_url($thumbnail) ?>' /></a>
-            <div class='attachment-name'><?php echo esc_html($filename) ?></div>
-          </li>   
-          <?php
-        }      
-
-      }
-      else {
-        echo esc_html__('No files were found matching that name.','maxgalleria-media-library') . PHP_EOL;                      
-      }
-      ?>
-        </ul>
-      <?php
+      echo "</ul>" . PHP_EOL;
     }
+    echo '</div>' . PHP_EOL;    
+    
     ?>
-    </div>
         
-      <script>
-        
+    <script>                        
+    jQuery(document).ready(function(){
+      console.log('document ready');
       jQuery('#mgmlp-media-search-input').keydown(function (e){
         if(e.keyCode == 13){
-          do_media_search();
+
+          var search_value = jQuery('#mgmlp-media-search-input').val();                    
+
+          var home_url = "<?php echo site_url(); ?>"; 
+
+          window.location.href = home_url + '/wp-admin/admin.php?page=search-library&' + 's=' + search_value;
+
         }  
-      })
-      
+      });
+            
       jQuery(document).on("click", "#mlfp-media-search-2", function () {
-        do_media_search();
-      })
-                 
-      function do_media_search() {
+      
         var search_value = jQuery('#mgmlp-media-search-input').val();
         
-        var search_url = '<?php echo esc_url_raw(site_url() . '/wp-admin/admin.php?page=search-library&s=') ?>' + search_value;
-
-        window.location.href = search_url;        
-      }
-      </script>          
-    <?php
-  }
+        var home_url = "<?php echo site_url(); ?>"; 
+        
+        window.location.href = home_url + '/wp-admin/admin.php?page=search-library&' + 's=' + search_value;
+      });
       
+        <?php if($this->bda == 'on') { ?>
+        
+          console.log('bda_user_role', mgmlp_ajax.bda_user_role);
+          if(mgmlp_ajax.bda_user_role == 'authors')
+            var selector_class = '.mlfp-protected.author';
+          else
+            var selector_class = '.mlfp-protected';
+          
+            jQuery(selector_class).each(function () {
+              
+              var image_element = jQuery(this).find('img.attachment-thumbnail');
+              var src = image_element.attr('src');
+              // remove the source URL and avoid the 404 error
+              jQuery(image_element).attr('src', '');
+              console.log('src', src);
+
+              jQuery.ajax({
+                type: 'POST',
+                async: true,
+                data: { action: 'mlfp_load_image', src: src, nonce: mgmlp_ajax.nonce },
+                url: mgmlp_ajax.ajaxurl,
+                success: function (data) {
+                  if(data.length > 0)
+                    jQuery(image_element).attr('src', data);
+                },
+                error: function (err){
+                  alert(err.responseText);
+                }
+              });
+
+          });
+        <?php } ?>      
+      });      
+    </script>          
+    <?php
+  }  
+              
   public function maxgalleria_rename_image() {
     
     global $wpdb, $blog_id, $is_IIS;
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
     
     if ((isset($_POST['image_id'])) && (strlen(trim($_POST['image_id'])) > 0))
-      $file_id = trim(sanitize_text_field($_POST['image_id']));
+      $file_id = intval(trim(sanitize_text_field($_POST['image_id'])));
     else
       $file_id = "";
     
@@ -2704,7 +3317,7 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
   public function sort_contents() {
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce!','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce!','maxgalleria-media-library'));
     } 
     
     if ((isset($_POST['sort_order'])) && (strlen(trim($_POST['sort_order'])) > 0))
@@ -2713,7 +3326,7 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
       $sort_order = "0";
     
     if ((isset($_POST['folder'])) && (strlen(trim($_POST['folder'])) > 0))
-      $current_folder_id = trim(sanitize_text_field($_POST['folder']));
+      $current_folder_id = intval(trim(sanitize_text_field($_POST['folder'])));
     else
       $current_folder_id = "";
 		        
@@ -2729,7 +3342,7 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
   public function mlf_change_sort_type() {
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce!','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce!','maxgalleria-media-library'));
     } 
     
     if ((isset($_POST['sort_type'])) && (strlen(trim($_POST['sort_type'])) > 0))
@@ -2738,7 +3351,7 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
       $sort_type = "ASC";
     
     if ((isset($_POST['folder'])) && (strlen(trim($_POST['folder'])) > 0))
-      $current_folder_id = trim(sanitize_text_field($_POST['folder']));
+      $current_folder_id = intval(trim(sanitize_text_field($_POST['folder'])));
     else
       $current_folder_id = "";
 		        
@@ -2754,7 +3367,7 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
 	public function mgmlp_move_copy(){
 
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
     
     if ((isset($_POST['move_copy_switch'])) && (strlen(trim($_POST['move_copy_switch'])) > 0))
@@ -2775,11 +3388,11 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
   public function mlf_check_for_new_folders(){
     
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce!','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce!','maxgalleria-media-library'));
     }
     
     if ((isset($_POST['parent_folder'])) && (strlen(trim($_POST['parent_folder'])) > 0))
-      $parent_folder_id = trim(sanitize_text_field($_POST['parent_folder']));
+      $parent_folder_id = intval(trim(sanitize_text_field($_POST['parent_folder'])));
     
     //error_log("parent_folder_id $parent_folder_id");
             
@@ -2797,11 +3410,11 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
     
 		global $blog_id, $is_IIS;
 		$skip_path = "";
-    $uploads_path = wp_upload_dir();
-    $message = __('Added','maxgalleria-media-library');
+    //$uploads_path = wp_upload_dir();
+    $message = esc_html__('Added','maxgalleria-media-library');
     $first = true;
     
-    if(!$uploads_path['error']) {
+    if(!$this->upload_dir['error']) {
       
       $uploads_folder = get_option(MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_NAME, "uploads");      
       $uploads_folder_id = get_option(MAXGALLERIA_MEDIA_LIBRARY_UPLOAD_FOLDER_ID );
@@ -2810,8 +3423,8 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
 			$folders_to_hide = explode("\n", file_get_contents( MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR .'/folders_to_hide.txt'));
       
       //find the uploads folder
-      $uploads_url = $uploads_path['baseurl'];
-			$upload_path = $uploads_path['basedir'];
+      $uploads_url = $this->upload_dir['baseurl'];
+			$upload_path = $this->upload_dir['basedir'];
       $folder_found = false;
 			
 			//not sure if this is still needed
@@ -2936,36 +3549,13 @@ AND pm.meta_key = '_wp_attached_file'", $file_id);
       }  
     } 
     else {
-      $message = esc_html("error: " . $uploads_path['error']);
+      $message = esc_html("error: " . $this->upload_dir['error']);
       if(!$noecho)
         echo $message . "<br>";
     }
     return $message;
   }
-		
-	public function new_folder_search($name, $uploads_folder, $uploads_length, $dir_name, $noecho) {
-		global $is_IIS;
-		$folder_found = false;
-		$upload_pos = strpos($name, $uploads_folder);
-		$url = $uploads_url . substr($name, ($upload_pos+$uploads_length));
-
-		// fix slashes if running windows
-    if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
-			$url = str_replace('\\', '/', $url);      
-		}
-
-		if($this->folder_exist($url) === false) {
-			$folder_found = true;
-			if(!$noecho) {
-				echo esc_html( __('Adding','maxgalleria-media-library') . " " . esc_url($url)) . "<br>";
-			}	
-			$parent_id = $this->find_parent_id($url);
-			if($parent_id)
-			  $this->add_media_folder($dir_name, $parent_id, $url);              
-		}
-		return $folder_found;
-	}
-  
+		  
   private function find_parent_id($base_url) {
     
     global $wpdb;    
@@ -3119,7 +3709,7 @@ and pm.meta_key = '_wp_attached_file'";
 		$uploads_url = $this->upload_dir['baseurl'];
 		$upload_path = $this->upload_dir['basedir'];
 
-		$folders_to_hide = explode("\n", file_get_contents( esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR .'/folders_to_hide.txt')));
+		$folders_to_hide = explode("\n", file_get_contents(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR .'/folders_to_hide.txt'));
 		
     $sql = "select meta_value as attached_file
 from {$wpdb->prefix}postmeta
@@ -3315,11 +3905,11 @@ and meta_key = '_wp_attached_file'";
     global $wpdb;
 		
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce!','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce!','maxgalleria-media-library'));
     }
     
     if ((isset($_POST['folder'])) && (strlen(trim($_POST['folder'])) > 0))
-      $current_folder_id = trim(sanitize_textarea_field($_POST['folder']));
+      $current_folder_id = intval(trim(sanitize_textarea_field($_POST['folder'])));
     else
       $current_folder_id = "";
     
@@ -3386,17 +3976,19 @@ and meta_key = '_wp_attached_file'";
               <li><span><?php esc_html_e('Export the media library from one Wordpress site and import it into another','maxgalleria-media-library') ?></span></li>
               <li><span><?php esc_html_e('Front End Upload to a Specific Folder','maxgalleria-media-library') ?></span></li>							
               <li><span><?php esc_html_e('Bulk Move of media files','maxgalleria-media-library') ?></span></li>							
+              <li><span><?php esc_html_e('Supports Advanced Custom Fields','maxgalleria-media-library') ?></span></li>
+              <!--<li><span>< ?php esc_html_e('Organize Nextgen Galleries','maxgalleria-media-library') ?></span></li>-->
             </ul>
           </div>
           <div class="width-50">
             <ul>
-              <li><span><?php esc_html_e('Organize Nextgen Galleries','maxgalleria-media-library') ?></span></li>
-              <li><span><?php esc_html_e('Supports Advanced Custom Fields','maxgalleria-media-library') ?></span></li>
               <li><span><?php esc_html_e('Multisite Supported','maxgalleria-media-library') ?></span></li>
               <li><span><?php esc_html_e('Category Interchangability with Enhanced Media Library','maxgalleria-media-library') ?></span></li>							
               <li><span><?php esc_html_e('Embed PDF files in a page via a shortcode and Embed PDF file shortcode generator','maxgalleria-media-library') ?></span></li>							
               <li><span><?php esc_html_e('Media Library Maintenance and Bulk File Import','maxgalleria-media-library') ?></span></li>							
               <li><span><?php esc_html_e('Jetpack and the Wordpress Gallery Shortcode Generator','maxgalleria-media-library') ?></span></li>
+              <li><span><?php esc_html_e('Block Direct Access for Selected Files','maxgalleria-media-library') ?></span></li>
+              <li><span><?php esc_html_e('AI-powered image generation','maxgalleria-media-library') ?></span></li>
             </ul>
           </div>
           <div class="mlf-clearfix"></div>
@@ -3572,6 +4164,26 @@ and meta_key = '_wp_attached_file'";
         <div class="row">
           <div class="width-100">
             <h4>
+             <?php esc_html_e('Block Direct Access for Selected Files','maxgalleria-media-library') ?>
+            </h4>
+            <p>
+              <?php esc_html_e('Select the files to be protected','maxgalleria-media-library') ?>
+            </p>
+            <p>
+              <?php esc_html_e('Generate and configure download links for protected files','maxgalleria-media-library') ?> 
+            </p>
+            <img class="img-responsive" src="<?php echo esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/assets/block-direct-access.png") ?>" alt="img" />
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="option">
+      <div class="container">
+        <div class="row">
+          <div class="width-100">
+            <h4>
              <?php esc_html_e('Frontend Upload','maxgalleria-media-library') ?>
             </h4>
             <p>
@@ -3618,21 +4230,21 @@ and meta_key = '_wp_attached_file'";
       </div>
     </div>
 
-    <div class="option">
+<!--    <div class="option">
       <div class="container">
         <div class="row">
           <div class="width-100">
             <h4>
-              <?php esc_html_e('NextGEN Galleries','maxgalleria-media-library') ?>
+              < ?php esc_html_e('NextGEN Galleries','maxgalleria-media-library') ?>
             </h4>
             <p>
-              <?php esc_html_e('Media Library Folders Pro lets you create a NextGEN gallery from the Media Library Pro Plus directory. We recommend using this capability when creating new NextGEN galleries.','maxgalleria-media-library') ?>
+              < ?php esc_html_e('Media Library Folders Pro lets you create a NextGEN gallery from the Media Library Pro Plus directory. We recommend using this capability when creating new NextGEN galleries.','maxgalleria-media-library') ?>
             </p>
-            <img class="img-responsive" src="<?php echo esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/assets/nextgen.png") ?>" alt="img" />
+            <img class="img-responsive" src="< ?php echo esc_url(MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/assets/nextgen.png") ?>" alt="img" />
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
 
   </div>
@@ -3650,46 +4262,7 @@ and meta_key = '_wp_attached_file'";
 		<?php	
 		
   }
-			
-	public function wp_get_attachment( $attachment_id ) {
-
-		$attachment = get_post( $attachment_id );
-
-		$base_url = $this->upload_dir['baseurl'];
-    $attached_file = get_post_meta( $attachment_id, '_wp_attached_file', true );
-		$base_url = rtrim($base_url, '/') . '/';
-		$image_location = $base_url . ltrim($attached_file, '/');
-		
-		$available_sizes = array();
-		
-		if (wp_attachment_is_image($attachment_id)) {
-			foreach ( $this->image_sizes as $size ) {
-				$image = wp_get_attachment_image_src( $attachment_id, $size );
-								
-				if(!empty( $image ) && ( true == $image[3] || 'full' == $size )) {
-					$available_sizes[$size] = $image[1] . " x " . $image[2];
-				}	
-			}
-		} else {
-			$available_sizes["full"] = "full";
-		}
-	
-		
-		$image_data = array(
-				'id' => $attachment_id,
-				'alt' => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
-				'caption' => $attachment->post_excerpt,
-				'description' => $attachment->post_content,
-				'href' => get_permalink( $attachment->ID ),
-				'src' => $image_location,
-				'title' => $attachment->post_title,
-				'available_sizes'	=> $available_sizes
-		);
-		
-		return $image_data;
-	}
 				
-	
 	public function mlpp_hide_template_ad() {
 		
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
@@ -3701,7 +4274,7 @@ and meta_key = '_wp_attached_file'";
 		die();
 	}
 	
-		public function mlpp_settings() {
+	public function mlpp_settings() {
 		
 		global $current_user;
 		?>	
@@ -3712,6 +4285,8 @@ and meta_key = '_wp_attached_file'";
       $meta_index = get_option( MAXGALLERIA_POSTMETA_INDEX, 'off');        
       $this->disable_scaling = get_option( MAXGALLERIA_DISABLE_SCALLING, 'off');
       $images_pre_page = get_option(MAXGALLERIA_MLP_ITEMS_PRE_PAGE, '500');
+      $this->sync_skip_webp = get_option(MLFP_SKIP_WEBP_FILES, 'off');    
+      
       if($images_pre_page == '')
         $images_pre_page = 100;
     ?>
@@ -3727,8 +4302,12 @@ and meta_key = '_wp_attached_file'";
 		</p>
 		<p>
 			<input type="checkbox" name="meta_index" id="meta_index" value="" <?php checked($meta_index, 'on') ?>>
-			<label><?php  _e('Add an index to the postmeta table. <em>Recommend for sites with a high number of media files. Uncheck to remove the index.</em>', 'maxgalleria-media-library'); ?></label>			
-		</p>                
+			<label><?php esc_html_e('Add an index to the postmeta table.', 'maxgalleria-media-library'); ?> <em><?php esc_html_e('Recommend for sites with a high number of media files. Uncheck to remove the index.', 'maxgalleria-media-library'); ?></em></label>			      
+		</p>
+    <p>
+			<input type="checkbox" name="skip_webp" id="skip_webp" value="" <?php checked($this->sync_skip_webp, 'on') ?>>
+			<label><?php  esc_html_e('Skip WEBP images when syncing media library files. <em>For sites where WEBP files are automatically generated.</em>', 'maxgalleria-media-library'); ?></label>			      
+    </p>
 		<p>
       <a class="button-primary" id="mlfp-update-settings"><?php esc_html_e('Update Settings','maxgalleria-media-library'); ?></a>			
 		</p>
@@ -3744,13 +4323,14 @@ and meta_key = '_wp_attached_file'";
 			var images_per_page = jQuery("#images-pre-page").val();
 			var scaling_status = jQuery("#disable_scaling").is(":checked");
       var meta_index = jQuery("#meta_index").is(":checked");      
-      
+      var skip_webp = jQuery("#skip_webp").is(":checked");      
+            
 			jQuery("#saving-message").html('');
 			
 			jQuery.ajax({
 				type: "POST",
 				async: true,
-				data: { action: "mlfp_set_scaling", scaling_status: scaling_status, images_per_page: images_per_page, meta_index: meta_index, nonce: mgmlp_ajax.nonce },
+				data: { action: "mlfp_set_scaling", scaling_status: scaling_status, images_per_page: images_per_page, meta_index: meta_index, skip_webp: skip_webp, nonce: mgmlp_ajax.nonce },
 				url: mgmlp_ajax.ajaxurl,
 				dataType: "html",
 				success: function (data) { 
@@ -3818,27 +4398,31 @@ and meta_key = '_wp_attached_file'";
 				// set the time limit o five minutes
 				@set_time_limit( 300 ); 
 
-				// regenerate the thumbnails
-        if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
-          $this->remove_existing_thumbnails($image_id, addslashes($image_path));
-				  $metadata = wp_generate_attachment_metadata( $image_id, addslashes($image_path));
-        } else {
-          $this->remove_existing_thumbnails($image_id, $image_path);
-				  $metadata = wp_generate_attachment_metadata( $image_id, $image_path );
+        $mime_type = get_post_mime_type($image_id);
+        if($mime_type != 'image/svg+xml') {
+        
+          // regenerate the thumbnails
+          if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
+            $this->remove_existing_thumbnails($image_id, addslashes($image_path));
+            $metadata = wp_generate_attachment_metadata( $image_id, addslashes($image_path));
+          } else {
+            $this->remove_existing_thumbnails($image_id, $image_path);
+            $metadata = wp_generate_attachment_metadata( $image_id, $image_path );
+          }
+
+          // check for errors
+          if (is_wp_error($metadata)) {
+            echo esc_html__('Error: ','maxgalleria-media-library') . "$base_name ". $metadata->get_error_message();
+            continue;
+          }	
+          if(empty($metadata)) {
+            printf( esc_html__('Unknown error with %s','maxgalleria-media-library'), $base_name);
+            continue;
+          }	
+
+          // update the meta data
+          wp_update_attachment_metadata( $image_id, $metadata );
         }
-
-				// check for errors
-				if (is_wp_error($metadata)) {
-					echo esc_html__('Error: ','maxgalleria-media-library') . "$base_name ". $metadata->get_error_message();
-					continue;
-				}	
-				if(empty($metadata)) {
-					printf( esc_html__('Unknown error with %s','maxgalleria-media-library'), $base_name);
-					continue;
-				}	
-
-				// update the meta data
-				wp_update_attachment_metadata( $image_id, $metadata );
 				$counter++;
 
 			} else {
@@ -3854,7 +4438,7 @@ and meta_key = '_wp_attached_file'";
     
     global $is_IIS;
     
-    $metadata = wp_get_attachment_metadata($image_id);
+    $metadata = wp_get_attachment_metadata(intval($image_id));
     
     if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' )
       $seprator_position = strrpos($image_path, '\\');
@@ -3884,8 +4468,7 @@ and meta_key = '_wp_attached_file'";
         'href' => array(),
         'id' => array()
       )    
-    );                  
-    
+    );                      
 
 		?>
 
@@ -3920,7 +4503,13 @@ and meta_key = '_wp_attached_file'";
 			// Capability check
 			if ( ! current_user_can( $this->capability ) )
 				wp_die( esc_html__( 'Cheatin&#8217; uh?' ) );
-
+      
+      if($this->bda == 'on' && $this->bdp_autoprotect == 'on') {
+        $this->bdp_autoprotect = 'off';
+        update_option(MLFP_BDA_AUTO_PROTECT, 'off');                  
+        update_option(MLFP_BDA_AUTO_PROTECT_DISABLED, 'on');                  
+      }
+      
 			// Form nonce check
 			check_admin_referer(MAXGALLERIA_MEDIA_LIBRARY_NONCE);
 
@@ -3929,10 +4518,12 @@ and meta_key = '_wp_attached_file'";
 				$images = array_map( 'intval', explode( ',', trim( sanitize_text_field($_REQUEST['ids']), ',' ) ) );
 				$ids = implode( ',', $images );
 			} else {
-				if ( ! $images = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' ORDER BY ID DESC" ) ) {
+				if ( ! $images = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' AND post_mime_type != 'image/svg+xml' ORDER BY ID DESC" ) ) {
 					echo '	<p>' . sprintf( esc_html__( "Unable to find any images. Are you sure", 'maxgalleria-media-library') . "<a href='%s'>" . esc_html__(" some exist? ", 'maxgalleria-media-library' ) . "</a>",  esc_url_raw(admin_url( 'upload.php?post_mime_type=image'))) . "</p></div>";
 					return;
 				}
+        
+        error_log("IMAGES: " . print_r($images, true));
 
 				// Generate the list of IDs
 				$ids = array();
@@ -4144,23 +4735,27 @@ and meta_key = '_wp_attached_file'";
 
 		@set_time_limit( 900 ); // 5 minutes per image should be PLENTY
 
-    if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
-      $this->remove_existing_thumbnails($image->ID, addslashes($fullsizepath));
-		  $metadata = wp_generate_attachment_metadata( $image->ID, addslashes($fullsizepath));
-    } else {
-      $this->remove_existing_thumbnails($image->ID, $fullsizepath);
-		  $metadata = wp_generate_attachment_metadata( $image->ID, $fullsizepath );
-    }  
+    if($image->post_mime_type != 'image/svg+xml') {
+      if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' ) {
+        $this->remove_existing_thumbnails($image->ID, addslashes($fullsizepath));
+        $metadata = wp_generate_attachment_metadata( $image->ID, addslashes($fullsizepath));
+      } else {
+        $this->remove_existing_thumbnails($image->ID, $fullsizepath);
+        $metadata = wp_generate_attachment_metadata( $image->ID, $fullsizepath );
+      }  
+    }
 
-		if ( is_wp_error( $metadata ) )
-			$this->die_json_error_msg( $image->ID, $metadata->get_error_message() );
-		if ( empty( $metadata ) )
-			$this->die_json_error_msg( $image->ID, esc_html__( 'Unknown failure reason.', 'maxgalleria-media-library' ) );
+    if(isset($metadata)) {
+      if ( is_wp_error( $metadata ) )
+        $this->die_json_error_msg( $image->ID, $metadata->get_error_message() );
+      if ( empty( $metadata ) )
+        $this->die_json_error_msg( $image->ID, esc_html__( 'Unknown failure reason.', 'maxgalleria-media-library' ) );
 
-		// If this fails, then it just means that nothing was changed (old value == new value)
-		wp_update_attachment_metadata( $image->ID, $metadata );
+      // If this fails, then it just means that nothing was changed (old value == new value)
+      wp_update_attachment_metadata( $image->ID, $metadata );
+    }
 
-		die( json_encode( array( 'success' => sprintf( esc_html__( '&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds.', 'maxgalleria-media-library' ), esc_html( get_the_title( $image->ID ) ), $image->ID, timer_stop() ) ) ) );
+    die( json_encode( array( 'success' => sprintf( esc_html__( '&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds.', 'maxgalleria-media-library' ), esc_html( get_the_title( $image->ID ) ), $image->ID, timer_stop() ) ) ) );
 	}
 
 	// Helper to make a JSON error message
@@ -4172,11 +4767,26 @@ and meta_key = '_wp_attached_file'";
 	public function esc_quotes( $string ) {
 		return str_replace( '"', '\"', $string );
 	}
+  
+  public function mflp_enable_auto_protect() {
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_PRO_NONCE)) {
+      exit(__('missing nonce!','maxgalleria-media-library'));
+    }
+    
+    if(get_option(MLFP_BDA_AUTO_PROTECT_DISABLED, 'off') == 'on') {
+      $this->bdp_autoprotect = 'on';
+      update_option(MLFP_BDA_AUTO_PROTECT, 'on');                  
+      update_option(MLFP_BDA_AUTO_PROTECT_DISABLED, 'off');                  
+    }
+    
+    die();
+  }  
 		
 	public function mlp_image_seo_change() {
     		
     if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
-      exit(__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
+      exit(esc_html__('missing nonce! Please refresh this page.','maxgalleria-media-library'));
     } 
 		    
     if ((isset($_POST['checked'])) && (strlen(trim($_POST['checked'])) > 0))
@@ -4343,12 +4953,12 @@ order by meta_id";
     }  
     
 		if ((isset($_POST['folder_id'])) && (strlen(trim($_POST['folder_id'])) > 0))
-      $folder_id = trim(sanitize_text_field($_POST['folder_id']));
+      $folder_id = intval(trim(sanitize_text_field($_POST['folder_id'])));
     else
       $folder_id = "";
 
     // prevent hiding of the uploads folder and sub folders  
-    if(intval($folder_id) == intval($this->uploads_folder_ID)) {
+    if($folder_id == intval($this->uploads_folder_ID)) {
       echo esc_html__('The uploads folder cannot be hidden.','maxgalleria-media-library');
       die();
     }
@@ -4386,6 +4996,7 @@ and meta_key = '_wp_attached_file';";
 		die();
 	}
 		
+  // $folder_id aready forced to an inteter in hide_maxgalleria_media()
 	private function remove_children($folder_id) {
 		
     global $wpdb;
@@ -4415,6 +5026,8 @@ where folder_id = $folder_id";
 	// modifed version of wp_delete_post
 	private function mlf_delete_post( $postid = 0, $force_delete = false ) {
 		global $wpdb;
+    
+    $postid = intval($postid);
 
 		if ( !$post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $postid)) )
 			return $post;
@@ -4500,34 +5113,49 @@ where folder_id = $folder_id";
       $scaling_status = "";
         
 		if ((isset($_POST['images_per_page'])) && (strlen(trim($_POST['images_per_page'])) > 0))
-      $images_per_page = trim(sanitize_text_field($_POST['images_per_page']));
+      $images_per_page = intval(trim(sanitize_text_field($_POST['images_per_page'])));
     else
       $images_per_page = "";
     
 		if ((isset($_POST['meta_index'])) && (strlen(trim($_POST['meta_index'])) > 0))
-      $meta_index = trim(stripslashes(strip_tags($_POST['meta_index'])));
+      $meta_index = trim(sanitize_text_field($_POST['meta_index']));
     else
       $meta_index = "";    
-    
-    if($scaling_status == 'true')
-      update_option(MAXGALLERIA_DISABLE_SCALLING, 'on', true);
+
+		if ((isset($_POST['skip_webp'])) && (strlen(trim($_POST['skip_webp'])) > 0))
+      $skip_webp = trim(sanitize_text_field($_POST['skip_webp']));
     else
-      update_option(MAXGALLERIA_DISABLE_SCALLING, 'off', true);
-      
+      $skip_webp = "";    
+    
+    $this->mlf_option_true_update(MAXGALLERIA_DISABLE_SCALLING, $scaling_status);        
+          
 		update_option(MAXGALLERIA_MLP_ITEMS_PRE_PAGE, $images_per_page, true);
     
     if($meta_index == 'true') {
-      $this->add_postmeta_index();
-      update_option(MAXGALLERIA_POSTMETA_INDEX, 'on', true);
+      if(get_option(MAXGALLERIA_POSTMETA_INDEX) == 'off') {
+        $this->add_postmeta_index();
+        update_option(MAXGALLERIA_POSTMETA_INDEX, 'on', true);
+      }  
     } else {
-      $this->remove_postmeta_index();
-      update_option(MAXGALLERIA_POSTMETA_INDEX, 'off', true);
+      if(get_option(MAXGALLERIA_POSTMETA_INDEX) == 'on') {
+        $this->remove_postmeta_index();
+        update_option(MAXGALLERIA_POSTMETA_INDEX, 'off', true);
+      }
     }
-    
+                
+    $this->mlf_option_true_update(MLFP_SKIP_WEBP_FILES, $skip_webp);    
       
     echo esc_html__('The settings were updated.','maxgalleria-media-library');
 		die();
 	}
+  
+  public function mlf_option_true_update($option_id, $option_value) {
+    if($option_value == 'true') {
+      update_option($option_id, 'on', true);
+    } else {
+      update_option($option_id, 'off', true);
+    }    
+  }
   
   public function add_postmeta_index() {
     
@@ -4561,6 +5189,7 @@ where folder_id = $folder_id";
     $user_id = get_current_user_id();
     $files_to_add = array();
     $files_count = 0;
+    $parent_folder = intval($parent_folder);
             
 		$folder_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_FOLDER_TABLE;    
       
@@ -4572,7 +5201,7 @@ where post_type = 'attachment'
 and folder_id = '$parent_folder' 
 and pm.meta_key = '_wp_attached_file'	
 order by post_title";
-    
+
     $attachments = $wpdb->get_results($sql);
 		
     $sql = "select meta_value as attached_file
@@ -4608,30 +5237,32 @@ and meta_key = '_wp_attached_file'";
     foreach ($folder_contents as $file_path) {
       			
 			if($file_path !== '.DS_Store' && $file_path !== '.htaccess') {
-				$new_attachment = $folder_path . DIRECTORY_SEPARATOR . $file_path;
-				if(!strpos($new_attachment, '-uai-')) {  // skip thumbnails created by the Uncode theme
-          if(!strpos($new_attachment, '-scaled.')) {  // skip scaled images
-            if(!strpos($new_attachment, '-pdf.jpg')) {  // skip pdf thumbnails
-              if(!is_dir($new_attachment)) {
-                if($this->is_base_file($file_path, $folder_contents)) {				
-                  if(!$this->search_folder_attachments($file_path, $attachments)) {
+				$new_attachment = $folder_path . DIRECTORY_SEPARATOR . $file_path;                
+        if(!$this->is_webp($new_attachment) || ($this->is_webp($new_attachment) && $this->sync_skip_webp == 'off')) {  
+          if(!strpos($new_attachment, '-uai-')) {  // skip thumbnails created by the Uncode theme
+            if(!strpos($new_attachment, '-scaled.')) {  // skip scaled images
+              if(!strpos($new_attachment, '-pdf.jpg')) {  // skip pdf thumbnails
+                if(!is_dir($new_attachment)) {
+                  if($this->is_base_file($file_path, $folder_contents)) {				
+                    if(!$this->search_folder_attachments($file_path, $attachments)) {
 
-                    $old_attachment_name = $new_attachment;
-                    $new_attachment = pathinfo($new_attachment, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . sanitize_file_name(pathinfo($new_attachment, PATHINFO_FILENAME) . "." . strtolower(pathinfo($new_attachment, PATHINFO_EXTENSION)));
+                      $old_attachment_name = $new_attachment;
+                      $new_attachment = pathinfo($new_attachment, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . sanitize_file_name(pathinfo($new_attachment, PATHINFO_FILENAME) . "." . strtolower(pathinfo($new_attachment, PATHINFO_EXTENSION)));
 
-                    if(rename($old_attachment_name, $new_attachment)) {	
-                      $files_to_add[] = basename($new_attachment);
-                      $files_count++;
-                    } else {
-                      $files_to_add[] = basename($old_attachment_name);
-                      $files_count++;
-                    }
-                  }	
-                }
-              } 
+                      if(rename($old_attachment_name, $new_attachment)) {	
+                        $files_to_add[] = basename($new_attachment);
+                        $files_count++;
+                      } else {
+                        $files_to_add[] = basename($old_attachment_name);
+                        $files_count++;
+                      }
+                    }	
+                  }
+                } 
+              }
             }
           }
-				}
+        }
 			}		
 		}
     
@@ -4643,6 +5274,13 @@ and meta_key = '_wp_attached_file'";
     else
       return '2'; // check next folder
    		
+  }
+  
+  public function is_webp($new_attachment ) {
+    if(strpos($new_attachment, '.webp') !== false)
+      return true;
+    else
+      return false;
   }
   
   public function mlfp_run_sync_process() {
@@ -4662,7 +5300,7 @@ and meta_key = '_wp_attached_file'";
       $phase = "";
     
 		if ((isset($_POST['parent_folder'])) && (strlen(trim($_POST['parent_folder'])) > 0))
-      $parent_folder = trim(sanitize_text_field($_POST['parent_folder']));
+      $parent_folder = intval(trim(sanitize_text_field($_POST['parent_folder'])));
     else
       $parent_folder = "";
 
@@ -4691,18 +5329,18 @@ and meta_key = '_wp_attached_file'";
 		    $folders_array = get_user_meta($user_id, MAXG_SYNC_FOLDERS, true);
                 
         if(is_array($folders_array)) {
-          $next_folder = array_pop($folders_array);				
+          $next_folder = array_pop($folders_array);
         } else {
           $next_folder = $folders_array;
         }  
         
         if($next_folder != "") {
-          $message = __("Scanning for new files and folders...please wait.",'maxgalleria-media-library');        
+          $message = esc_html__("Scanning for new files and folders...please wait.",'maxgalleria-media-library');        
           $this->max_discover_files($next_folder);
           update_user_meta($user_id, MAXG_SYNC_FOLDERS, $folders_array);
           $next_phase = '3';          
         } else {
-          $message = __("Syncing finished.",'maxgalleria-media-library');        
+          $message = esc_html__("Syncing finished.",'maxgalleria-media-library');        
           delete_user_meta($user_id, MAXG_SYNC_FOLDERS);
           delete_user_meta($user_id, MAXG_SYNC_FILES);          
           delete_user_meta($user_id, MAXG_SYNC_FOLDER_PATH_ID);          
@@ -4728,10 +5366,10 @@ and meta_key = '_wp_attached_file'";
           $wp_filetype = wp_check_filetype_and_ext($next_file, $next_file );
 
           if ($wp_filetype['ext'] !== false) {      
-            $message = __("Adding ",'maxgalleria-media-library') . $next_file;
+            $message = esc_html__("Adding ",'maxgalleria-media-library') . $next_file;
             $this->mlfp_process_sync_file($next_file, $mlp_title_text, $mlp_alt_text);
           } else {
-            $message = $next_file . __(" is not an allowed file type. It was not added.",'maxgalleria-media-library');            
+            $message = $next_file . esc_html__(" is not an allowed file type. It was not added.",'maxgalleria-media-library');            
           }
           update_user_meta($user_id, MAXG_SYNC_FILES, $files_to_add);            
 
@@ -4799,12 +5437,12 @@ and meta_key = '_wp_attached_file'";
       $phase = "";
     
     if ((isset($_POST['folder_id'])) && (strlen(trim($_POST['folder_id'])) > 0))
-      $folder_id = trim(sanitize_textarea_field($_POST['folder_id']));
+      $folder_id = intval(trim(sanitize_textarea_field($_POST['folder_id'])));
     else
       $folder_id = "";
     
     if ((isset($_POST['current_folder'])) && (strlen(trim($_POST['current_folder'])) > 0))
-      $current_folder = trim(sanitize_textarea_field($_POST['current_folder']));
+      $current_folder = intval(trim(sanitize_textarea_field($_POST['current_folder'])));
     else
       $current_folder = "";
     
@@ -4845,19 +5483,21 @@ and meta_key = '_wp_attached_file'";
         }
 
         if($next_id != "") {
-          if($action_name == 'copy_media') {
-            $message = $this->move_copy_file(true, $next_id, $folder_id, $current_folder, $user_id);
-          } else {
-            $message = $this->move_copy_file(false, $next_id, $folder_id, $current_folder, $user_id);
-          }  
+          if(is_numeric($next_id)) {
+            if($action_name == 'copy_media') {
+              $message = $this->move_copy_file(true, $next_id, $folder_id, $current_folder, $user_id);
+            } else {
+              $message = $this->move_copy_file(false, $next_id, $folder_id, $current_folder, $user_id);
+            }  
+          }
           update_user_meta($user_id, MAXG_MC_FILES, $files_to_move);                     
         } else {
           $next_phase = null;
           delete_user_meta($user_id, MAXG_MC_FILES);          
           if($action_name == 'copy_media')          		
-            $message = __("Finished copying files. ",'maxgalleria-media-library');
+            $message = esc_html__("Finished copying files. ",'maxgalleria-media-library');
           else
-            $message = __("Finished moving files. ",'maxgalleria-media-library');
+            $message = esc_html__("Finished moving files. ",'maxgalleria-media-library');
         }  
         break;
     }
@@ -4877,6 +5517,7 @@ and meta_key = '_wp_attached_file'";
 		$files = "";
 		$refresh = false;
     $scaled = false;
+    $copy_id = intval($copy_id);
     
     $destination = get_user_meta($user_id, MAXG_MC_DESTINATION_FOLDER, true);
     
@@ -4923,11 +5564,11 @@ AND meta_key = '_wp_attached_file'";
                 }
               }
 
-              if(copy($image_path, $destination_name )) {                                          
-
+              if(copy($image_path, $destination_name )) {  
+                
                 $destination_url = $this->get_file_url($destination_name);
-                $title_text = get_the_title($copy_id);
-                $alt_text = get_post_meta($copy_id, '_wp_attachment_image_alt');										
+                $title_text = get_the_title($copy_id);                
+                $alt_text = get_post_meta($copy_id, '_wp_attachment_image_alt', true);                  
                 $attach_id = $this->add_new_attachment($destination_name, $folder_id, $title_text, $alt_text);
                 if($attach_id === false){
                   $copy_status = false; 
@@ -5423,6 +6064,1083 @@ AND meta_key = '_wp_attached_file'";
     }        
   }
   
+  public function get_ajax_paramater($parameter_name, $default = '') {
+
+    if ((isset($_POST[$parameter_name])) && (strlen(trim($_POST[$parameter_name])) > 0))
+      $return_value = trim(sanitize_text_field($_POST[$parameter_name]));
+    else
+      $return_value = $default;
+
+    return $return_value;
+
+  }  
+    
+  public function mlfp_process_bdp() {
+    
+    $message = "";
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    //error_log("mlfp_process_bdp 1");
+    
+    $activate_mlfp_bdp = $this->get_ajax_paramater('activate_mlfp_bdp');
+    $disable_listing = $this->get_ajax_paramater('disable_listing');
+    $disable_hotlinking = $this->get_ajax_paramater('disable_hotlinking');
+    $auto_protect = $this->get_ajax_paramater('auto_protect');
+    $display_fe_protected_images = $this->get_ajax_paramater('display_fe_protected_images');
+    $prevent_right_click = $this->get_ajax_paramater('prevent_right_click');
+    $bda_role = $this->get_ajax_paramater('bda_role');
+    $no_access_page_id = intval($this->get_ajax_paramater('no_access_page_id'));
+    $no_access_page_name = $this->get_ajax_paramater('no_access_page_name');
+                  
+    if($this->bda == 'off' && $activate_mlfp_bdp == 'true') {
+      //error_log("mlfp_process_bdp 2");
+                  
+      $this->protected_content_dir = $this->upload_dir['basedir'] . '/' . MLFP_PROTECTED_DIRECTORY;
+      
+		  $content_folder = apply_filters( 'mlfp_content_folder', 'wp-content');
+      
+      $position = strpos($this->protected_content_dir, $content_folder);
+        
+      $bda_path = substr($this->protected_content_dir, $position);
+            
+		  if(!file_exists($this->protected_content_dir)) {        
+        if(mkdir($this->protected_content_dir)) {
+          //error_log("created " . $this->protected_content_dir);
+          if(defined('FS_CHMOD_DIR'))
+            @chmod($this->protected_content_dir, FS_CHMOD_DIR);
+          else  
+            @chmod($this->protected_content_dir, 0775);
+            //@chmod($this->protected_content_dir, 0755);
+          
+		      if(file_exists($this->protected_content_dir)) {  
+            
+            $this->bda_folder_id = $this->add_media_folder(MLFP_PROTECTED_DIRECTORY, $this->uploads_folder_ID, $this->protected_content_dir); 
+            update_option(MLFP_PROTECTED_DIR, $this->protected_content_dir); 
+            
+            $skip_folder_file = $this->protected_content_dir . DIRECTORY_SEPARATOR . "mlpp-hidden";
+
+            file_put_contents($skip_folder_file, '');                        
+            
+            $message .= esc_html__('Procteced-content folder added.','maxgalleria-media-library') . '<br>';
+          }
+        }
+      }
+      
+      $message .= esc_html__('Block Direct Access activated.','maxgalleria-media-library');
+      
+      $this->bda = 'on';
+      update_option(MLFP_BDA, $this->bda);      
+      add_filter('mod_rewrite_rules', array( $this, 'mlfp_update_htaccess'));
+      flush_rewrite_rules();
+      
+      // check for download page
+      if(!get_page_by_path("mlfp-download")) {
+        $wordpress_page = array(
+          'post_title'    => esc_html__('MLFP Download','maxgalleria-media-library'),
+          'post_content'  => '',
+          'post_status'   => 'publish',
+          'post_author'   => 1,
+          'post_type' => 'page'
+        );
+        $download_page_id =  wp_insert_post($wordpress_page); 
+        update_option(MLFP_BDA_DOWNLOAD_PAGE, $download_page_id);              
+      }
+            
+    } else if($this->bda == 'on' && $activate_mlfp_bdp == 'false') {
+      $this->bda = 'off';
+      update_option(MLFP_BDA, 'off');   
+      if($post = get_page_by_path('mlfp-download')) {
+        wp_delete_post($post->ID, true);
+      }  
+      $message .= esc_html__('Block Direct Access deactivated.','maxgalleria-media-library');
+      
+      remove_filter('mod_rewrite_rules', array( $this, 'mlfp_update_htaccess'));
+      flush_rewrite_rules();
+      //error_log("removing bda rules");
+    }
+    
+    if($disable_listing == 'true') {
+      update_option(MLFP_BDA_DIR_LISTING, 'on');            
+    } else {
+      update_option(MLFP_BDA_DIR_LISTING, 'off');      
+    }
+    
+    if($disable_hotlinking == 'true') {
+      update_option(MLFP_BDA_HOTLINKING, 'on');                  
+    } else {
+      update_option(MLFP_BDA_HOTLINKING, 'off');                        
+    }
+        
+    if($auto_protect == 'true') {
+      update_option(MLFP_BDA_AUTO_PROTECT, 'on');                  
+    } else {
+      update_option(MLFP_BDA_AUTO_PROTECT, 'off');                        
+    }
+    
+    if($display_fe_protected_images == 'true') {
+      update_option(MLFP_BDA_DISPLAY_FE_IMAGES, 'on');                  
+    } else {
+      update_option(MLFP_BDA_DISPLAY_FE_IMAGES, 'off');                        
+    }
+    
+    if($prevent_right_click == 'true') {
+      update_option(MLFP_BDA_PREVENT_RIGHT_CLICK, 'on');                  
+    } else {
+      update_option(MLFP_BDA_PREVENT_RIGHT_CLICK, 'off');                        
+    }    
+    
+    if(!empty($bda_role)) {
+      update_option(MLFP_BDA_USER_ROLE, $bda_role);                        
+    }  
+        
+    echo $message;
+    
+    die();
+    
+  }
+  
+  public function mlfp_save_noaccess_page() {
+        
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    $no_access_page_id = intval($this->get_ajax_paramater('no_access_page_id'));
+    $no_access_page_name = $this->get_ajax_paramater('no_access_page_name');
+                      
+    if(!empty($no_access_page_id))      
+      update_option(MLFP_NO_ACCESS_PAGE_ID, $no_access_page_id); 
+    
+    if(!empty($no_access_page_name))      
+      update_option(MLFP_NO_ACCESS_PAGE_TITLE, $no_access_page_name);
+    
+    echo '';
+    
+    die();
+  }
+    
+  public function mlfp_update_htaccess($rules) {
+    
+    //error_log("mlfp_update_htaccess");
+    
+    global $wpdb;
+    $endpoint = "mlfp_bdp";
+    $display_listing = '';
+    $bdp_rules = '';
+            
+    $bdp_rules .= "# Block Direct Access Rewrite Rules" . PHP_EOL;
+    $bdp_rules .= "RewriteRule private/([a-zA-Z0-9]+)$ index.php?{$endpoint}=$1 [L]" . PHP_EOL;
+    $bdp_rules .= "RewriteCond %{REQUEST_FILENAME} -s"  . PHP_EOL;
+    $bdp_rules .= "RewriteCond %{HTTP_USER_AGENT} !facebookexternalhit/[0-9]" . PHP_EOL;
+    $bdp_rules .= "RewriteCond %{HTTP_USER_AGENT} !Googlebot/[0-9]" . PHP_EOL;
+    $bdp_rules .= "RewriteCond %{HTTP_USER_AGENT} !Twitterbot/[0-9]" . PHP_EOL;
+		$directAccessPath = str_replace( trailingslashit( site_url() ), '', 'index.php' ) . "?{$endpoint}=$1&block_access=true [QSA,L]" . PHP_EOL;
+		$upload_dir_url = str_replace( "https", "http", wp_upload_dir()['baseurl'] );
+		$site_url       = str_replace( "https", "http", site_url() );    
+    $bdp_rules .= "RewriteRule " . str_replace(trailingslashit($site_url), '', $upload_dir_url) . "/" . MLFP_PROTECTED_DIRECTORY . "(\/[A-Za-z0-9_@.\/&+-]+)+\.([A-Za-z0-9_@.\/&+-]+)$ " . $directAccessPath  . PHP_EOL;
+    
+    if(get_option(MLFP_BDA_HOTLINKING) == 'on') {     
+      $domain = home_url( '/', is_ssl() ? 'https' : 'http' );      
+      $bdp_rules .= "# Block Direct Access Prevent Hotlinking Rules" . PHP_EOL;
+      $bdp_rules .= "RewriteCond %{HTTP_REFERER} !^$" . PHP_EOL;
+      $bdp_rules .= "RewriteCond %{HTTP_REFERER} !^{$domain} [NC]" . PHP_EOL;
+      $bdp_rules .= "RewriteRule \.(gif|jpg|jpeg|bmp|zip|rar|mp3|flv|swf|xml|png|css|pdf)$ - [F]" . PHP_EOL;
+      $bdp_rules .= "# Block Direct Access Prevent Hotlinking Rules End" . PHP_EOL;
+    }
+    
+    if(get_option(MLFP_BDA_DIR_LISTING) == 'on') {
+      $display_listing = "Options -Indexes" . PHP_EOL;
+    }
+    
+    $bdp_rules .= "# Block Direct Access Rewrite Rules End"  . PHP_EOL;
+    
+    return $bdp_rules . $rules . $display_listing;
+        
+  }
+    
+  public function mlfp_toggle_file_access() {
+        
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('missing nonce!','maxgalleria-media-library'));
+    }
+    
+    $next_id = intval($this->get_ajax_paramater('file_id', ''));
+        
+    $current_folder = intval($this->get_ajax_paramater('current_folder', ''));
+        
+    $protected = intval($this->get_ajax_paramater('protected', '0'));
+                        
+    if($next_id != "") {
+      $message = $this->move_to_protected_folder($next_id, $current_folder, $protected);
+    } else {
+      $message = esc_html__("Finished moving files to protected folder. ",'maxgalleria-media-library');
+    }  
+        
+    echo $message;
+    
+    die();
+    
+  }
+  
+  public function move_to_protected_folder($next_id, $current_folder, $protected) {
+        
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+        
+    global $wpdb, $is_IIS;
+		$message = "";
+		$files = "";
+		$refresh = false;
+    $scaled = false;
+    $next_id = intval($next_id);
+    
+    $sql = "select meta_value as attached_file
+from $wpdb->postmeta 
+where post_id = $next_id    
+AND meta_key = '_wp_attached_file'";
+
+    //error_log($sql);
+    
+    $row = $wpdb->get_row($sql);
+
+    if(!$row) {
+      return esc_html__('Could not find the selected file.','maxgalleria-media-library') . PHP_EOL;
+    }
+
+    remove_filter( 'wp_generate_attachment_metadata', array($this, 'add_attachment_to_folder2'));   
+
+    $baseurl = $this->upload_dir['baseurl'];
+    $baseurl = rtrim($baseurl, '/') . '/';
+    $image_location = $baseurl . ltrim($row->attached_file, '/');
+    
+    //error_log("image_location $image_location");
+    if(strpos($image_location, '-scaled.' ) !== false) {
+      $scaled = true;
+    }
+
+    $image_path = $this->get_absolute_path($image_location);
+    //error_log("image_path $image_path");
+    
+    if($protected == 0 ) {
+      $destination_path = $this->protected_content_dir;   
+      
+      //error_log('Protecting file ' . $row->attached_file);
+      
+      $destination_name = $destination_path . DIRECTORY_SEPARATOR . $row->attached_file;
+      //error_log("destination_name $destination_name");
+      $position = strrpos($destination_name, '/');
+      $destination_folder = substr($destination_name, 0, $position);
+      
+    } else {      
+      $destination_path = $this->get_folder_path($current_folder);
+      $destination_folder = $destination_path;
+      
+      //error_log('Unprotecting file ' . $row->attached_file);
+      
+      $basename = pathinfo($row->attached_file, PATHINFO_BASENAME);
+            
+      $destination_name = $destination_path . DIRECTORY_SEPARATOR . $basename;        
+      
+    }
+    //error_log("destination_path $destination_path");
+    
+    
+    if(!file_exists($destination_folder)) {
+      if($this->make_dir_path($destination_folder)) {
+        if(defined('FS_CHMOD_DIR'))
+			    @chmod($destination_folder, FS_CHMOD_DIR);
+        else  
+			    @chmod($destination_folder, 0755);
+      }  
+    }
+
+    $copy_status = true;
+    
+    if(file_exists($image_path)) {
+      if(!is_dir($image_path)) {
+        if(file_exists($destination_path)) {
+          if(is_dir($destination_path)) {
+            //error_log("rename $image_path, $destination_name");  
+            //return false;
+            if(rename($image_path, $destination_name )) {
+
+              $image_path = str_replace('.', '*.', $image_path );
+              $metadata = wp_get_attachment_metadata($next_id);                               
+              $path_to_thumbnails = pathinfo($image_path, PATHINFO_DIRNAME);
+
+              if($scaled) {
+                $full_scaled_image_path = str_replace('-scaled*', '', $image_path);
+                //error_log("full_scaled_image_path $full_scaled_image_path");
+                $full_scaled_image = substr($full_scaled_image_path, strrpos($full_scaled_image_path, '/')+1);
+                //error_log("full_scaled_image $full_scaled_image");
+                $scaled_image_destination = $destination_folder . DIRECTORY_SEPARATOR . $full_scaled_image;
+                //error_log("scaled_image_destination $scaled_image_destination");
+                if(file_exists($full_scaled_image_path))
+                  rename($full_scaled_image_path, $scaled_image_destination);  
+              }
+
+              if(isset($metadata['sizes'])) {
+
+                foreach($metadata['sizes'] as $source_path) {
+                  $thumbnail_file = $path_to_thumbnails . DIRECTORY_SEPARATOR . $source_path['file'];
+                  $thumbnail_destination = $destination_folder . DIRECTORY_SEPARATOR . $source_path['file'];
+                  //error_log("thumbnail_file $thumbnail_file");
+                  if(file_exists($thumbnail_file)) {
+                    unlink($thumbnail_file);
+                    
+                  }
+                }
+              }
+
+              $destination_url = $this->get_file_url($destination_name);
+              
+              // update block_access table
+              if($protected == 0) {
+                $this->add_bda_record($next_id);
+                $message = esc_html__('The file', 'maxgalleria-media-library') . esc_html(" $row->attached_file ") . esc_html__('is protected.', 'maxgalleria-media-library');
+              } else {
+                $this->remove_bda_record($next_id);
+                $message = esc_html__('The file', 'maxgalleria-media-library') . esc_html(" $row->attached_file ") . esc_html__('is unprotected.', 'maxgalleria-media-library');
+              }  
+              //error_log("block_access_table updated $protected");
+              
+              //add postmete record
+
+              // get the uploads dir name
+              $basedir = $this->upload_dir['baseurl'];
+              $uploads_dir_name_pos = strrpos($basedir, '/');
+              $uploads_dir_name = substr($basedir, $uploads_dir_name_pos+1);
+
+              //find the name and cut off the part with the uploads path
+              $string_position = strpos($destination_name, $uploads_dir_name);
+              $uploads_dir_length = strlen($uploads_dir_name) + 1;
+              $uploads_location = substr($destination_name, $string_position+$uploads_dir_length);
+              if($this->is_windows()) 
+                $uploads_location = str_replace('\\','/', $uploads_location);      
+
+              // update _wp_attached_file
+
+              $uploads_location = ltrim($uploads_location, '/');
+              update_post_meta( $next_id, '_wp_attached_file', $uploads_location );
+              //error_log("new file location $uploads_location");
+              
+              // update _wp_attachment_metadata
+              if ($is_IIS || strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' || strtoupper(substr(PHP_OS, 0, 13)) == 'MICROSOFT-IIS' )
+                $attach_data = wp_generate_attachment_metadata( $next_id, addslashes($destination_name));										
+              else
+                $attach_data = wp_generate_attachment_metadata( $next_id, $destination_name );										
+              wp_update_attachment_metadata( $next_id,  $attach_data );
+
+              // update posts and pages
+              $replace_image_location = $this->get_base_file($image_location);
+              $replace_destination_url = $this->get_base_file($destination_url);
+
+              if(class_exists( 'SiteOrigin_Panels')) {                  
+                $this->update_serial_postmeta_records($replace_image_location, $replace_destination_url);                  
+              }
+
+              // update postmeta records for beaver builder
+              if(class_exists( 'FLBuilderLoader')) {
+                $sql = "SELECT ID FROM {$wpdb->prefix}posts WHERE post_content LIKE '%$replace_image_location%'";
+                //error_log($sql);
+
+                $records = $wpdb->get_results($sql);
+                foreach($records as $record) {
+
+                  $this->update_bb_postmeta($record->ID, $replace_image_location, $replace_destination_url);
+
+                  //}
+                  // clearing BB caches
+                  //error_log("check for cache");
+                  if ( class_exists( 'FLBuilderModel' ) && method_exists( 'FLBuilderModel', 'delete_asset_cache_for_all_posts' ) ) {
+                    FLBuilderModel::delete_asset_cache_for_all_posts();
+                    //error_log("delete_asset_cache_for_all_posts");
+                  }
+
+                  if ( class_exists( 'FLBuilderModel' ) && method_exists( 'FLBuilderModel', 'delete_all_asset_cache' ) ) {
+                    FLBuilderModel::delete_all_asset_cache( $record->ID );
+                    //error_log("delete_all_asset_cache");
+                  }  
+
+                  if ( class_exists( 'FLCustomizer' ) && method_exists( 'FLCustomizer', 'clear_all_css_cache' ) ) {
+                    FLCustomizer::clear_all_css_cache();
+                    //error_log("clear_all_css_cache");
+                  }
+                }
+                wp_cache_flush();
+
+              }
+
+              $this->update_links($replace_image_location, $replace_destination_url);                
+
+              // for updating wp pagebuilder
+              if(defined('WPPB_LICENSE')) {
+                $this->update_wppb_data($replace_image_location, $destination_url);
+              }
+
+              // for updating themify images
+              if(function_exists('themify_builder_activate')) {
+                $this->update_themify_data($replace_image_location, $destination_url);
+              }
+
+              // for updating elementor background images
+              if(is_plugin_active("elementor/elementor.php")) {
+                $this->update_elementor_data($next_id, $replace_image_location, $destination_url);
+              }
+
+              //$message .= __('Updating attachment links, please wait...','maxgalleria-media-library') . PHP_EOL;
+              $files = $this->display_folder_contents ($current_folder, true, "", false);
+              $refresh = true;
+            } else {
+              //$message .= sprintf(__("Could not move %s to the protected folder",'maxgalleria-media-library'), $row->attached_file) . PHP_EOL;
+            }                                           
+          }
+        }
+      }
+    }  
+    
+    add_filter( 'wp_generate_attachment_metadata', array($this, 'add_attachment_to_folder2'), 10, 4);    
+
+    return $message;
+    
+  }
+
+  public function is_file_protected($file_id) {
+
+    global $wpdb;
+    $file_id = intval($file_id);
+
+    $sql = "select block from wp_mgmlp_block_access where attachment_id = $file_id";
+
+    $row = $wpdb->get_row($sql);
+
+    if($row) {
+      if($row->block == 1)
+        return true;
+      else
+        return false;
+    } else {
+      return false;
+    }
+    
+  }
+
+  public function file_exists($file_id) {
+
+    global $wpdb;
+    $file_id = intval($file_id);
+
+    $sql = "select post_title from $wpdb->posts where ID = $file_id and post_type = 'attachment'";
+
+    $row = $wpdb->get_row($sql);
+
+    if($row) {
+      return true;
+    } else {
+      return false;
+    }
+  }  
+  
+  public function make_dir_path($path) {
+    return (file_exists($path) || mkdir($path, 0775, true));
+  }
+  
+  public function add_bda_record($attachment_id) {
+    global $wpdb;
+    $attachment_id = intval($attachment_id);
+    $block_access_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+    $time = date('D n/j/Y g:i a');
+    
+    $data = array(
+      'attachment_id'=> $attachment_id,
+      'hash_id' => md5(rand()),  
+      'time' => $time,
+      'block' => 1
+    );
+    
+    $wpdb->replace($block_access_table, $data);
+    update_post_meta($attachment_id, MLFP_BDA_MEDIA, TRUE);
+  }  
+  
+  public function remove_bda_record($attachment_id) {
+    global $wpdb;
+    $attachment_id = intval($attachment_id);
+    $block_access_table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+    $where = array('attachment_id' => $attachment_id);
+    $wpdb->delete($block_access_table,$where);
+    delete_post_meta($attachment_id, MLFP_BDA_MEDIA);
+  }
+  
+  public function bda_help() {
+    ?>
+    <p><strong><?php esc_html_e("Block Direct Access","maxgalleria-media-library")?></strong></p>
+    <p><?php esc_html_e("The Block Direct Access feature allows an administrator to block viewing and download of selected media files. Files to be blocked are moved to a protected folder in the media library and their embedded links in any posts or pages are automatically updated.","maxgalleria-media-library")?></p>
+    <p><?php esc_html_e("Blocked file links can be generated and configured to limit the number of downloads or to expire with an expiration date on the Library page.","maxgalleria-media-library")?></p>
+    <p><?php esc_html_e("To activate this feature, check the 'Activate Block Direct Access' checkbox and click the Update Settings button.","maxgalleria-media-library")?></p>
+    <p><?php esc_html_e("You can also check the 'Prevent Directory Listing' and the 'Prevent Hotlinking'. Hotlinking is the practice and linking to files hosted on a different website.","maxgalleria-media-library")?></p>
+    <p><?php esc_html_e("The viewing of protected files on the front end of the site can be enabled by check the 'Display Protected Images on the Front End of the Site' option, but this may not work in some browsers. Also the ability to copy and save images displayed in a browser can be disable using the 'Disable Image Copy and Right Click' option.","maxgalleria-media-library")?></p>
+    <p><?php esc_html_e("Also either Administrators or the Author, the user who upload the protected file, can be set to view the protected files from Media Library Folders Pro.","maxgalleria-media-library")?></p>    
+    <p><strong><?php esc_html_e("Block Access to Private Download Links","maxgalleria-media-library")?></strong>, <?php esc_html_e("IP addresses to private links to protected files can be blocked by adding them to the Block Access to Private Download Links.","maxgalleria-media-library")?></p>    
+    <p><strong><?php esc_html_e("Custom No Access Page,","maxgalleria-media-library")?></strong>, <?php esc_html_e("A page can be created to display a no access message in place of the site's 404 page. Under Custom No Access Page, an administrator can select and set the page to be used for this purpose.","maxgalleria-media-library")?></p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <?php
+  }
+  
+  public function mlp_generate_file_link() {
+    
+    $message = "";
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+          
+		if ((isset($_POST['image_id'])) && (strlen(trim($_POST['image_id'])) > 0))
+      $image_id = intval(trim(sanitize_text_field($_POST['image_id'])));
+    else
+      $image_id = 0;
+        
+		if ((isset($_POST['title'])) && (strlen(trim($_POST['title'])) > 0))
+      $title = trim(sanitize_text_field($_POST['title']));
+    else
+      $title = "";
+    
+    
+		if ((isset($_POST['current_user'])) && (strlen(trim($_POST['current_user'])) > 0))
+      $current_user = intval(trim(sanitize_text_field($_POST['current_user'])));
+    else
+      $current_user = 0;
+    
+    if($image_id != 0) {
+      
+      if(!$this->is_protected_file($image_id)) {
+        $message = $title . esc_html__(' is not a protected file','maxgalleria-media-library');
+      } else {
+        $download_link = $this->get_private_link($image_id, $current_user);
+        $message = esc_html($title) . " - " . esc_url($download_link);
+      }              
+    }
+    
+    echo $message;
+    die();
+    
+  }
+  
+  public function is_protected_file($image_id) {
+    
+    global $wpdb;
+    $image_id = intval($image_id);
+    
+    $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+    
+    $sql = "select time from $table where attachment_id = $image_id";
+    
+    //error_log($sql);
+    
+    if($wpdb->get_var($sql) != NULL)
+      return true;
+    else
+      return false;    
+  }
+  
+  public function get_hash_id($image_id) {
+    
+    global $wpdb;
+    $image_id = intval($image_id);
+    
+    $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+        
+    $sql = "select hash_id from $table where attachment_id = $image_id";
+    
+    //error_log($sql);
+    
+    $hash_id = $wpdb->get_var($sql);
+    
+    return $hash_id;
+  }
+  
+  public function get_private_link($image_id, $current_user) {
+    
+    $hash = $this->get_hash_id($image_id);
+        
+    $download_page = get_permalink(get_option(MLFP_BDA_DOWNLOAD_PAGE));
+    
+    return esc_url(add_query_arg('download', $hash, $download_page));         
+  }
+    
+  public function mlfp_display_bda_info() {
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+          
+    $image_id = intval($this->get_ajax_paramater('image_id', 0));
+    
+    $title = $this->get_ajax_paramater('title', '');
+    
+    $count = $this->get_ajax_paramater('count', ''); 
+    
+    //error_log("$image_id, $title, $count");
+    
+    $row = $this->get_bda_file_info($image_id, $title, $count);
+    
+    if($row)    
+      echo $row;
+    else
+      echo "none";
+    
+    die();
+    
+  }
+  
+  public function get_bda_file_info($image_id, $title, $count) {
+    
+    global $wpdb;
+    $image_id = intval($image_id);
+    
+    $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+
+    $sql = "select * from $table where attachment_id = $image_id";
+    //error_log($sql);
+    $row = $wpdb->get_row($sql);
+
+    if($count % 2)
+      $row_color = "";
+    else
+      $row_color = "gray-row";
+              
+    if($row) {
+      $download_count = ($row->count) ? $row->count : '0';
+      $download_limit = ($row->download_limit) ? $row->download_limit : '0';
+      $line = "<tr class='bda-row $row_color' data-id='$image_id'><td class='bda-name-col'>$title</td><td class='bda-count-col mflp-align-center'>$download_count</td><td class='bda-limit-col mflp-align-center'><input type='text' id='limit-{$image_id}' class='bda-limit-input mflp-align-right' value='$download_limit' ></td><td class='bda-exp-date-col'><input type='date' class='bda-exp-date-input' id='ex-date-{$image_id}' value='$row->expiration_date'></td><td class='bda-copy-link-col'><a class='bda-copy-link gray-blue-link' data-hash='$row->hash_id'>" . __('Copy Link','maxgalleria-media-library') . "</a></td>\r\n";
+      return $line; 
+    } else {
+      return false;
+    }   
+  }
+  
+  public function mlfp_update_bda_record() {
+    
+    global $wpdb;
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    
+    $image_id = intval($this->get_ajax_paramater('image_id', 0));
+    
+    $download_limit = intval($this->get_ajax_paramater('download_limit', 0));
+    
+    $expiration_date = $this->get_ajax_paramater('expiration_date', 0);
+
+    $this->update_bda_record($image_id, $download_limit, $expiration_date);
+                  
+    die();
+    
+  }
+
+  public function update_bda_record($image_id, $download_limit, $expiration_date) {
+    
+    global $wpdb;
+    $image_id = intval($image_id);
+    
+    $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;
+    
+    $data = array(
+      'download_limit' => $download_limit,
+      'expiration_date' => $expiration_date
+    );
+    
+    $where = array('attachment_id' => $image_id);
+    
+    $wpdb->update($table, $data, $where);
+    
+  }
+  
+  public function copy_template_to_theme() {
+        
+		// Copy gallery post type template file to theme directory
+    $source = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_DIR . '/page-mlfp-download.php';
+    $destination = $this->get_theme_dir() . '/page-mlfp-download.php';
+    if(!defined('PRESERVE_MLFP_TEMPLATE')) {
+      copy($source, $destination);
+    }  
+    else if(!file_exists($destination)) {
+      copy($source, $destination);
+    }
+		flush_rewrite_rules();    
+  }
+
+	public function get_theme_dir() {
+    if(is_child_theme())
+		  return WP_CONTENT_DIR . '/themes/' . get_stylesheet();
+    else
+		  return WP_CONTENT_DIR . '/themes/' . get_template();
+	}
+  
+  
+  public function mlfp_bdp_report() {
+    
+    global $wpdb;
+    $images_found = false;
+    $items_per_page = 10;
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    
+    $page_id = intval($this->get_ajax_paramater('page_id', 0));
+        
+    $table = $wpdb->prefix . MAXGALLERIA_MEDIA_LIBRARY_BLOCK_ACCESS_TABLE;    
+    
+    $offset = $page_id * $items_per_page;
+    
+    $sql = $wpdb->prepare("SELECT SQL_CALC_FOUND_ROWS pm.meta_value AS attached_file, ba.count, ba.download_limit, ba.expiration_date 
+FROM $table AS ba
+LEFT JOIN $wpdb->postmeta AS pm ON pm.post_id = ba.attachment_id
+WHERE pm.meta_key = '_wp_attached_file' limit %d, %d", $offset, $items_per_page);
+    
+    //error_log($sql);
+    
+    $rows = $wpdb->get_results($sql);
+    
+    $count = $wpdb->get_row("select FOUND_ROWS()", ARRAY_A);
+    $total_images = $count['FOUND_ROWS()'];
+    $total_number_pages = ceil($total_images / $items_per_page);
+        
+    if($rows) {
+      $images_found = true;      
+      echo "<table id='protected-files'>" . PHP_EOL;
+      echo "  <thead>" . PHP_EOL;
+      echo "    <tr>" . PHP_EOL;
+      echo "      <td class='pf-name'>". esc_html__('File','maxgalleria-media-library')."</td>" . PHP_EOL;
+      echo "      <td class='pf-count'>". esc_html__('Download count','maxgalleria-media-library')."</td>" . PHP_EOL;
+      echo "      <td class='pf-limit'>". esc_html__('Download limit','maxgalleria-media-library')."</td>" . PHP_EOL;
+      echo "      <td class='pf-expiration'>". esc_html__('Expirtation Date','maxgalleria-media-library')."</td>" . PHP_EOL;
+      echo "    </tr>" . PHP_EOL;
+      echo "  </thead>" . PHP_EOL;
+      echo "  <tbody>" . PHP_EOL;
+      foreach($rows as $row) {
+        echo "    <tr>" . PHP_EOL;
+        echo "      <td class='pf-name'>" . esc_html($row->attached_file) ."</td>" . PHP_EOL;
+        $count = ($row->count) ? $row->count : '0';
+        echo "      <td class='pf-count'>".  esc_html($count) ."</td>" . PHP_EOL;
+        $download_limit = ($row->download_limit) ? $row->download_limit : 'none';
+        echo "      <td class='pf-limit'>" . esc_html($download_limit) ."</td>" . PHP_EOL;
+        //error_log($row->attached_file . " expiration_date " . $row->expiration_date);
+        //$expiration_date = ($row->expiration_date == '0000-00-00') ? 'none' : date("m/d/Y", strtotime($row->expiration_date));
+        if($row->expiration_date == null || $row->expiration_date == '0000-00-00')
+          $expiration_date = 'none';
+        else 
+          $expiration_date = date("m/d/Y", strtotime($row->expiration_date));
+        echo "      <td class='pf-expiration'>" . esc_html($expiration_date) ." </td>" . PHP_EOL;
+        echo "    </tr>" . PHP_EOL;
+      }  
+      echo "  <tbody>" . PHP_EOL;
+      echo "<table>" . PHP_EOL;
+    } else {
+      echo "<p style='text-align:center'>" . esc_html__('No files were found.','maxgalleria-media-library')  . "</p>";      
+    }
+    
+    if($images_found) {      
+      $last_page = $total_number_pages-1;      
+      $previous_page = $page_id - 1;
+      $next_page = $page_id + 1;
+      echo "<div class='mlfp-page-nav'>" . PHP_EOL;
+      if($page_id > 0)	
+        echo "<a id='mlfp-previous' page-id='" . esc_attr($previous_page) . "' style='float:left;cursor:pointer'>< " . esc_html__( 'Previous', 'maxgalleria-media-library' ) ."</a>" . PHP_EOL;
+      if($page_id < $total_number_pages-1 && $total_images > $items_per_page)
+        echo "<a id='mlfp-next' page-id='" . esc_attr($next_page) ."' style='float:right;cursor:pointer'>" . esc_html__( 'Next', 'maxgalleria-media-library' ) ." ></a>" . PHP_EOL;
+      echo "</div>" . PHP_EOL;      
+    }
+      
+    die();
+    
+  }
+  
+  public function mlfp_block_new_ip() {
+    
+    global $wpdb;
+    $message = '';
+    $result = '';
+    $new_id = 0;
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+        
+    $new_block_ip = $this->get_ajax_paramater('new_block_ip');
+    
+    if(filter_var($new_block_ip, FILTER_VALIDATE_IP)) {
+      
+      $table = $wpdb->prefix . BLOCKED_IPS_TABLE;
+
+      $sql = $wpdb->prepare("select * from $table where address = '%s'", $new_block_ip);
+
+      $row = $wpdb->get_row($sql);
+      if($row) {
+        $message = esc_html__('The address is already in the blocked IPs list.','maxgalleria-media-library');
+        $result = false;
+      } else {
+        $data = array('address' => $new_block_ip);
+        $retval = $wpdb->insert($table, $data);
+        $new_id = $wpdb->insert_id;
+        //error_log("$new_block_ip retval $retval");
+        $message = esc_html__('The address has been added to the blocked IPs list.','maxgalleria-media-library');
+        $result = true;
+      }
+            
+    } else {
+        $message = esc_html__('The IP address is not valid.','maxgalleria-media-library');
+        $result = false;      
+    }
+        
+    $return = array('message' => $message, 'result' => $result, 'id' => $new_id);
+    
+	  echo json_encode($return);
+    
+    die();
+  }
+  
+  public function get_blocked_ips() {
+    global $wpdb;
+    $buffer = '';
+    $table = $wpdb->prefix . BLOCKED_IPS_TABLE;
+    $sql = "select * from $table order by address";
+    //error_log($sql);
+    $rows = $wpdb->get_results($sql);
+    if($rows) {
+      foreach($rows as $row) {
+        $buffer .= '<option value="' . esc_attr($row->ip_id) . '">' . esc_html($row->address) . '</option>' . PHP_EOL ;
+      }
+    }  
+      
+    return $buffer;      
+  }
+  
+  public function mlfp_get_block_ips() {
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    
+    $data = $this->get_blocked_ips();
+    
+    echo $data;
+    
+    die();
+  }
+  
+  public function mlfp_unblock_ips() {
+    
+    global $wpdb;
+    $updated = false;
+    $message = esc_html__('No IP addresses were removed  from the blocked IPs lists','maxgalleria-media-library');
+    
+    if ( !wp_verify_nonce( $_POST['nonce'], MAXGALLERIA_MEDIA_LIBRARY_NONCE)) {
+      exit(esc_html__('Missing nonce! Please refresh this page.','maxgalleria-media-library'));
+    }
+    
+    if ((isset($_POST['serial_ips'])) && (strlen(trim($_POST['serial_ips'])) > 0)) {
+      $unblock_ips = trim(stripslashes(sanitize_text_field($_POST['serial_ips'])));
+      //error_log("unblock_ips 1: $unblock_ips");
+      $unblock_ips = str_replace('"', '', $unblock_ips);
+      //error_log("unblock_ips 2: $unblock_ips");
+      $unblock_ips = explode(",",$unblock_ips);
+    }  
+    else
+      $unblock_ips = '';
+    
+    $table = $wpdb->prefix . BLOCKED_IPS_TABLE;    
+    
+    //error_log(print_r($unblock_ips, true));
+    foreach($unblock_ips as $unblock_ip) {
+      if(filter_var($unblock_ip, FILTER_VALIDATE_IP)) {
+        $updated = true;
+        $where = array('ip_id' => $unblock_ip);
+        $wpdb->delete($table, $where);
+        $message = esc_html__('The IP addresses were unblocked.','maxgalleria-media-library');
+      }
+    }
+        
+    $return = array('message' => $message, 'result' => $updated);
+    
+	  echo json_encode($return);
+    
+    die();
+  }  
+  
+  public function get_all_pages() {
+    global $wpdb; 
+    $sql = "select ID, post_title  FROM $wpdb->posts where post_status = 'publish' and post_type = 'page' order by post_title";
+    $pages = $wpdb->get_results($sql);
+    return $pages;
+  }  
+  
+  public function bda_prepare_attachment_for_js( $response, $attachment, $meta ) {
+
+    $current_user = get_current_user_id();
+    $attach_arr = $this->objectToArray($attachment);
+    $blocked = get_post_meta($attach_arr['ID'], MLFP_BDA_MEDIA, true );
+    
+    if($blocked == '1' && $current_user == $attach_arr['post_author'])
+      $response['customClass'] = "mlfp-protected author";
+    else if($blocked == '1')
+      $response['customClass'] = "mlfp-protected";
+    else
+      $response['customClass'] = "";
+
+    return $response;
+
+  }
+
+  public function bda_add_class_to_media_library_grid_elements() {
+
+    $currentScreen = get_current_screen();
+
+    if('upload' === $currentScreen->id) :
+
+      global $mode;
+
+      wp_enqueue_script('jquery');
+      wp_enqueue_script('bda-media', MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . '/js/bda-media.js', array('jquery')); 
+
+    endif;
+
+  }
+  
+	public function get_file_thumbnail($ext) {
+		switch ($ext) {
+
+			case 'psd':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/psd.png";
+				break;			
+			
+			// spread sheet
+			case 'xlsx':
+			case 'xlsm':
+			case 'xlsb':
+			case 'xltx':
+			case 'xltm':
+			case 'xlam':
+			case 'ods':
+			case 'numbers':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/xls.png";
+				break;
+			
+			// video formats
+			case 'asf':
+			case 'asx':
+			case 'wmv':
+			case 'wmx':
+			case 'wm':
+			case 'avi':
+			case 'divx':
+			case 'flv':
+			case 'mov':
+			case 'qt':
+			case 'mpeg':
+			case 'mpg':
+			case 'mpe':
+			case 'mp4':
+			case 'm4v':
+			case 'ogv':
+			case 'webm':
+			case 'mkv':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/video.png";
+				break;
+			
+			// text formats
+			case 'txt':
+			case 'asc':
+			case 'c':
+			case 'cc':
+			case 'h':
+			case 'js':
+			case 'cpp':
+			case 'csv':
+			case 'tsv':
+			case 'ics':
+			case 'rtx':
+			case 'css':
+			case 'htm':
+			case 'html':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/txt.png";
+				break;
+
+			case 'mp3':
+			case 'm4a':
+			case 'm4b':
+			case 'ra':
+			case 'ram':
+			case 'wav':
+			case 'ogg':
+			case 'oga':
+			case 'mid':
+			case 'midi':
+			case 'wma':
+			case 'wax':
+			case 'mka':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/audio.png";
+				break;
+			
+			// archive formats
+			case '7z':
+			case 'rar':
+			case 'gz':
+			case 'gzip':
+			case 'zip':
+			case 'tar':
+			case 'swf':
+			case 'class':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/arch.png";
+				break;
+
+			// doc files
+			case 'doc':
+			case 'odt':
+			case 'rtf':
+			case 'wri':
+			case 'mdb':
+			case 'mpp':
+			case 'docx':
+			case 'docm':
+			case 'dotx':
+			case 'dotm':
+			case 'wp':
+			case 'wpd':
+			case 'pages':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/doc.png";
+				break;
+			
+			case 'pdf':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/pdf.png";
+				break;
+						
+			// power point
+			case 'pptx':
+			case 'pptm':
+			case 'ppsx':
+			case 'ppsm':
+			case 'potx':
+			case 'potm':
+			case 'ppam':
+			case 'sldx':
+			case 'sldm':
+			case 'odp':
+			case 'key':
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/ppt.png";
+				break;
+						
+			default:
+				$thumbnail = MAXGALLERIA_MEDIA_LIBRARY_PLUGIN_URL . "/images/file-types/default.png";
+				break;
+				
+		}
+		return $thumbnail;
+	}
+      
 }
 
 $mg_media_library_folders = new MGMediaLibraryFolders();

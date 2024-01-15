@@ -2,8 +2,8 @@
 Contributors: maxfoundry, AlanP57
 Tags: media library folders, media library folders, organize media library
 Requires at least: 4.0
-Tested up to: 6.1
-Stable tag: 8.0.4
+Tested up to: 6.4.2
+Stable tag: 8.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ Easier file and folder management for WordPress Media Library for Galleries and 
 * SEO Images to specify ALT and TITLE attributes when uploading.
 * Sync folders/files when moving or uploading a folder via FTP.
 * Create a [MaxGalleria](https://maxgalleria.com/) gallery.
+* Block direct access for selected media library files
 
 MLF adds to and works with the functionality of WordPress Media Library. It does not replace it.
 
@@ -30,6 +31,18 @@ MLF adds to and works with the functionality of WordPress Media Library. It does
 
 > MLP performs beautifully and provides great media management features and functionality! To make matters even better support is extremely fast and responsive to inquiries. Great stuff!
 
+**Block Direct Access**
+
+> Media Library Folders now includes Block Direct Access, our pro version feature that prevents unauthorized downloads of proprietary media files:
+* Protect unlimited media files
+* Customized no access page
+* Block Google Search from indexing your media files
+* Prevent file hotlinking
+* Restrict media library access
+* Disable copy and right click
+* Generate and limit private URLs
+* Restrict access to private URLs by IP Address
+    
 = Media Library Folders Pro for WordPress =
 
 [Media Library Folders Pro for WordPress](http://www.maxgalleria.com/downloads/media-library-plus-pro/?utm_source=wordpress&utm_medium=mlfp&utm_content=mlpp&utm_campaign=repo) lets you:
@@ -184,8 +197,51 @@ Users can upload multiple files by using drag and drop. When the Add Files butto
 Because most images and files in the media library have corresponding links embedded in site’s posts and pages, Media Library Folders does not allow folders to be rename or moved in order to prevent breaking these links. Rather, to rename or move a folder, one needs to create a new folder and move the files from the old folder to the new. During the move process, Media Library Folders will scan the sites standard posts and pages for any links matching the old address of the images or files and update them to the new address.
 
 == Changelog ==
+= 8.1.8 =
+* Added code to AJAX functions and numeric parameters used in SQL queries for improved security
+* Removed unused functions
+
+= 8.1.7 =
+* Added code to ensure the parent_folder parameter in the create_new_folder function is always an integer
+
+= 8.1.6 =
+* Fixed issue with get_file_thumbnail() function
+* Fixed issue with moving images when block direct access is off
+
+= 8.1.5 =
+* Tested with PHP 8.2 and Wordpress 6.4
+* CSS fixes to library page
+* Updated the upgrade to pro page
+
+= 8.1.4 =
+* Fixed SQL issue affecting multisite installations
+
+= 8.1.3 =
+* Fixed issue with SVG files deleted when regenerating thumbnail images
+ 
+= 8.1.2 =
+* Fixed issue with copying files
+
+= 8.1.1 =
+* Fixed issues generating warnings in PHP 8.2
+
+= 8.1.0 =
+* Added capability to block direct access to media files
+
+= 8.0.7 =
+* Tested with WordPress 6.2.2
+
+= 8.0.6 =
+* Added setting to skip WEBP files when syncing
+
+= 8.0.5 =
+* Added wpcf7_uploads to list of folders to hide
+* Modified the upload folder data used when checking for new folders
+* Updated the Upgrade to Pro page
+
 = 8.0.4 =
 * Renamed label for fontawesome to fix problem loading icons when older versions of fontawesome are in use on a site
+
 = 8.0.3 =
 * Tested with Wordpress 6.1
 
