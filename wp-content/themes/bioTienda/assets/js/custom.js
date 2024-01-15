@@ -11,9 +11,11 @@
 
     //Agregamos el gorrito de navidad o icono necesario al menu de temporada y titulos de la pagina
     var temporadaMenu = document.querySelectorAll('.temporada-class');
-    const tempIcon = '<iconify-icon class="pl-1 text-4xl" icon="emojione:christmas-tree"></iconify-icon>';
+    var icon = 'twemoji:chocolate-bar';
+    const tempIcon = `<iconify-icon class="pl-1 text-2xl relative -translate-y-1" icon="${icon}"></iconify-icon>`;
     temporadaMenu.forEach((li) => {
       const aTag = li.querySelector('a');
+      // const aTag = li;
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = tempIcon;
     aTag != undefined? aTag.appendChild(tempDiv.firstChild) : li.appendChild(tempDiv.firstChild); // Agregar el primer hijo del div temporal (que es el icono)

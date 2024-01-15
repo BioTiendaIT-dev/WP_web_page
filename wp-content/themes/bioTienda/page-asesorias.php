@@ -5,7 +5,11 @@
 <!-- -------------------------- End Banner --------------------->
 <div class="m-ext">
     <section class="flex flex-col my-10">
-        <p class="px-10 py-10 text-center lg:px-52">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit sunt sapiente ipsum alias quod pariatur fuga illum omnis exercitationem aspernatur et laudantium temporibus autem sit, neque cupiditate officiis? Reprehenderit, mollitia.</p>
+        <p class="px-10 py-10 text-center lg:px-52">
+            Bienvenido al viaje hacia una vida más saludable y consciente!
+            <br>
+            En nuestro rincón de asesorías, te ofrecemos algo más que simples consejos; te invitamos a descubrir el mundo fascinante de la Medicina y Alimentación Funcional.
+        </p>
         <!-- <video src="">Your browser does not support the video tag.</video> -->
     </section>
     <!-- --------------------------- Tabs content -->
@@ -15,14 +19,14 @@
         <!-- tabs -->
         <div>
             <ul class="flex flex-col grid-cols-2 list-none lg:border-b-2 lg:grid border-green">
-                <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark active-tab px-9" data-tab-target="#tab-content-1">Medicina funcional</li>
-                <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-2">Alimentación funcional</li>
+                <li class="py-3 text-xl font-bold text-center rounded-t-lg cursor-pointer text-green-dark active-tab px-9" data-tab-target="#tab-content-1">Medicina funcional</li>
+                <li class="py-3 text-xl font-bold text-center rounded-t-lg cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-2">Alimentación funcional</li>
                 <!-- <li class="py-3 text-xl font-bold text-center cursor-pointer text-green-dark px-9" data-tab-target="#tab-content-3">+10 Años de experiencia</li> -->
             </ul>
             <div class="my-10 tabs-content">
                 <div data-tab-content id="tab-content-1" class="hidden grid-cols-1 gap-5 active-content lg:grid-cols-2">
                     <picture>
-                        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/med-fun.png" alt="">
+                        <img class="rounded-md" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/med-fun.jpg" alt="">
                     </picture>
                     <article>
                         <h3 class="pb-5 text-xl font-bold text-green-dark">Medicina funcional</h3>
@@ -33,7 +37,7 @@
                 </div>
                 <div data-tab-content id="tab-content-2" class="hidden grid-cols-1 gap-5 lg:grid-cols-2">
                     <picture>
-                        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/alim-fun.png" alt="">
+                        <img class="rounded-md" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/thumbnails/alim-fun.jpg" alt="">
                     </picture>
                     <article>
 
@@ -98,22 +102,20 @@
                 <ul>
                     <li>
                         <h4 class="text-lg font-bold text-green-dark">Dirección</h4>
-                        <p class="">Biotienda av 3 norte # 00 - 00 / Cali - Colombia
-                            <br>
-                            Centro de exp. av 2 sur # 00 - 00 / Cali - Colombia
+                        <p class="w-7/12"><?= DIRECCION ?>
                         </p>
                     </li>
                     <li>
                         <h4 class="text-lg font-bold text-green-dark">Telefono / Whatsapp</h4>
-                        <p>+57 317 2575491</p>
+                        <a href="https://wa.me/<?= WHATS ?>"><?= WHATS_IMPRIMIBLE ?></a>
                     </li>
                     <li>
                         <h4 class="text-lg font-bold text-green-dark">Email</h4>
-                        <p>biotienda.alnatural@gmail.com</p>
+                        <a href="mailto:<?= EMAIL ?>"><?= EMAIL ?></a>
                     </li>
                     <li>
                         <h4 class="text-lg font-bold text-green-dark">Horarios</h4>
-                        <p>Biotienda Lun - Sab 8:00 a.m. - 4:00 p.m.</p>
+                        <p>Biotienda <?= HORARIO_DIAS ?> <?= HORARIO_HORAS ?></p>
                     </li>
                 </ul>
             </div>
