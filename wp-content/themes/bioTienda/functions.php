@@ -34,10 +34,12 @@ function init_template()
     wp_enqueue_script('iconify', 'https://code.iconify.design/iconify-icon/1.0.0-beta.2/iconify-icon.min.js', '', '1.0', 'all');
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js', '', '1.8.1', 'all');
     wp_enqueue_script('bt_npm_imports', get_stylesheet_directory_uri() . '/node_modules/drift-zoom/dist/Drift.js', '', '1.8.1', 'all');
+    wp_enqueue_script('bt_npm_anime', get_stylesheet_directory_uri() . '/node_modules/animejs/lib/anime.js', '', '1.8.1', 'all');
     wp_enqueue_script('bt_swiper', get_stylesheet_directory_uri() . '/assets/js/swipers.js', 'swiper', '1.8.1', 'all');
     wp_enqueue_script('bt_buttons', get_stylesheet_directory_uri() . '/assets/js/buttons.js', '', '1.0', 'all');
     wp_enqueue_script('hoverInteractions', get_stylesheet_directory_uri() . '/assets/js/hoverInteractions.js', '', '1.8.1', 'all');
     wp_enqueue_script('custom', get_stylesheet_directory_uri() . '/assets/js/custom.js', [], '1.8.1', 'all');
+    wp_enqueue_script('main_animation', get_stylesheet_directory_uri() . '/assets/js/mainAnimation.js', ['bt_npm_anime'], '1.8.1', 'all');
     wp_enqueue_script('bt_zoom_galleries_js', get_stylesheet_directory_uri() . '/assets/js/zoomFeature.js', 'bt_swiper', '1.8.1', 'all');
     wp_enqueue_script('galleries', get_stylesheet_directory_uri() . '/assets/js/galleries.js', 'bt_swiper', '1.8.1', 'all');
     

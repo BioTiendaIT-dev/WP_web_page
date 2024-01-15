@@ -25,14 +25,22 @@
 
     <!-- ------------------------------------ Desktop ---------------->
     <div class="w-full hidden pt-10 fixed z-[52] lg:left-0 lg:inline-flex m-ext top-0 bg-white border-b-[1px]">
-        <header class="relative w-full pb-2 mx-auto lg:inline-flex max-w-bt">
-            <div class="absolute right-0 pr-2 mt-4 top-full">
-                <a target="_blank" href="https://wa.me/<?= WHATS ?>">
+        <header class="relative w-full pb-2 mx-auto mt-2 lg:inline-flex max-w-bt">
+            <div class="absolute right-0 flex flex-row justify-center mt-4 mr-2 overflow-hidden top-full">
+                <div id="bt_whatsapp_message" class="relative p-2 mr-2 text-sm text-right bg-yellow-300 border-2 rounded-md border-opacity-30 border-brown-100">
+                    Necesitas ayuda para comprar y/o
+                    elegir un producto?
+                    <br>
+                    <a class="underline" target="_blank" href="https://wa.me/<?= WHATS ?>">
+                        <b>Te asesoramos en WhatsApp!</b>
+                    </a>
+                </div>
+                <a class="rl-2 " target="_blank" href="https://wa.me/<?= WHATS ?>">
                     <iconify-icon class="text-5xl drop-shadow-md" icon="logos:whatsapp-icon"></iconify-icon>
                 </a>
             </div>
             <a href="<?php echo esc_url(home_url()) ?>">
-                <img class="inline-block w-32 mt-auto pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
+                <img class="inline-block w-32 mt-auto 2xl:pr-7" src="<?= LOGOURL ?>" alt="" srcset="">
             </a>
             <div class="flex flex-col m-auto">
                 <?php wp_nav_menu(array(

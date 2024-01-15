@@ -12,6 +12,9 @@
   .bt_meta_info span a {
     @apply text-brown-100 font-bold hover:text-green ml-1;
   }
+  .temporada-class a {
+    @apply inline-flex flex-row align-text-bottom;
+  }
   /* /-----------------------------------paginacion general de producto */
   nav.bt-pagination {
     @apply my-4;
