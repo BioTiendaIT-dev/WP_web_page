@@ -25,8 +25,17 @@ function init_BoldGatewayClass_class()
 			// Acciones y filtros
 			add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
 			add_action('woocommerce_receipt_' . $this->id, array($this, 'receipt_page'));
-		}
 
+			$this->init();
+		}
+		/**
+		 * Inicializa la clase después de que ha sido creada.
+		 */
+		public function init()
+		{	
+			// Agrega el action para mostrar el botón en el lugar adecuado
+			add_action('woocommerce_before_thankyou', array($this, 'render_bold_button'));
+		}
 		/**
 		 * Inicializa los campos de configuración del método de pago.
 		 */
@@ -50,46 +59,46 @@ function init_BoldGatewayClass_class()
 					'title'       => __('Descripción', 'bold_domain'),
 					'type'        => 'textarea',
 					'description' => __('Descripción del método de pago que se mostrará al usuario durante el proceso de pago.', 'bold_domain'),
-					'default'     => '',
+					'default'     => '<h3>Paga con Tarjeta de credito, PSE, Credito codensa, diners, Nequi, google pay, apple pay.</h3>
+										<p>A continuacion vamos a abrir la orden</p>',
 				),
 			);
-
-			// Agregar una callback para obtener dinámicamente el valor de 'description' cuando sea necesario
-			add_action('woocommerce_admin_order_data_after_billing_address', array($this, 'output_bold_button_in_order_meta'));
-
 		}
 
-		/**
-		 * Callback para obtener dinámicamente el valor de 'description'
-		 * cuando sea necesario, por ejemplo, en la página de edición de pedidos en el backend.
-		 */
-		public function output_bold_button_in_order_meta($order)
+		function boldButtonScript($order_id)
 		{
-			$description = $this->render_bold_button($order->get_id());
-			echo '<div class="bold-button-description">' . $description . '</div>';
-		}
-		
-		function render_bold_button($order_id)
-		{
-			if ($order_id > 0) {
+			if ($order_id && is_order_received_page()) {
+				echo 'order ID is ' . $order_id;
 				$currency = "COP";
 				$amount = 20000;
 				$api_key = "api_FZSkDqh2iWmpYQg504C2fLigQerhPGXAcm5WyujxwYG";
 				$integrity_signature = "t55a01c9c10f8ece1690ad6070cb9g8846fb38cefb10228ee1b31d55d5df352t";
-				$redirection_url = $this->get_return_url($order_id);
+				$redirection_url = get_home_url();
+				// $redirection_url = $this->get_return_url($order_id);
 
-				$output = '<script src="https://checkout.bold.co/library/boldPaymentButton.js"';
-				$output .= ' data-bold-button data-order-id="' . esc_attr($order_id) . '"';
-				$output .= ' data-currency="' . esc_attr($currency) . '"';
-				$output .= ' data-amount="' . esc_attr($amount) . '"';
-				$output .= ' data-api-key="' . esc_attr($api_key) . '"';
-				$output .= ' data-integrity-signature="' . esc_attr($integrity_signature) . '"';
-				$output .= ' data-redirection-url="' . esc_url($redirection_url) . '"></script>';
-
-				return $output;
+				$boldScript = '<script src="https://checkout.bold.co/library/boldPaymentButton.js"';
+				$boldScript .= ' data-bold-button data-order-id="' . esc_attr($order_id) . '"';
+				$boldScript .= ' data-currency="' . esc_attr($currency) . '"';
+				$boldScript .= ' data-amount="' . esc_attr($amount) . '"';
+				$boldScript .= ' data-api-key="' . esc_attr($api_key) . '"';
+				$boldScript .= ' data-integrity-signature="' . esc_attr($integrity_signature) . '"';
+				$boldScript .= ' data-redirection-url="' . esc_url($redirection_url) . '"></script>';
+				return $boldScript;
 			}
 
-			return '';
+			return 'not a script';
+		}
+		public function render_bold_button($order_id)
+		{	
+			echo 'from render_bold_buton';
+			if ('boldco_payment' !== WC()->session->get('chosen_payment_method')) {
+				return;
+			} else {
+				// Inserta aquí el código del botón Bold.co
+				echo '<div id="bold-co-button-container">';
+				echo $this->boldButtonScript($order_id); // Asegúrate de tener la función render_bold_button disponible
+				echo '</div>';
+			}
 		}
 
 		function process_payment($order_id)
@@ -129,4 +138,3 @@ function init_BoldGatewayClass_class()
 		}
 	}
 }
-?>
