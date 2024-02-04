@@ -15,7 +15,10 @@ if (!function_exists('biotienda_template_loop_product_link_open')) {
 
 if (!function_exists('agregar_meta_query_a_productos_con_imagen')) {
     function agregar_meta_query_a_productos_con_imagen($query)
-    {
+    {   
+        if(is_admin()){
+            return;
+        }
         // Verifica que estemos en el query principal y en la página principal de WooCommerce
         if ($query->is_main_query() && (is_shop() || is_tax('product_cat'))) {
             // Agrega la meta query
