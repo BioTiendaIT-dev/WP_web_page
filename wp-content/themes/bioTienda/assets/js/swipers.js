@@ -30,4 +30,4 @@ const frontSwiper = new Swiper(".bt-slider", {
     prevEl: ".front-swiper-button-prev",
   },
 });
-console.log(frontSwiper);
+//console.log(frontSwiper);

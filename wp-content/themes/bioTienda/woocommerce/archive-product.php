@@ -15,20 +15,22 @@
  * @package WooCommerce\Templates
  * @version 3.4.0
  */
+if (is_tax('product_cat')) {
+	$argsTitle = ['title' => single_cat_title('', false)];
+	$slugName = single_cat_title('', false);
+} else {
+	$argsTitle = ['title' => 'Productos para tu bienestar'];
+}
 
 defined('ABSPATH') || exit;
 
-get_header('shop');
 
+get_header('shop');
+// ----------------------------- Banner and Title
 echo get_template_part('components/_banner', 'section');
-if (is_tax('product_cat')) {
-	$args = ['title' => single_cat_title('', false)];
-} else {
-	$args = ['title' => 'Productos para tu bienestar'];
-}
-// ----------------------------- Title
-echo get_template_part(COMPONENTS . '_title', 'large', $args) ?>
-<?php
+echo get_template_part(COMPONENTS . '_title', 'large', $argsTitle);
+
+// --------------------------
 /**
  * Hook: woocommerce_before_main_content.
  *
@@ -56,31 +58,16 @@ if (woocommerce_product_loop()) {
 		?>
 	</nav>
 	<?php
-	echo woocommerce_pagination();
+	woocommerce_pagination();
 	// do_action('woocommerce_pagination');
+
 	?>
 	<div class="grid grid-cols-1 gap-5 lg:grid-cols-5">
 	<?php
 	woocommerce_product_loop_start();
-	//_______________________________________
-	$args = array(
-		'post_type'      => 'product',
-		'posts_per_page' => 12,
-		'orderby'        => 'rand',
-		'meta_query'     => array(
-			array(
-				'key'     => '_thumbnail_id',
-				'compare' => 'EXISTS', // Solo productos con imagen adjunta
-			),
-		),
-	);
-
-	$products_query = new WP_Query($args);
-
-	// ______________________________________
-	if ($products_query->have_posts()) {
-		while ($products_query->have_posts()) {
-			$products_query->the_post();
+	if (wc_get_loop_prop('total')) {
+		while (have_posts()) {
+			the_post();
 
 			/**
 			 * Hook: woocommerce_shop_loop.
@@ -89,21 +76,8 @@ if (woocommerce_product_loop()) {
 
 			wc_get_template_part('content', 'product');
 		}
-		wp_reset_postdata();
 	}
 	woocommerce_product_loop_end();
-	// if (wc_get_loop_prop('total')) {
-	// 	while (have_posts()) {
-	// 		the_post();
-
-	// 		/**
-	// 		 * Hook: woocommerce_shop_loop.
-	// 		 */
-	// 		do_action('woocommerce_shop_loop');
-
-	// 		wc_get_template_part('content', 'product');
-	// 	}
-	// }
 
 
 	/**

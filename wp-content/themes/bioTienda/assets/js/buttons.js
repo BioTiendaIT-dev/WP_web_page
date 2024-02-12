@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", (ev) => {
       hideBar = !hideBar;
     });
   } catch (error) {
-    console.error(error);
+    console.error(error + ' this error is catched');
   }
   // ---------------------------------------- SearchbuttonMobile
   const show = (input) => {
@@ -125,7 +125,7 @@ window.addEventListener("DOMContentLoaded", (ev) => {
       });
       
     } catch (error) {
-      console.error(error);
+      console.error(error + ' this error is catched');
     }
   }
   btnCardFaqs();
