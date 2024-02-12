@@ -5,20 +5,7 @@ require dirname(__FILE__) . '/inc/replacement_functions/load.php';
 require dirname(__FILE__) . '/inc/tabs.php';
 require dirname(__FILE__) . '/inc/post_types.php';
 
-function init_template()
-{
-    add_theme_support('post-thumbnails');
-    add_theme_support('title-tag');
-    add_theme_support('woocommerce');
-    // ---------------------- Register menus ----------------------
-    register_nav_menus(
-        array(
-            'top_menu' => 'Menú Principal',
-            'footer_menu_one' => 'Menú Footer Uno',
-            'footer_menu_two' => 'Menú Footer Dos',
-        )
-    );
-
+function enqueue_styles() {
     // ---------------------- Register Styles ----------------------
     wp_enqueue_style('slick', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css', '', '1.8.1', 'all');
     wp_enqueue_style('slickTheme', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css', 'slick', '1.8.1', 'all');
@@ -30,6 +17,9 @@ function init_template()
         wp_enqueue_style('bt_zoom_feature', get_stylesheet_directory_uri() . '/node_modules/drift-zoom/dist/drift-basic.css', 'fonts', '1.0', 'all');
         wp_enqueue_style('tailwind', get_stylesheet_directory_uri() . '/assets/css/twOutput.css', ['fonts', 'bt_zoom_feature'], '1.0', 'all');
     }
+}
+
+function enqueue_scripts(){
     // ---------------------- Register Scripts ----------------------
     wp_enqueue_script('iconify', 'https://code.iconify.design/iconify-icon/1.0.0-beta.2/iconify-icon.min.js', '', '1.0', 'all');
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js', '', '1.8.1', 'all');
@@ -44,7 +34,25 @@ function init_template()
     wp_enqueue_script('galleries', get_stylesheet_directory_uri() . '/assets/js/galleries.js', 'bt_swiper', '1.8.1', 'all');
     
 }
+function init_template()
+{
+    add_theme_support('post-thumbnails');
+    add_theme_support('title-tag');
+    add_theme_support('woocommerce');
+    // ---------------------- Register menus ----------------------
+    register_nav_menus(
+        array(
+            'top_menu' => 'Menú Principal',
+            'footer_menu_one' => 'Menú Footer Uno',
+            'footer_menu_two' => 'Menú Footer Dos',
+        )
+    );
+}
 add_action('after_setup_theme', 'init_template');
+// Hook para encolar los estilos en el front-end y scripts del front
+add_action('wp_enqueue_scripts', 'enqueue_styles');
+add_action('wp_enqueue_scripts', 'enqueue_scripts');
+
 function bioT_add_sidebar()
 {
     register_sidebar(
