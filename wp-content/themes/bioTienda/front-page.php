@@ -1,5 +1,4 @@
 <?php get_header();
-const TEMPLATE_FRONT_SECTIONS = 'components/sections/_front';
 ?>
 <!-- =========================================================== Slider/Banner -->
 <div class="mt-20 relative overflow-y-hidden h-[35vh] max-w-bt mx-auto bt-slider">

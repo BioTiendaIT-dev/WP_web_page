@@ -2,7 +2,7 @@
 <?php if (is_cart()) : ?>
     <main class="grid max-w-4xl py-16 mx-auto lg:mt-20 m-ext">
     <?php else : ?>
-        <main class="m-ext">
+        <main class="py-16 m-ext lg:mt-20">
         <?php endif;
         ?>
         <?php while (have_posts()) {

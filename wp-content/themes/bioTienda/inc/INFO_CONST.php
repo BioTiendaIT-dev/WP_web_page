@@ -6,7 +6,7 @@ define('ISOLOGO_WHITE_URL', get_stylesheet_directory_uri() . '/assets/img/ISOtip
 define('ISOLOGOURL', get_stylesheet_directory_uri() . '/assets/img/ISOtipo.png');
 define('IMGS_DIR', get_stylesheet_directory_uri() . '/assets/img/');
 define('COMPONENTS', 'components/');
-
+define('TEMPLATE_FRONT_SECTIONS', COMPONENTS . 'sections/_front');
 
 // ----------- Info general
 define('EMAIL', 'biotienda.alnatural@gmail.com');
